@@ -147,4 +147,27 @@ public class DataBaseBasics {
 			return rs.getRow();
 		} else return -1;
 	}
+	
+	/**
+	 * Devuelve un array con los nombres de las tablas existentes en la base de datos.
+	 * 
+	 * @return String [] tables
+	 * @throws SQLException 
+	 */
+	public String [] getTableNames() throws SQLException {
+		if (con != null) {
+			String [] tables = null;
+			java.sql.DatabaseMetaData dbmd = con.getMetaData();
+			ResultSet rs = dbmd.getTables(null, null, "%", null);
+			rs.last();
+			tables = new String [rs.getRow()];
+			rs.first();
+			int i = 0;
+			do {
+				tables[i] = rs.getString(3);
+				i++;
+			} while (rs.next());
+			return tables;
+		} else return null;
+	}
 }
