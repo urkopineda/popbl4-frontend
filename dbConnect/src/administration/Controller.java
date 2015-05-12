@@ -1,6 +1,6 @@
 package administration;
 
-import graphicinterface.UI;
+import graphicinterface.MainUI;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import database.StatementBasics;
  * @author Runnstein Team
  */
 public class Controller {
-	UI ui = null;
+	MainUI ui = null;
 	DataBaseBasics conDataBase = null;
 	StatementBasics stmtController = null;
 	
@@ -24,7 +24,7 @@ public class Controller {
 	public Controller(String url, int port, String username, String password, String dbName) {
 		conDataBase = new DataBaseBasics(url, port, username, password, dbName);
 		stmtController = new StatementBasics(conDataBase.getDataBaseConnection());
-		ui = new UI(this);
+		ui = new MainUI(this);
 	}
 	
 	/**
