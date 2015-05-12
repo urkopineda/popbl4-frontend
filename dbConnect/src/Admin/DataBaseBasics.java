@@ -172,8 +172,13 @@ public class DataBaseBasics {
 	 * Devuelve el número de tablas existentes.
 	 * 
 	 * @return int tableNumber
+	 * @throws SQLException 
 	 */
-	public int getTableNumber() {
+	public int getTableNumber() throws SQLException {
+		if (tableNumber == -1) {
+			@SuppressWarnings("unused")
+			ArrayList<String> tablasTemp = getTableNames();
+		}
 		return tableNumber;
 	}
 }
