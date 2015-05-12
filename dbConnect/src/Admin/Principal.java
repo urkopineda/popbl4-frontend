@@ -13,6 +13,7 @@ public class Principal {
 	 */
 	public static void main(String args[]) {
 		DataBaseBasics newConnection = new DataBaseBasics("172.17.100.77", 3306, "java", "javarunnsteinuser", "SCOTT");
+		@SuppressWarnings("unused")
 		UI newUI = new UI(newConnection);
 	}
 }

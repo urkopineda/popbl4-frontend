@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -23,6 +24,8 @@ public class UI {
 	JPanel panelCB = null;
 	JComboBox<String> cbTablas = null;
 	DataBaseBasics newConnection = null;
+	
+	String listaPrueba [] = {"A", "B", "C"};
 	
 	/**
 	 * Contructor de la UI del sistema que inicializa la ventana y el panel principal.
@@ -65,7 +68,8 @@ public class UI {
 			} catch (ClassNotFoundException e) {
 				System.out.println("ERROR: Imposible cargar el driver de conexión a la base de datos MySQL.");
 			}
-			panelCB.add(comboBox(cbTablas, newConnection.getTableNames()), BorderLayout.CENTER);
+			ArrayList<String> listaTablas = newConnection.getTableNames();
+			panelCB.add(comboBox(cbTablas, listaTablas.toArray(new String [newConnection.getTableNumber()])), BorderLayout.CENTER);
 		} catch (SQLException e) {
 			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
 		} finally {

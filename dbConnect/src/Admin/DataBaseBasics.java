@@ -22,6 +22,8 @@ public class DataBaseBasics {
 	String password = null;
 	String dbName = null;
 	
+	int tableNumber = -1;
+	
 	/**
 	 * Constructor de SQL - Guarda todos los parámetros necesarios para la conexión en un nuevo objeto.
 	 * 
@@ -136,12 +138,11 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve el número de datos obtenidos de un ResultSet.
 	 * 
-	 * @param tbName
 	 * @param rs
 	 * @return Número de filas (int)
 	 * @throws SQLException
 	 */
-	public int getNumberRows(String tbName, ResultSet rs) throws SQLException {
+	public int getNumberRows(ResultSet rs) throws SQLException {
 		if (con != null) {
 			rs.last();
 			return rs.getRow();
@@ -151,23 +152,28 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve un array con los nombres de las tablas existentes en la base de datos.
 	 * 
-	 * @return String [] tables
+	 * @return ArrayList<String> tables
 	 * @throws SQLException 
 	 */
-	public String [] getTableNames() throws SQLException {
+	public ArrayList<String> getTableNames() throws SQLException {
 		if (con != null) {
-			String [] tables = null;
+			ArrayList<String> tables = new ArrayList<>();
 			java.sql.DatabaseMetaData dbmd = con.getMetaData();
 			ResultSet rs = dbmd.getTables(null, null, "%", null);
-			rs.last();
-			tables = new String [rs.getRow()];
-			rs.first();
-			int i = 0;
-			do {
-				tables[i] = rs.getString(3);
-				i++;
-			} while (rs.next());
+			while (rs.next()) {
+				tables.add(rs.getString(3));
+			}
+			tableNumber = tables.size();
 			return tables;
 		} else return null;
+	}
+	
+	/**
+	 * Devuelve el número de tablas existentes.
+	 * 
+	 * @return int tableNumber
+	 */
+	public int getTableNumber() {
+		return tableNumber;
 	}
 }
