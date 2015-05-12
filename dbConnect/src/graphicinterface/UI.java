@@ -1,4 +1,4 @@
-package Admin;
+package graphicinterface;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import administration.Controller;
 
 /**
  * Esta clase se encarga de la interfaz gráfica del sistema.

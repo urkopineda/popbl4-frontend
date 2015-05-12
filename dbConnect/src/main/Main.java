@@ -1,11 +1,13 @@
-package Admin;
+package main;
+
+import administration.Controller;
 
 /**
  * Clase que inicializa toda la aplicación.
  * 
  * @author Runnstein Team
  */
-public class Principal {
+public class Main {
 	/**
 	 * Main de pruebas.
 	 * 

@@ -1,4 +1,4 @@
-package Admin;
+package graphicinterface;
 
 import java.awt.Component;
 

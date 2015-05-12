@@ -1,4 +1,4 @@
-package Admin;
+package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -180,5 +180,9 @@ public class DataBaseBasics {
 			ArrayList<String> tablasTemp = getTableNames();
 		}
 		return tableNumber;
+	}
+	
+	public Connection getDataBaseConnection() {
+		return con;
 	}
 }

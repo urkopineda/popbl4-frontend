@@ -1,7 +1,9 @@
-package Admin;
+package graphicinterface;
 
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
+
+import model.Data;
 
 /**
  * Modelo de columnas de la JTable utilizada para cargar datos.
@@ -25,8 +27,8 @@ public class ColumnTableModelBasic extends DefaultTableColumnModel {
 	public ColumnTableModelBasic(TrazadorTableBasic newTrazador, Data data){
 		super();
 		this.newTrazador = newTrazador;
-		for (int i = 0; i <= data.columns.size(); i++) {
-			this.addColumn(crearColumna(data.columns.get(i), i, 100));
+		for (int i = 0; i <= data.getColumnNames().size(); i++) {
+			this.addColumn(crearColumna(data.getColumnNames().get(i), i, 100));
 		}
 	}
 

@@ -1,4 +1,4 @@
-package Admin;
+package model;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;

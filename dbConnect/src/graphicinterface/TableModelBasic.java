@@ -1,8 +1,10 @@
-package Admin;
+package graphicinterface;
 
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+
+import model.Data;
 
 /**
  * Un modelo de JTable de tipo AbstractTableModel.
@@ -57,7 +59,7 @@ public class TableModelBasic extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return objData.data.size();
+		return objData.getRowNumber();
 	}
 
 	@Override

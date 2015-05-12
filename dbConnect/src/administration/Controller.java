@@ -1,7 +1,12 @@
-package Admin;
+package administration;
+
+import graphicinterface.UI;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import database.DataBaseBasics;
+import database.StatementBasics;
 
 /**
  * Clase controladora de todo el hilo de la aplicación.
@@ -9,17 +14,17 @@ import java.util.ArrayList;
  * @author Runnstein Team
  */
 public class Controller {
-	UI newInterface = null;
-	DataBaseBasics newConnection = null;
-	StatementBasics newStmtController = null;
+	UI ui = null;
+	DataBaseBasics conDataBase = null;
+	StatementBasics stmtController = null;
 	
 	/**
 	 * Inicio del sistema con la inicialización de los objetos 'DataBaseBasics', 'StatementBasics' y 'UI'.
 	 */
 	public Controller(String url, int port, String username, String password, String dbName) {
-		newConnection = new DataBaseBasics(url, port, username, password, dbName);
-		newStmtController = new StatementBasics(newConnection.con);
-		newInterface = new UI(this);
+		conDataBase = new DataBaseBasics(url, port, username, password, dbName);
+		stmtController = new StatementBasics(conDataBase.getDataBaseConnection());
+		ui = new UI(this);
 	}
 	
 	/**
@@ -30,17 +35,17 @@ public class Controller {
 	public String [] tableNames() {
 		try {
 			try {
-				newConnection.openDataBase();
+				conDataBase.openDataBase();
 			} catch (ClassNotFoundException e) {
 				System.out.println("ERROR: Imposible cargar el driver de conexión a la base de datos MySQL.");
 			}
-			ArrayList<String> listaTablas = newConnection.getTableNames();
-			return listaTablas.toArray(new String [newConnection.getTableNumber()]);
+			ArrayList<String> listaTablas = conDataBase.getTableNames();
+			return listaTablas.toArray(new String [conDataBase.getTableNumber()]);
 		} catch (SQLException e) {
 			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
 		} finally {
 			try {
-				newConnection.closeDataBase();
+				conDataBase.closeDataBase();
 			} catch (SQLException e) {
 				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
 			}
