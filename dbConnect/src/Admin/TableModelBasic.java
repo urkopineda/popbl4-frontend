@@ -18,22 +18,38 @@ public class TableModelBasic extends AbstractTableModel {
 	ColumnTableModelBasic columns;
 	Data objData = null;
 	
+	/**
+	 * Crea el modelo de tabla básico.
+	 * 
+	 * @param columns
+	 * @param objData
+	 */
 	public TableModelBasic(ColumnTableModelBasic columns, Data objData){
 		super();
 		this.columns = columns;
 		this.objData = objData;
 	}
 	
+	/**
+	 * Insertar un dato en la lista de datos del objeto 'Data'.
+	 * 
+	 * @param newData
+	 */
 	public void insertData(ArrayList<String> newData) {
 		objData.addData(newData);
 		this.fireTableDataChanged();
 	}
 	
+	/**
+	 * Borra un dato en la lista de datos del objeto 'Data'.
+	 * 
+	 * @param index
+	 */
 	public void deleteData(int index) {
 		objData.deleteData(index);
 		this.fireTableDataChanged();
 	}
-
+	
 	@Override
 	public int getColumnCount() {
 		return columns.getColumnCount();

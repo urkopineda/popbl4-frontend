@@ -4,27 +4,28 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * Esta clase se encarga de la interfaz gráfica del sistema.
  * 
  * @author Runnstein Team
  */
-public class UI {
+public class UI implements ActionListener, ListSelectionListener {
+	Controller systemController;
 	JFrame ventana = null;
-	JPanel panelPrincipal = null;
-	JPanel panelCB = null;
-	JComboBox<String> cbTablas = null;
-	DataBaseBasics newConnection = null;
 	
+	// PRUEBAS!
 	String listaPrueba [] = {"A", "B", "C"};
 	
 	/**
@@ -32,8 +33,8 @@ public class UI {
 	 * 
 	 * @param newConnection
 	 */
-	public UI(DataBaseBasics newConnection) {
-		this.newConnection = newConnection;
+	public UI(Controller systemController) {
+		this.systemController = systemController;
 		ventana = new JFrame("Runnstein");
 		ventana.setSize(800, 600);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -42,6 +43,13 @@ public class UI {
 		ventana.setVisible(true);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
+	JPanel panelPrincipal = null;
+	JPanel panelNorte = null;
+	JPanel panelCentro = null;
+	JPanel panelSur = null;
+	JPanel panelCB = null;
+	JComboBox<String> cbTablas = null;
 	
 	/**
 	 * Panel principal de la UI del sistema.
@@ -60,25 +68,9 @@ public class UI {
 	 * @return Panel Norte
 	 */
 	private Container crearCBTablas() {
-		panelCB = new JPanel(new BorderLayout());
+		panelCB = new JPanel(new FlowLayout());
 		panelCB.setBorder(BorderFactory.createCompoundBorder(null, BorderFactory.createTitledBorder("Tablas")));
-		try {
-			try {
-				newConnection.openDataBase();
-			} catch (ClassNotFoundException e) {
-				System.out.println("ERROR: Imposible cargar el driver de conexión a la base de datos MySQL.");
-			}
-			ArrayList<String> listaTablas = newConnection.getTableNames();
-			panelCB.add(comboBox(cbTablas, listaTablas.toArray(new String [newConnection.getTableNumber()])), BorderLayout.CENTER);
-		} catch (SQLException e) {
-			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
-		} finally {
-			try {
-				newConnection.closeDataBase();
-			} catch (SQLException e) {
-				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
-			}
-		}
+		panelCB.add(comboBox(cbTablas, systemController.tableNames()));
 		return panelCB;
 	}
 	
@@ -92,5 +84,17 @@ public class UI {
 	private Component comboBox(JComboBox<String> cb, String [] lista) {
 		cb = new JComboBox<String>(lista);
 		return cb;
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

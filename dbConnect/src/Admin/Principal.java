@@ -11,9 +11,8 @@ public class Principal {
 	 * 
 	 * @param args
 	 */
+	@SuppressWarnings("unused")
 	public static void main(String args[]) {
-		DataBaseBasics newConnection = new DataBaseBasics("172.17.100.77", 3306, "java", "javarunnsteinuser", "SCOTT");
-		@SuppressWarnings("unused")
-		UI newUI = new UI(newConnection);
+		Controller initApp = new Controller("172.17.100.77", 3306, "java", "javarunnsteinuser", "SCOTT");
 	}
 }

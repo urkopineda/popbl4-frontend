@@ -77,6 +77,12 @@ public class Data {
 		return data;
 	}
 	
+	/**
+	 * Devuelve un dato concreto.
+	 * 
+	 * @param index
+	 * @return String
+	 */
 	public String getSpecificData(int index) {
 		return data.get(index);
 	}
