@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -20,8 +22,8 @@ import administration.Controller;
  * 
  * @author Runnstein Team
  */
-public class MainUI {
-	Controller systemController;
+public class MainUI implements ActionListener {
+	Controller systemController = null;
 	JFrame window = null;
 	
 	/**
@@ -36,6 +38,7 @@ public class MainUI {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		window.setLocation(dim.width/2 - window.getSize().width/2, dim.height/2 - window.getSize().height/2);
 		window.setContentPane(createMainPanel());
+		window.setResizable(false);
 		window.setVisible(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -67,7 +70,7 @@ public class MainUI {
 	 */
 	private Container createNorthPanel() {
 		northPanel = new JPanel(new BorderLayout());
-		northPanel.add(createJLabel(labelBienvenida, "Bienvenido, Urko Pineda", 20), BorderLayout.CENTER);
+		northPanel.add(createJLabel(labelBienvenida, "Wilkommen Gelehrtes!", 20), BorderLayout.CENTER);
 		return northPanel;
 	}
 	
@@ -122,6 +125,18 @@ public class MainUI {
 	private Component createJButton(JButton newJButton, String text, Icon icon) {
 		newJButton = new JButton(text);
 		if (icon != null) newJButton.setIcon(icon);
+		newJButton.addActionListener(this);
+		newJButton.setActionCommand(text);
 		return newJButton;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Salir")) {
+			window.dispose();
+		} else if (e.getActionCommand().equals("Iniciar entrenamiento")) {
+			@SuppressWarnings("unused")
+			TrainingUI trainingUI = new TrainingUI(systemController, window);
+		}
 	}
 }
