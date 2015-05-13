@@ -1,8 +1,8 @@
 package graphicinterface;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,8 +16,9 @@ public class CronometerUI {
 	}
 
 	private Container createCronometerPanel() {
-		mainCronometerPanel = new JPanel(new BorderLayout());
-		mainCronometerPanel.add(createJLabel(cronometerNumbers, "00:00:00", 100), BorderLayout.CENTER);
+		mainCronometerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+		mainCronometerPanel.add(createJLabel(cronometerNumbers, "00:00:00", 75));
+		mainCronometerPanel.add(createJLabel(cronometerNumbers, "00:00:00", 75));
 		return mainCronometerPanel;
 	}
 	

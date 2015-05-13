@@ -46,7 +46,7 @@ public class TrainingUI implements ActionListener {
 	
 	private Container createNorthPanel() {
 		northPanel = new JPanel(new BorderLayout());
-		northPanel.add(createJLabel(labelStart, "Pulsa 'Start' para empezar...", 20), BorderLayout.CENTER);
+		northPanel.add(createJLabel(labelStart, "Pulsa 'Iniciar' para empezar...", 20), BorderLayout.CENTER);
 		return northPanel;
 	}
 	

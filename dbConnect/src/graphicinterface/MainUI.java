@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,7 +35,7 @@ public class MainUI implements ActionListener {
 	public MainUI(Controller systemController) {
 		this.systemController = systemController;
 		window = new JFrame("Willkommen bis Runnstein");
-		window.setSize(480, 800);
+		window.setSize(360, 640);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		window.setLocation(dim.width/2 - window.getSize().width/2, dim.height/2 - window.getSize().height/2);
 		window.setContentPane(createMainPanel());
@@ -52,7 +53,7 @@ public class MainUI implements ActionListener {
 	 */
 	private Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
-		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
+		//mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
 		mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
 		return mainPanel;
 	}
@@ -74,6 +75,7 @@ public class MainUI implements ActionListener {
 		return northPanel;
 	}
 	
+	String separation = "       ";
 	JButton buttonStart = null;
 	JButton buttonMyTrainings = null;
 	JButton buttonMyStats = null;
@@ -89,13 +91,13 @@ public class MainUI implements ActionListener {
 	 */
 	private Container createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(7, 1, 0, 0));
-		centerPanel.add(createJButton(buttonStart, "Iniciar entrenamiento", null));
-		centerPanel.add(createJButton(buttonMyTrainings, "Mis entrenamientos", null));
-		centerPanel.add(createJButton(buttonMyStats, "Mis estadísticas", null));
-		centerPanel.add(createJButton(buttonSongLists, "Mis playlists", null));
-		centerPanel.add(createJButton(buttonMyProfile, "Mi perfil", null));
-		centerPanel.add(createJButton(buttonOptions, "Opciones", null));
-		centerPanel.add(createJButton(buttonExit, "Salir", null));
+		centerPanel.add(createJButton(buttonStart, separation+"INICIAR ENTRENAMIENTO", new ImageIcon("img/entrenamiento.png")));
+		centerPanel.add(createJButton(buttonMyTrainings, separation+"MIS ENTRENAMIENTOS", new ImageIcon("img/misentrenamientos.png")));
+		centerPanel.add(createJButton(buttonMyStats, separation+"MIS ESTADÍSTICAS", null));
+		centerPanel.add(createJButton(buttonSongLists, separation+"MIS PLAYLISTS", null));
+		centerPanel.add(createJButton(buttonMyProfile, separation+"MI PERFIL", null));
+		centerPanel.add(createJButton(buttonOptions, separation+"OPCIONES", null));
+		centerPanel.add(createJButton(buttonExit, separation+"SALIR", null));
 		return centerPanel;
 	}
 	
@@ -123,8 +125,11 @@ public class MainUI implements ActionListener {
 	 * @return newJButton
 	 */
 	private Component createJButton(JButton newJButton, String text, Icon icon) {
-		newJButton = new JButton(text);
+		newJButton = new JButton(text, icon);
 		if (icon != null) newJButton.setIcon(icon);
+		newJButton.setOpaque(false);
+		newJButton.setContentAreaFilled(false);
+		newJButton.setBorderPainted(true);
 		newJButton.addActionListener(this);
 		newJButton.setActionCommand(text);
 		return newJButton;
