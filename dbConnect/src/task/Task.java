@@ -1,7 +1,7 @@
 package task;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import graphicinterface.CronometerUI;
+import graphicinterface.TrainingUI;
 
 import javax.swing.SwingWorker;
 
@@ -11,30 +11,31 @@ import javax.swing.SwingWorker;
  * @author Runnstein Team
  */
 public class Task extends SwingWorker<Void, Integer> {
-	Method method = null;
-	Object classObject = null;
+	TrainingUI ui = null;
+	CronometerUI cronometer = null;
 	
-	public Task(Object classObject, String methodName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		this.classObject = classObject;
-		method = classObject.getClass().getMethod(methodName);
+	public Task(TrainingUI ui, CronometerUI cronometer) {
+		this.ui = ui;
+		this.cronometer = cronometer;
+		cronometer.start();
 	}
 	
 	@Override
 	protected Void doInBackground() throws Exception {
-		method.invoke(classObject);
+		System.out.println(cronometer.getHours()+" "+cronometer.getMinutes()+" "+cronometer.getSeconds());
+		cronometer.setJLabelTime(cronometer.getHours(), cronometer.getMinutes(), cronometer.getSeconds());
+		ui.refreshUI();
 		return null;
 	}
 	
 	protected void process() {
 		/*
-		 * Durante el proceso...
+		 * 
 		 */
 	}
 
     @Override
     public void done() {
-    	/*
-    	 * Mensajes finales...
-    	 */
+    	cronometer.stop();
     }
 }

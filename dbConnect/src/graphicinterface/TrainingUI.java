@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import task.Task;
 import administration.Controller;
 
 /**
@@ -23,12 +24,21 @@ public class TrainingUI implements ActionListener {
 	JFrame window = null;
 	JPanel northPanel = null;
 	JPanel centerPanel = null;
+	JPanel hrPanel = null;
 	JPanel southPanel = null;
 	JPanel mainPanel = null;
 	JLabel labelStart = null;
+	JLabel labelPPM = null;
 	JButton buttonStart = null;
 	JButton buttonStop = null;
 	JButton buttonExit = null;
+	
+	Task startTime = null;
+	HeartRateUI newHR = null;
+	CronometerUI newCronometer = null;
+	
+	int state = -1;
+	int ppm = 88;
 	
 	/**
 	 * Constructor de la UI de Training, utiliza el panel anterior.
@@ -37,6 +47,7 @@ public class TrainingUI implements ActionListener {
 	 * @param window
 	 */
 	public TrainingUI(Controller systemController, JFrame window) {
+		this.window = window;
 		this.systemController = systemController;
 		window.setContentPane(createMainPanel());
 		window.repaint();
@@ -59,11 +70,18 @@ public class TrainingUI implements ActionListener {
 	
 	private Container createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
-		CronometerUI newCronometer = new CronometerUI();
+		newCronometer = new CronometerUI(0, 0, 0);
 		centerPanel.add(newCronometer.getPane());
-		HeartRateUI newHR = new HeartRateUI();
-		centerPanel.add(newHR.getPane());
+		centerPanel.add(createHeartRatePanel());
 		return centerPanel;
+	}
+	
+	private Container createHeartRatePanel() {
+		hrPanel = new JPanel(new BorderLayout());
+		newHR = new HeartRateUI(state);
+		hrPanel.add(newHR.getPane(), BorderLayout.CENTER);
+		hrPanel.add(WindowMaker.createJLabel(labelPPM, String.valueOf(ppm)+"ppm", 50), BorderLayout.NORTH);
+		return hrPanel;
 	}
 	
 	private Container createSouthPanel() {
@@ -73,10 +91,25 @@ public class TrainingUI implements ActionListener {
 		southPanel.add(WindowMaker.createJButton(buttonExit, "Salir", "exit", null, this, false));
 		return southPanel;
 	}
+	
+	public void refreshUI() {
+		window.setContentPane(createMainPanel());
+		window.repaint();
+		window.revalidate();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		if (e.getActionCommand().equals("start")) {
+			startTime = new Task(this, newCronometer);
+			startTime.execute();
+		} else if (e.getActionCommand().equals("stop")) {
+			startTime.done();
+		} else if (e.getActionCommand().equals("exit")) {
+			window.dispose();
+		} else if (e.getActionCommand().equals("prueba")) {
+			state = newHR.switchHRState(state);
+			refreshUI();
+		}
 	}
 }

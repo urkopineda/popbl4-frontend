@@ -7,35 +7,31 @@ import javax.swing.JPanel;
 
 public class HeartRateUI {	
 	ImagePanel mainHRPanel = null;
-	boolean state = false;
 	
-	public HeartRateUI() {
-		createHRPanel();
+	public HeartRateUI(int state) {
+		createHRPanel(state);
 	}
 	
-	public void switchHRState() {
-		if (state) state = false;
-		else if (!state) state = true;
-	}
-	
-	public boolean getHRState() {
+	public int switchHRState(int state) {
+		if (state == -1) state = 0;
+		else if (state == 0) state = 1;
+		else if (state == 1) state = 0;
+		createHRPanel(state);
 		return state;
 	}
 	
-	private Container createHRPanel() {
-		if (state) {
-			mainHRPanel = new ImagePanel(new ImageIcon("img/heart_on.png").getImage());
-		} else if (!state) {
+	private Container createHRPanel(int state) {
+		if (state == -1) {
 			mainHRPanel = new ImagePanel(new ImageIcon("img/heart_off.png").getImage());
+		} else if (state == 0) {
+			mainHRPanel = new ImagePanel(new ImageIcon("img/heart_on_up.png").getImage());
+		} else if (state == 1) {
+			mainHRPanel = new ImagePanel(new ImageIcon("img/heart_on_down.png").getImage());
 		}
 		return mainHRPanel;
 	}
 
 	public JPanel getPane() {
 		return mainHRPanel;
-	}
-	
-	public void regeneratePanel() {
-		createHRPanel();
 	}
 }
