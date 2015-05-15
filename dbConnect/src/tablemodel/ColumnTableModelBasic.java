@@ -1,4 +1,4 @@
-package graphicinterface;
+package tablemodel;
 
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;

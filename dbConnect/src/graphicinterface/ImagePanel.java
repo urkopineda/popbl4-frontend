@@ -11,7 +11,6 @@ import javax.swing.JPanel;
  * Clase para establecer imágenes de fondo en los JPanel-s.
  * 
  * @author Runnstein Team
- *
  */
 @SuppressWarnings("serial")
 public class ImagePanel extends JPanel {

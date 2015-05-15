@@ -1,4 +1,4 @@
-package graphicinterface;
+package tablemodel;
 
 import java.awt.Component;
 

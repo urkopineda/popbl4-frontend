@@ -182,6 +182,36 @@ public class DataBaseBasics {
 		return tableNumber;
 	}
 	
+	/**
+	 * Devuelve los nombres de las tablas en un array de String.
+	 * 
+	 * @return String []
+	 */
+	public String [] tableNames() {
+		try {
+			try {
+				openDataBase();
+			} catch (ClassNotFoundException e) {
+				System.out.println("ERROR: Imposible cargar el driver de conexión a la base de datos MySQL.");
+			}
+			ArrayList<String> listaTablas = getTableNames();
+			return listaTablas.toArray(new String [getTableNumber()]);
+		} catch (SQLException e) {
+			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
+		} finally {
+			try {
+				closeDataBase();
+			} catch (SQLException e) {
+				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
+			}
+		} return null;
+	}
+	
+	/**
+	 * Devuelve la conexión existente.
+	 * 
+	 * @return
+	 */
 	public Connection getDataBaseConnection() {
 		return con;
 	}

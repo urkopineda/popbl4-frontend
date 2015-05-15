@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import administration.Controller;
 
 /**
- * Esta clase se encarga de la interfaz gráfica del sistema.
+ * Esta clase se encarga de la interfaz gráfica inicial del sistema.
  * 
  * @author Runnstein Team
  */
@@ -58,6 +58,11 @@ public class MainUI implements ActionListener {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Crea una barra de menú con todos los menus. Pendiente el menu de archivo.
+	 * 
+	 * @return JMenuBar mainMenu
+	 */
 	private JMenuBar createMenuBar(){
 		mainMenu = new JMenuBar();
 		mainMenu.add(createFileBar());
@@ -85,6 +90,11 @@ public class MainUI implements ActionListener {
 		return mainExit;
 	}
 	
+	/**
+	 * Crea el panel principal con todos sus subpaneles.
+	 * 
+	 * @return JPanel mainPanel
+	 */
 	private Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
@@ -93,11 +103,16 @@ public class MainUI implements ActionListener {
 	
 	private Container createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(5, 1, 0, 0));
-		centerPanel.add(WindowMaker.createJButton(buttonStart, "INICIAR ENTRENAMIENTO", "startTraining", null, this, true));
-		centerPanel.add(WindowMaker.createJButton(buttonMyTrainings, "MIS ENTRENAMIENTOS", "trainings", null, this, true));
-		centerPanel.add(WindowMaker.createJButton(buttonMyStats, "MIS ESTADÍSTICAS", "stats", null, this, true));
-		centerPanel.add(WindowMaker.createJButton(buttonSongLists, "MIS PLAYLISTS", "playlist", null, this, true));
-		centerPanel.add(WindowMaker.createJButton(buttonMyProfile, "MI PERFIL", "profile", null, this, true));
+		buttonStart = WindowMaker.createJButton(buttonStart, "INICIAR ENTRENAMIENTO", "startTraining", null, this, false);
+		buttonMyTrainings = WindowMaker.createJButton(buttonMyTrainings, "MIS ENTRENAMIENTOS", "trainings", null, this, false);
+		buttonMyStats = WindowMaker.createJButton(buttonMyStats, "MIS ESTADÍSTICAS", "stats", null, this, false);
+		buttonSongLists = WindowMaker.createJButton(buttonSongLists, "MIS PLAYLISTS", "playlist", null, this, false);
+		buttonMyProfile = WindowMaker.createJButton(buttonMyProfile, "MI PERFIL", "profile", null, this, false);
+		centerPanel.add(buttonStart);
+		centerPanel.add(buttonMyTrainings);
+		centerPanel.add(buttonMyStats);
+		centerPanel.add(buttonSongLists);
+		centerPanel.add(buttonMyProfile);
 		return centerPanel;
 	}
 
@@ -107,7 +122,9 @@ public class MainUI implements ActionListener {
 			window.dispose();
 		} else if (e.getActionCommand().equals("startTraining")) {
 			@SuppressWarnings("unused")
-			TrainingUI trainingUI = new TrainingUI(systemController, window);
+			TrainingUI trainingUI = new TrainingUI(systemController, this);
+		} else if (e.getActionCommand().equals("config")) {
+			
 		}
 	}
 }

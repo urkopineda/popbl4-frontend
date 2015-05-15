@@ -8,6 +8,11 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+/**
+ * Esta clase es un constructor de elementos de Java Swing
+ * 
+ * @author Runnstein Team
+ */
 public class WindowMaker {
 	/**
 	 * Método para crear JButtons.
@@ -42,6 +47,7 @@ public class WindowMaker {
 		newJLabel = new JLabel(text);
 		newJLabel.setFont(new java.awt.Font("Arial", 0, size));
 		newJLabel.setHorizontalAlignment(JLabel.CENTER);
+		newJLabel.setVerticalAlignment(JLabel.CENTER);
 		return newJLabel;
 	}
 	
