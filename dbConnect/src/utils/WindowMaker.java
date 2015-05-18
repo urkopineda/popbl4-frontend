@@ -1,4 +1,4 @@
-package graphicinterface;
+package utils;
 
 import java.awt.event.ActionListener;
 
@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  * Esta clase es un constructor de elementos de Java Swing
@@ -63,5 +65,27 @@ public class WindowMaker {
 		newItem = menu.add(text);
 		newItem.addActionListener(action);
 		newItem.setActionCommand(actionCommand);
+	}
+	
+	/**
+	 * Método génerico que genera un JPasswordField.
+	 * 
+	 * @param passwordField
+	 * @return JPasswordField passwordField
+	 */
+	public static JPasswordField createJPasswordField(JPasswordField passwordField) {
+		passwordField = new JPasswordField();
+		return passwordField;
+	}
+	
+	/**
+	 * Método genérico que genera un JTextField.
+	 * 
+	 * @param textField
+	 * @return JTextField textField
+	 */
+	public static JTextField createJTextField(JTextField textField) {
+		textField = new JTextField();
+		return textField;
 	}
 }

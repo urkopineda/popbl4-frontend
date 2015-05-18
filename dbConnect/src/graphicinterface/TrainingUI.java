@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import task.ChronoTimer;
+import utils.ImagePanel;
+import utils.WindowMaker;
 import administration.Controller;
 
 /**
@@ -134,13 +136,14 @@ public class TrainingUI implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("start")) {
 			if (chronometerThread != null) {
-				if (!chronometerThread.getTimer().isRunning()) {
-					chronometerThread.startTimer();
+				if (!chronometerThread.isAlive()) {
+					chronometerThread.start();
 				}
 			} else {
 				chronometerThread = new ChronoTimer(cronometerNumbers);
-				chronometerThread.startTimer();
+				chronometerThread.start();
 			}
+			chronometerThread.startTimer();
 			buttonStop.setEnabled(true);
 			buttonPause.setEnabled(true);
 			buttonStart.setEnabled(false);

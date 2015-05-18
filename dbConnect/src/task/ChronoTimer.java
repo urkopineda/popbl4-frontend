@@ -1,17 +1,16 @@
 package task;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JLabel;
-import javax.swing.Timer;
+
+import main.Configuration;
+import utils.Timer;
 
 /**
  * Clase que se encarga del tiempo del cronómetro.
  * 
  * @author Runnstein Team
  */
-public class ChronoTimer implements ActionListener{
+public class ChronoTimer extends Thread{
 	JLabel chronometerNumbers = null;
 	Timer timer = null;
 	int minutes = 0;
@@ -25,8 +24,7 @@ public class ChronoTimer implements ActionListener{
 	 * Constructor #0 - Simplemente crea el objeto 'Timer'
 	 */
 	public ChronoTimer() {
-		timer = new Timer(1000, this);
-		timer.setActionCommand("start");
+		timer = new Timer(Configuration.timerPeriod);
 	}
 	
 	/**
@@ -36,22 +34,48 @@ public class ChronoTimer implements ActionListener{
 	 */
 	public ChronoTimer(JLabel chronometerNumbers) {
 		this.chronometerNumbers = chronometerNumbers;
-		timer = new Timer(1000, this);
-		timer.setActionCommand("start");
+		timer = new Timer(Configuration.timerPeriod);
 	}
 	
-	public void startTimer() {
+	@Override
+	public synchronized void start() {
 		timer.start();
+		super.start();
+	}
+
+	@Override
+	public void run() {
+		while(true){
+			try {
+				Thread.sleep(Configuration.timerPeriod/4);
+			} catch (InterruptedException e) {}
+			if(timer.intervalHasFinished()){
+				executeAction();
+				timer.setIntervalHasFinished(false);
+			}
+		}
+	}
+	
+	@Override
+		public void interrupt() {
+			try{
+				super.interrupt();
+			}catch(Exception e){}
+		}
+	
+	public void startTimer() {
+		if(!timer.isAlive()) timer.start();
+		timer.setEnabled(true);
 	}
 	
 	public void stopTimer() {
-		timer.stop();
+		timer.setEnabled(false);
 		resetTimerValues();
 		resetJLabelTextValue();
 	}
 	
 	public void pauseTimer() {
-		timer.stop();
+		timer.setEnabled(false);
 	}
 	
 	public int getMinutes() {
@@ -100,13 +124,10 @@ public class ChronoTimer implements ActionListener{
 		chronometerNumbers.setText("00:00:00");
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("start")){
-			timerThreadMiliseconds();
-			renameStrings();			
-			if (chronometerNumbers != null) chronometerNumbers.setText(this.toString());
-		}
+	public void executeAction() {
+		timerThreadMiliseconds();
+		renameStrings();			
+		if (chronometerNumbers != null) chronometerNumbers.setText(this.toString());
 	}
 	
 	public String toString() {

@@ -16,6 +16,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import utils.WindowMaker;
 import administration.Controller;
 
 /**
@@ -104,7 +105,7 @@ public class MainUI implements ActionListener {
 	private Container createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(5, 1, 0, 0));
 		buttonStart = WindowMaker.createJButton(buttonStart, "INICIAR ENTRENAMIENTO", "startTraining", null, this, false);
-		buttonMyTrainings = WindowMaker.createJButton(buttonMyTrainings, "MIS ENTRENAMIENTOS", "trainings", null, this, false);
+		buttonMyTrainings = WindowMaker.createJButton(buttonMyTrainings, "MIS ENTRENAMIENTOS", "dataTraining", null, this, false);
 		buttonMyStats = WindowMaker.createJButton(buttonMyStats, "MIS ESTADÍSTICAS", "stats", null, this, false);
 		buttonSongLists = WindowMaker.createJButton(buttonSongLists, "MIS PLAYLISTS", "playlist", null, this, false);
 		buttonMyProfile = WindowMaker.createJButton(buttonMyProfile, "MI PERFIL", "profile", null, this, false);
@@ -123,6 +124,9 @@ public class MainUI implements ActionListener {
 		} else if (e.getActionCommand().equals("startTraining")) {
 			@SuppressWarnings("unused")
 			TrainingUI trainingUI = new TrainingUI(systemController, this);
+		} else if (e.getActionCommand().equals("dataTraining")) {
+			@SuppressWarnings("unused")
+			TrainingDataUI trainingDataUI = new TrainingDataUI(systemController, this);
 		} else if (e.getActionCommand().equals("config")) {
 			
 		}
