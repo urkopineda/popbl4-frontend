@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import main.Configuration;
 import utils.WindowMaker;
 import administration.Controller;
 import database.DataBaseBasics;
@@ -47,10 +48,8 @@ public class LogInUI implements ActionListener{
 	protected String password = null;
 	
 	
-	public LogInUI(Controller systemController, DataBaseBasics conDataBase, StatementBasics stmtController) {
+	public LogInUI(Controller systemController) {
 		this.systemController = systemController;
-		this.conDataBase = conDataBase;
-		this.stmtController = stmtController;
 		window = new JFrame();
 		window.setSize(250, 150);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -108,7 +107,10 @@ public class LogInUI implements ActionListener{
 	
 	private boolean checkUser() {
 		try {
+			conDataBase = new DataBaseBasics(Configuration.dbUrl, Configuration.port, Configuration.user, Configuration.password, Configuration.tableName);
 			conDataBase.openDataBase();
+			stmtController = new StatementBasics(conDataBase.getDataBaseConnection());
+			System.out.println("SELECT NombreUsuario, Password FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
 			ResultSet rsUser = stmtController.exeQuery("SELECT NombreUsuario, Password FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
 			if (conDataBase.getNumberRows(rsUser) > 0) {
 				char[] input = passField.getPassword();
@@ -133,6 +135,8 @@ public class LogInUI implements ActionListener{
 				window.dispose();
 				@SuppressWarnings("unused")
 				MainUI mainUI = new MainUI(systemController);
+			} else {
+				System.out.println("Access denied!");
 			}
 		} else if (e.getActionCommand().equals("cancel")) {
 			window.dispose();

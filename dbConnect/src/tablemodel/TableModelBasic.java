@@ -11,12 +11,8 @@ import model.Data;
  * 
  * @author Runnstein Team
  */
-public class TableModelBasic extends AbstractTableModel {	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+@SuppressWarnings("serial")
+public class TableModelBasic extends AbstractTableModel {		
 	ColumnTableModelBasic columns;
 	Data objData = null;
 	
@@ -52,6 +48,16 @@ public class TableModelBasic extends AbstractTableModel {
 		this.fireTableDataChanged();
 	}
 	
+	/**
+	 * Consigue un dato especifico del ArrayList del objeto Data y devuelve su tipo (String)
+	 * 
+	 * @param index
+	 * @return String data
+	 */
+	public String getData(int index) {
+		return objData.getSpecificData(index);
+	}
+	
 	@Override
 	public int getColumnCount() {
 		return columns.getColumnCount();
@@ -64,7 +70,10 @@ public class TableModelBasic extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		return objData.getSpecificData((row * getColumnCount()) + column);
+		int index = 0;
+		if (row == 0) index = column;
+		else index = (row * getColumnCount()) + column;
+		return objData.getData().get(index);
 	}
 	
 	@Override

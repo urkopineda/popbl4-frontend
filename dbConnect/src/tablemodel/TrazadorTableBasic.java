@@ -10,12 +10,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  * 
  * @author Runnstein Team
  */
+@SuppressWarnings("serial")
 public class TrazadorTableBasic extends DefaultTableCellRenderer {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object valor, boolean isSelected, boolean hasFocus, int fila, int columna) {
 		super.getTableCellRendererComponent(table, valor, isSelected, hasFocus, fila, columna);

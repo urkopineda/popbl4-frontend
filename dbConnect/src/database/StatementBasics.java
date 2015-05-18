@@ -34,7 +34,7 @@ public class StatementBasics {
 		System.out.print("Executing Query '"+query+"'...");
 		ResultSet rs = stmt.executeQuery(query);
 		System.out.println(" Executed!");
-		stmt.close();
+		//stmt.close();
 		return rs;
 	}
 	

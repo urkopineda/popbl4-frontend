@@ -34,11 +34,11 @@ public class Data {
 		for (int i = 1; i <= columnNumber; i++) {
 			columns.add(rsmd.getColumnName(i));
 		}
-		do {
+		while (rs.next()) {
 			for (int i = 1; i <= columnNumber; i++) {
 				data.add(rs.getString(i));
 			}
-		} while (rs.next());
+		}
 	}
 	
 	/**
@@ -93,9 +93,7 @@ public class Data {
 	 * @param newData
 	 */
 	public void addData(ArrayList<String> newData) {
-		for (int i = 0; i <= newData.size(); i++) {
-			data.add(newData.get(i));
-		}
+		data.addAll(newData);
 	}
 	
 	/**

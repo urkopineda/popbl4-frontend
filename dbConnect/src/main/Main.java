@@ -15,6 +15,6 @@ public class Main {
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String args[]) {
-		Controller initApp = new Controller("runnstein.mooo.com", 3026, "java", "javarunnsteinuser", "SCOTT");
+		Controller initApp = new Controller();
 	}
 }

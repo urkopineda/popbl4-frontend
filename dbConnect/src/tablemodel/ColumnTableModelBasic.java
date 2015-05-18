@@ -10,12 +10,8 @@ import model.Data;
  * 
  * @author Runnstein Team
  */
+@SuppressWarnings("serial")
 public class ColumnTableModelBasic extends DefaultTableColumnModel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	TrazadorTableBasic newTrazador;
 	
 	/**
@@ -27,9 +23,7 @@ public class ColumnTableModelBasic extends DefaultTableColumnModel {
 	public ColumnTableModelBasic(TrazadorTableBasic newTrazador, Data data){
 		super();
 		this.newTrazador = newTrazador;
-		for (int i = 0; i <= data.getColumnNames().size(); i++) {
-			this.addColumn(crearColumna(data.getColumnNames().get(i), i, 100));
-		}
+		for (int i = 0; i != data.getColumnNumber(); i++) this.addColumn(crearColumna(data.getColumnNames().get(i), i, 100));
 	}
 
 	/**
