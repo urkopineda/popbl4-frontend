@@ -11,11 +11,13 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import main.Configuration;
 import utils.WindowMaker;
 import administration.Controller;
 
@@ -98,6 +100,7 @@ public class MainUI implements ActionListener {
 	 */
 	private Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
+		mainPanel.add(WindowMaker.createJLabel(new JLabel(), "Bienvenido, "+Configuration.name+" "+Configuration.surname1+" "+Configuration.surname2, 15), BorderLayout.NORTH);
 		mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
 		return mainPanel;
 	}

@@ -117,6 +117,12 @@ public class LogInUI implements ActionListener{
 				String pass = new String(input);
 				ResultSet rsPass = stmtController.exeQuery("SELECT NombreUsuario, Password FROM USUARIO WHERE Password = '"+pass+"'");
 				if (conDataBase.getNumberRows(rsPass) > 0) {
+					ResultSet rsNameSurname = stmtController.exeQuery("SELECT Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
+					while (rsNameSurname.next()) {
+						Configuration.name = rsNameSurname.getString(1);
+						Configuration.surname1 = rsNameSurname.getString(2);
+						Configuration.surname2 = rsNameSurname.getString(3);
+					}
 					return true;
 				} else return false;
 			} else return false;

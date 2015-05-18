@@ -12,4 +12,7 @@ public class Configuration {
 	public static final String user = "java";
 	public static final String password = "javarunnsteinuser";
 	public static final String tableName = "myPutoDB";
+	public static String name = null;
+	public static String surname1 = null;
+	public static String surname2 = null;
 }
