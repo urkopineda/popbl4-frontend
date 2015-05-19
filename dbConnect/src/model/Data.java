@@ -5,6 +5,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import exception.RunnsteinDataBaseException;
+
 /**
  * Esta es una clase de un objetivo genérico que será "Dato".
  * 
@@ -19,12 +21,12 @@ public class Data {
 	/**
 	 * En este constructor interpretamos un ResultSet para convertirlo a un objeto de tipo 'Data'
 	 * 
-	 * @param rs
-	 * @param rowNumber
-	 * @param columnNumber
+	 * @param ResultSet rs
+	 * @param int rowNumber
+	 * @param int columnNumber
 	 * @throws SQLException
 	 */
-	public Data(ResultSet rs, int rowNumber, int columnNumber) throws SQLException {
+	public Data(ResultSet rs, int rowNumber, int columnNumber) throws RunnsteinDataBaseException, SQLException {
 		this.rowNumber = rowNumber;
 		this.columnNumber = columnNumber;
 		data = new ArrayList<>();
@@ -80,8 +82,8 @@ public class Data {
 	/**
 	 * Devuelve un dato concreto.
 	 * 
-	 * @param index
-	 * @return String
+	 * @param int index
+	 * @return String data
 	 */
 	public String getSpecificData(int index) {
 		return data.get(index);
@@ -90,7 +92,7 @@ public class Data {
 	/**
 	 * Añade un/unos datos nuevos a la lista.
 	 * 
-	 * @param newData
+	 * @param ArrayList<String> newData
 	 */
 	public void addData(ArrayList<String> newData) {
 		data.addAll(newData);
@@ -99,7 +101,7 @@ public class Data {
 	/**
 	 * Borra un dato de la lista de datos.
 	 * 
-	 * @param index
+	 * @param int index
 	 */
 	public void deleteData(int index) {
 		data.remove(index);

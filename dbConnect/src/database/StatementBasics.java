@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import exception.RunnsteinDataBaseException;
+
 /**
  * Se encarga de construir los Strings de Query, ejecutar y gestionar los ResultSet generados por Statements.
  * 
@@ -16,7 +18,7 @@ public class StatementBasics {
 	/**
 	 * Constructor de StatementConstructor, guarda la conexión generada por la clase SQL.
 	 * 
-	 * @param con
+	 * @param Connection con
 	 */
 	public StatementBasics(Connection con) {
 		this.con = con;
@@ -25,11 +27,12 @@ public class StatementBasics {
 	/**
 	 * Devuelve el ResultSet generado al ejecutar un Statement.
 	 * 
-	 * @param query
-	 * @return ResultSet
+	 * @param String query
+	 * @return ResultSet rs
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public ResultSet exeQuery(String query) throws SQLException {
+	public ResultSet exeQuery(String query) throws SQLException, RunnsteinDataBaseException {
 		Statement stmt = con.createStatement();
 		System.out.print("Executing Query '"+query+"'...");
 		ResultSet rs = stmt.executeQuery(query);
@@ -40,10 +43,11 @@ public class StatementBasics {
 	/**
 	 * Ejecuta un String INSERT, UPDATE o DELETE en un Statement.
 	 * 
-	 * @param query
+	 * @param String query
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public void exeStmt(String query) throws SQLException {
+	public void exeStmt(String query) throws SQLException, RunnsteinDataBaseException {
 		Statement stmt = con.createStatement();
 		System.out.print("Executing Statement '"+query+"'...");
 		stmt.executeUpdate(query);
@@ -54,10 +58,10 @@ public class StatementBasics {
 	/**
 	 * Genera un String para hacer un SELECT muy simple.
 	 * 
-	 * @param columnNames
-	 * @param columnAlias
-	 * @param table
-	 * @return String de Query
+	 * @param String [] columnNames
+	 * @param String [] columnAlias
+	 * @param String table
+	 * @return String query
 	 */
 	public String stringSelect(String [] columnNames, String [] columnAlias, String table) {
 		String query = "SELECT ";
@@ -83,10 +87,10 @@ public class StatementBasics {
 	/**
 	 * Genera un String para hacer un INSERT muy simple.
 	 * 
-	 * @param columnNames
-	 * @param columnValues
-	 * @param table
-	 * @return String de Query
+	 * @param String [] columnNames
+	 * @param String [] columnValues
+	 * @param String table
+	 * @return String query
 	 */
 	public String stringInsert(String [] columnNames, String [] columnValues, String table) {
 		String query = "INSERT INTO "+table+"(";
@@ -126,10 +130,10 @@ public class StatementBasics {
 	/**
 	 * Genera un String para hacer un DELETE muy simple.
 	 * 
-	 * @param wColumnName
-	 * @param wColumnValue
-	 * @param table
-	 * @return String de Query
+	 * @param String wColumnName
+	 * @param String wColumnValue
+	 * @param String table
+	 * @return String query
 	 */
 	public String stringDelete(String wColumnName, String wColumnValue, String table) {
 		String query = "DELETE FROM "+table+" WHERE ";
@@ -160,12 +164,12 @@ public class StatementBasics {
 	/**
 	 * Genera un String para hacer un UPDATE muy simple.
 	 * 
-	 * @param columnName
-	 * @param columnValue
-	 * @param wColumnName
-	 * @param wColumnValue
-	 * @param table
-	 * @return String de Query
+	 * @param String columnName
+	 * @param String columnValue
+	 * @param String wColumnName
+	 * @param String wColumnValue
+	 * @param String table
+	 * @return String query
 	 */
 	public String stringUpdate(String columnName, String columnValue, String wColumnName, String wColumnValue, String table) {
 		String query = "UPDATE "+table+" SET ";

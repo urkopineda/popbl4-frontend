@@ -3,6 +3,7 @@ package graphicinterface;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,10 +24,16 @@ import model.Data;
 import tablemodel.ColumnTableModelBasic;
 import tablemodel.TableModelBasic;
 import tablemodel.TrazadorTableBasic;
+import utils.WindowMaker;
 import administration.Controller;
 import database.DataBaseBasics;
 import database.StatementBasics;
 
+/**
+ * UI de los datos de cada entrenamiento.
+ * 
+ * @author Runnstein Team
+ */
 public class TrainingDataUI implements ActionListener, ListSelectionListener {
 	MainUI lastUI = null;
 	JFrame window = null;
@@ -39,9 +47,16 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 	JPanel northPanel = null;
 	JPanel centerPanel = null;
 	JPanel southPanel = null;
+	JButton buttonUpdate = null;
+	JButton buttonExit = null;
 	
+	/**
+	 * Contructor que utiliza la ventana anterior (JFrame) para construir la nueva UI.
+	 * 
+	 * @param Controller systemController
+	 * @param MainUI lastUI
+	 */
 	public TrainingDataUI(Controller systemController, MainUI lastUI) {
-		this.lastUI = lastUI;
 		this.window = lastUI.window;
 		this.systemController = systemController;
 		window.setTitle("Mis Entrenamientos");
@@ -54,12 +69,16 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 		window.revalidate();
 	}
 	
+	/**
+	 * Crea la tabla utilizando métodos estadísticos, modelos de tabla y columna y un trazador. 
+	 */
 	private void createTable() {
 		/*
 		 * Aquí debemos hacer lo siguiente:
-		 * 		1-. Generar el SELECT que queramos.
+		 * 		1-. Generar el SELECT que queramos. (VISTAS!)
 		 * 		2-. Ejecutarlo y obtener su ResultSet.
 		 * 		3-. Crear un nuevo objeto 'Data' con el ResultSet.
+		 * 		4-. Utilizar las formulas estadisticas.
 		 */
 		Data data = pruebaGetData();
 		trazador = new TrazadorTableBasic();
@@ -72,6 +91,11 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 		scrollMainPanel.setViewportView(mainTable);
 	}
 	
+	/**
+	 * PRUEBA! Para borrar en un futuro.
+	 * 
+	 * @return
+	 */
 	private Data pruebaGetData() {
 		DataBaseBasics dbConnect = new DataBaseBasics();
 		try {
@@ -91,6 +115,11 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 		return null;
 	}
 	
+	/**
+	 * Crea el panel principal con sus sub-paneles.
+	 * 
+	 * @return JPanel mainPanel
+	 */
 	private Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
@@ -99,12 +128,22 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 		return mainPanel;
 	}
 	
+	/**
+	 * Crea el panel norte.
+	 * 
+	 * @return JPanel northPanel
+	 */
 	private Container createNorthPanel() {
 		northPanel = new JPanel();
 		
 		return northPanel;
 	}
 	
+	/**
+	 * Crea el panel central con el JTable.
+	 * 
+	 * @return JPanel centerPanel
+	 */
 	private Container createCenterPanel() {
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
@@ -112,9 +151,17 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 		return centerPanel;
 	}
 	
+	/**
+	 * Crea el panel sur con los botones necesarios.
+	 * 
+	 * @return JPanel southPanel
+	 */
 	private Container createSouthPanel() {
-		southPanel = new JPanel();
-		
+		southPanel = new JPanel(new GridLayout(1, 2, 0, 0));
+		buttonUpdate = WindowMaker.createJButton(buttonUpdate, "Actualizar datos", "update", null, this, false);
+		buttonExit = WindowMaker.createJButton(buttonExit, "Salir", "exit", null, this, false);
+		southPanel.add(buttonUpdate);
+		southPanel.add(buttonExit);
 		return southPanel;
 	}
 
@@ -128,7 +175,6 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 
 	@Override
 	public void valueChanged(ListSelectionEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 }

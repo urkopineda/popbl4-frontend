@@ -70,6 +70,8 @@ public class Serial {
 				port.closePort();
 				Configuration.bluetoothIsConnected = false;
 			}
-		} catch (SerialPortException e) {}
+		} catch (SerialPortException e) {
+			e.printStackTrace();
+		}
 	}
 }

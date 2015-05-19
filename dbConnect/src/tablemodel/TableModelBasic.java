@@ -19,8 +19,8 @@ public class TableModelBasic extends AbstractTableModel {
 	/**
 	 * Crea el modelo de tabla básico.
 	 * 
-	 * @param columns
-	 * @param objData
+	 * @param ColumnTableModelBasic columns
+	 * @param Data objData
 	 */
 	public TableModelBasic(ColumnTableModelBasic columns, Data objData){
 		super();
@@ -31,7 +31,7 @@ public class TableModelBasic extends AbstractTableModel {
 	/**
 	 * Insertar un dato en la lista de datos del objeto 'Data'.
 	 * 
-	 * @param newData
+	 * @param ArrayList<String> newData
 	 */
 	public void insertData(ArrayList<String> newData) {
 		objData.addData(newData);
@@ -41,7 +41,7 @@ public class TableModelBasic extends AbstractTableModel {
 	/**
 	 * Borra un dato en la lista de datos del objeto 'Data'.
 	 * 
-	 * @param index
+	 * @param int index
 	 */
 	public void deleteData(int index) {
 		objData.deleteData(index);
@@ -51,7 +51,7 @@ public class TableModelBasic extends AbstractTableModel {
 	/**
 	 * Consigue un dato especifico del ArrayList del objeto Data y devuelve su tipo (String)
 	 * 
-	 * @param index
+	 * @param int index
 	 * @return String data
 	 */
 	public String getData(int index) {

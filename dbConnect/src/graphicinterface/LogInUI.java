@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,6 +24,7 @@ import utils.WindowMaker;
 import administration.Controller;
 import database.DataBaseBasics;
 import database.StatementBasics;
+import exception.LogInException;
 
 /**
  * UI de log in - Comprueba si el usuario y contraseña metidos concuerdan.
@@ -56,7 +56,7 @@ public class LogInUI implements ActionListener{
 	/**
 	 * Contructor de 'LogInUI' que crea la ventana de log in.
 	 * 
-	 * @param systemController
+	 * @param Controller systemController
 	 */
 	public LogInUI(Controller systemController) {
 		this.systemController = systemController;
@@ -142,10 +142,8 @@ public class LogInUI implements ActionListener{
 	
 	/**
 	 * Comprueba que el usuario y la contraseña existen en la base de datos.
-	 * 
-	 * @return Boolean resultado
 	 */
-	private boolean checkUser() {
+	private void checkUser() throws LogInException {
 		try {
 			conDataBase = new DataBaseBasics();
 			conDataBase.openDataBase();
@@ -160,26 +158,33 @@ public class LogInUI implements ActionListener{
 					Configuration.surname1 = rsNameSurname.getString(2);
 					Configuration.surname2 = rsNameSurname.getString(3);
 				}
-				return true;
-			} else return false;
+				conDataBase.closeDataBase();
+			} else {
+				conDataBase.closeDataBase();
+				throw new LogInException(window);
+			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
+		} finally {
+			try {
+				conDataBase.closeDataBase();
+			} catch (SQLException e) {
+				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
+			}
 		}
-		return false;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("check")) {
-			if (checkUser()) {
+			try {
+				checkUser();
 				window.dispose();
 				@SuppressWarnings("unused")
 				MainUI mainUI = new MainUI(systemController);
-			} else if (!checkUser()){
-				JOptionPane.showMessageDialog(window, "Nombre de usuario y/o contraseña incorrectos.", "Error", JOptionPane.ERROR_MESSAGE);
-			}
+			} catch (LogInException logE) {}
 		} else if (e.getActionCommand().equals("cancel")) {
 			window.dispose();
 		}

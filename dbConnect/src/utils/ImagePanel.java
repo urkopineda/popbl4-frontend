@@ -19,16 +19,16 @@ public class ImagePanel extends JPanel {
 	/**
 	 * Contructor #1 - Pasamos una dirección de la imágen y creamos el JPanel.
 	 * 
-	 * @param img
+	 * @param String pathToImg
 	 */
-	public ImagePanel(String img) {
-		this(new ImageIcon(img).getImage());
+	public ImagePanel(String pathToImg) {
+		this(new ImageIcon(pathToImg).getImage());
 	}
 	
 	/**
 	 * Contructor #2 - Pasamos ya la imágen creada y creamos el JPanel.
 	 * 
-	 * @param img
+	 * @param Image img
 	 */
 	public ImagePanel(Image img) {
 		this.img = img;

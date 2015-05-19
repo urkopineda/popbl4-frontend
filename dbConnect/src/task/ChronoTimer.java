@@ -28,9 +28,9 @@ public class ChronoTimer extends Thread{
 	}
 	
 	/**
-	 * Contructor #1 de 'ChronoTimer', pide un JLabel para cambiar el valor a mostrar.
+	 * Constructor #1 - Constructor que guarda el JLabel donde se contiene el valor del cronómetro para editarlo.
 	 * 
-	 * @param chronometerNumbers
+	 * @param JLabel chronometerNumbers
 	 */
 	public ChronoTimer(JLabel chronometerNumbers) {
 		this.chronometerNumbers = chronometerNumbers;
@@ -48,8 +48,10 @@ public class ChronoTimer extends Thread{
 		while(true){
 			try {
 				Thread.sleep(Configuration.timerPeriod/4);
-			} catch (InterruptedException e) {}
-			if(timer.intervalHasFinished()){
+			} catch (InterruptedException e) {
+				e.getStackTrace();
+			}
+			if (timer.intervalHasFinished()) {
 				executeAction();
 				timer.setIntervalHasFinished(false);
 			}
@@ -57,43 +59,77 @@ public class ChronoTimer extends Thread{
 	}
 	
 	@Override
-		public void interrupt() {
-			try{
-				super.interrupt();
-			}catch(Exception e){}
+	public void interrupt() {
+		try {
+			super.interrupt();
+		} catch (Exception e) {
+			e.getStackTrace();
 		}
+	}
 	
+	/**
+	 * Incia el timer solo si ya no ha sido inicializado.
+	 */
 	public void startTimer() {
-		if(!timer.isAlive()) timer.start();
+		if (!timer.isAlive()) timer.start();
 		timer.setEnabled(true);
 	}
 	
+	/**
+	 * Para el timer (Resetea valores y para el timer)
+	 */
 	public void stopTimer() {
 		timer.setEnabled(false);
 		resetTimerValues();
 		resetJLabelTextValue();
 	}
 	
+	/**
+	 * Pausa el timer (No resetea valores y para el timer)
+	 */
 	public void pauseTimer() {
 		timer.setEnabled(false);
 	}
 	
+	/**
+	 * Devuelve los minutos.
+	 * 
+	 * @return int minutes
+	 */
 	public int getMinutes() {
 		return minutes;
 	}
 	
+	/**
+	 * Devuelve los segundos.
+	 * 
+	 * @return int seconds
+	 */
 	public int getSeconds() {
 		return seconds;
 	}
 	
+	/**
+	 * Devuelve las horas.
+	 * 
+	 * @return int hours
+	 */
 	public int getHours() {
 		return hours;
 	}
 	
+	/**
+	 * Devuelve el objeto timer.
+	 * 
+	 * @return Timer timer
+	 */
 	public Timer getTimer() {
 		return timer;
 	}
 	
+	/**
+	 * Se encarga de actualizar los valores de segundos, minutos y horas.
+	 */
 	private void timerThreadMiliseconds() {
 		seconds++;
 		if (seconds == 60) {
@@ -105,6 +141,9 @@ public class ChronoTimer extends Thread{
 		}
 	}
 	
+	/**
+	 * Se encarga de renombrar los Strings que se utilizan para crear el JLabel segundo los valores int del timer.
+	 */
 	private void renameStrings() {
 		if (seconds <= 9) sSeconds = "0"+seconds;
 		else sSeconds = ((Integer) seconds).toString();
@@ -114,22 +153,34 @@ public class ChronoTimer extends Thread{
 		else sHours = ((Integer) hours).toString();
 	}
 	
+	/**
+	 * Resetea los valores int del timer.
+	 */
 	private void resetTimerValues() {
 		minutes = 0;
 		seconds = 0;
 		hours = 0;
 	}
 	
+	/**
+	 * Establece el JLabel del timer a 0.
+	 */
 	private void resetJLabelTextValue() {
 		chronometerNumbers.setText("00:00:00");
 	}
-
+	
+	/**
+	 * Ejecuta esta acción cada vez que el cronómetro salta.
+	 */
 	public void executeAction() {
 		timerThreadMiliseconds();
 		renameStrings();			
 		if (chronometerNumbers != null) chronometerNumbers.setText(this.toString());
 	}
 	
+	/**
+	 * Devuelve el Strign que corresponde a este objeto.
+	 */
 	public String toString() {
 		return sHours+":"+sMinutes+":"+sSeconds;
 	}

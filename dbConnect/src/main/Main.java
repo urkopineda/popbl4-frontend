@@ -9,9 +9,9 @@ import administration.Controller;
  */
 public class Main {
 	/**
-	 * Main de pruebas.
+	 * Main que inicializa todo el sistema.
 	 * 
-	 * @param args
+	 * @param String args[]
 	 */
 	@SuppressWarnings("unused")
 	public static void main(String args[]) {

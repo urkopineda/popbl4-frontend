@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import main.Configuration;
+import exception.RunnsteinDataBaseException;
 
 /**
  * Crea una nueva conexión a la base de datos, además de conseguir información de la misma.
@@ -23,10 +24,11 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve el estado de la conexión a la base de datos.
 	 * 
-	 * @return boolean
+	 * @return boolean state
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public boolean getDataBaseStatus() throws SQLException {
+	public boolean getDataBaseStatus() throws RunnsteinDataBaseException, SQLException {
 		if (con == null) {
 			return false;
 		} else if (con.isClosed()) {
@@ -40,9 +42,10 @@ public class DataBaseBasics {
 	 * Abre la base de datos con los datos obtenidos de las variables del contructor.
 	 * 
 	 * @throws SQLException
+	 * @throws RunnsteinDataBaseException
 	 * @throws ClassNotFoundException
 	 */
-	public void openDataBase() throws SQLException, ClassNotFoundException {
+	public void openDataBase() throws ClassNotFoundException, RunnsteinDataBaseException, SQLException {
 		String generalURL = null;
 		System.out.print("Connecting to MySQL database at '"+Configuration.dbUrl+":"+Configuration.port+"'...");
 		Class.forName("com.mysql.jdbc.Driver");
@@ -55,9 +58,10 @@ public class DataBaseBasics {
 	/**
 	 * Cierra la base de datos. 
 	 * 
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public void closeDataBase() throws SQLException {
+	public void closeDataBase() throws RunnsteinDataBaseException, SQLException {
 		if (con != null) {
 			System.out.print("Disconnecting from MySQL...");
 			con.close();
@@ -68,10 +72,11 @@ public class DataBaseBasics {
 	/**
 	 * Selecciona una base de datos a usar dentro del servidor.
 	 * 
-	 * @param dbName
+	 * @param String dbName
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public void useDataBase(String dbName) throws SQLException {
+	public void useDataBase(String dbName) throws RunnsteinDataBaseException, SQLException {
 		if (con != null) {
 			Statement stmt = con.createStatement();
 			stmt.execute("USE "+dbName);
@@ -81,11 +86,12 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve el número de columnas de una tabla.
 	 * 
-	 * @param tbName
-	 * @return Número de columnas (int)
+	 * @param String tbName
+	 * @return int columnNumber
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public int getNumberColumns(String tbName) throws SQLException {
+	public int getNumberColumns(String tbName) throws RunnsteinDataBaseException, SQLException {
 		if (con != null) {
 			PreparedStatement prepStmt = con.prepareStatement("SELECT * FROM "+tbName);
 			ResultSet rs = prepStmt.executeQuery();
@@ -97,11 +103,12 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve un ArrayList con las columnas de una tabla ordenadas.
 	 * 
-	 * @param tbName
-	 * @return ArrayList con columnas (String)
+	 * @param String tbName
+	 * @return ArrayList<String> columnNames
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public ArrayList<String> getColumnsNames(String tbName) throws SQLException {
+	public ArrayList<String> getColumnsNames(String tbName) throws RunnsteinDataBaseException, SQLException {
 		if (con != null) {
 			ArrayList<String> columnsName = new ArrayList<>();
 			PreparedStatement prepStmt = con.prepareStatement("SELECT * FROM "+tbName);
@@ -117,11 +124,12 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve el número de datos obtenidos de un ResultSet.
 	 * 
-	 * @param rs
-	 * @return Número de filas (int)
+	 * @param ResultSet rs
+	 * @return int rowNumber
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException
 	 */
-	public int getNumberRows(ResultSet rs) throws SQLException {
+	public int getNumberRows(ResultSet rs) throws RunnsteinDataBaseException, SQLException {
 		if (con != null) {
 			rs.last();
 			return rs.getRow();
@@ -131,10 +139,11 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve un array con los nombres de las tablas existentes en la base de datos.
 	 * 
-	 * @return ArrayList<String> tables
+	 * @return ArrayList<String> tableNames
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException 
 	 */
-	public ArrayList<String> getTableNames() throws SQLException {
+	public ArrayList<String> getTableNamesArrayList() throws RunnsteinDataBaseException, SQLException {
 		if (con != null) {
 			ArrayList<String> tables = new ArrayList<>();
 			java.sql.DatabaseMetaData dbmd = con.getMetaData();
@@ -151,12 +160,13 @@ public class DataBaseBasics {
 	 * Devuelve el número de tablas existentes.
 	 * 
 	 * @return int tableNumber
+	 * @throws RunnsteinDataBaseException
 	 * @throws SQLException 
 	 */
-	public int getTableNumber() throws SQLException {
+	public int getTableNumber() throws RunnsteinDataBaseException, SQLException {
 		if (tableNumber == -1) {
 			@SuppressWarnings("unused")
-			ArrayList<String> tablasTemp = getTableNames();
+			ArrayList<String> tablasTemp = getTableNamesArrayList();
 		}
 		return tableNumber;
 	}
@@ -164,26 +174,17 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve los nombres de las tablas en un array de String.
 	 * 
-	 * @return String [] listaTablas
+	 * @return String [] tableNames
+	 * @throws SQLException
+	 * @throws RunnsteinDataBaseException
+	 * @throws ClassNotFoundException 
 	 */
-	public String [] tableNames() {
-		try {
-			try {
-				openDataBase();
-			} catch (ClassNotFoundException e) {
-				System.out.println("ERROR: Imposible cargar el driver de conexión a la base de datos MySQL.");
-			}
-			ArrayList<String> listaTablas = getTableNames();
-			return listaTablas.toArray(new String [getTableNumber()]);
-		} catch (SQLException e) {
-			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
-		} finally {
-			try {
-				closeDataBase();
-			} catch (SQLException e) {
-				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
-			}
-		} return null;
+	public String [] getTableNamesArray() throws ClassNotFoundException, RunnsteinDataBaseException, SQLException {
+		openDataBase();
+		ArrayList<String> listaTablas = getTableNamesArrayList();
+		String tableNames [] = listaTablas.toArray(new String [getTableNumber()]);
+		closeDataBase();
+		return tableNames;
 	}
 	
 	/**

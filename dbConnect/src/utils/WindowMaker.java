@@ -19,47 +19,47 @@ public class WindowMaker {
 	/**
 	 * Método para crear JButtons.
 	 * 
-	 * @param newJButton
-	 * @param text
-	 * @param icon
-	 * @return newJButton
+	 * @param JButton button
+	 * @param String text
+	 * @param String icon
+	 * @return JButton newJButton
 	 */
-	public static JButton createJButton(JButton newJButton, String text, String command, Icon icon, ActionListener action, boolean modifiedDesign) {
-		newJButton = new JButton(text);
-		if (icon != null) newJButton.setIcon(icon);
+	public static JButton createJButton(JButton button, String text, String command, Icon icon, ActionListener action, boolean modifiedDesign) {
+		button = new JButton(text);
+		if (icon != null) button.setIcon(icon);
 		if (modifiedDesign) {
-			newJButton.setOpaque(true);
-			newJButton.setContentAreaFilled(false);
-			newJButton.setBorderPainted(true);
+			button.setOpaque(true);
+			button.setContentAreaFilled(false);
+			button.setBorderPainted(true);
 		}
-		newJButton.addActionListener(action);
-		newJButton.setActionCommand(command);
-		return newJButton;
+		button.addActionListener(action);
+		button.setActionCommand(command);
+		return button;
 	}
 	
 	/**
 	 * Método para crear JLabels.
 	 * 
-	 * @param newJLabel
-	 * @param text
-	 * @param size
-	 * @return newJLabel
+	 * @param JLabel label
+	 * @param String text
+	 * @param int size
+	 * @return JLabel newJLabel
 	 */
-	public static JLabel createJLabel(JLabel newJLabel, String text, int size) {
-		newJLabel = new JLabel(text);
-		newJLabel.setFont(new java.awt.Font("Arial", 0, size));
-		newJLabel.setHorizontalAlignment(JLabel.CENTER);
-		newJLabel.setVerticalAlignment(JLabel.CENTER);
-		return newJLabel;
+	public static JLabel createJLabel(JLabel label, String text, int size) {
+		label = new JLabel(text);
+		label.setFont(new java.awt.Font("Arial", 0, size));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setVerticalAlignment(JLabel.CENTER);
+		return label;
 	}
 	
 	/**
 	 * Método genérico que genera Items en submenus y le añade un 'listener'.
 	 * 
-	 * @param newItem
-	 * @param menu
-	 * @param actionCommand
-	 * @param text
+	 * @param JMenuItem newItem
+	 * @param JMenu menu
+	 * @param String actionCommand
+	 * @param String text
 	 */
 	public static void createItems(JMenuItem newItem, JMenu menu, String actionCommand, String text, ActionListener action) {
 		newItem = menu.add(text);
@@ -70,8 +70,8 @@ public class WindowMaker {
 	/**
 	 * Método génerico que genera un JPasswordField.
 	 * 
-	 * @param passwordField
-	 * @return JPasswordField passwordField
+	 * @param JPasswordField passwordField
+	 * @return JPasswordField newPasswordField
 	 */
 	public static JPasswordField createJPasswordField(JPasswordField passwordField) {
 		passwordField = new JPasswordField();
@@ -81,8 +81,8 @@ public class WindowMaker {
 	/**
 	 * Método genérico que genera un JTextField.
 	 * 
-	 * @param textField
-	 * @return JTextField textField
+	 * @param JTextField textField
+	 * @return JTextField newTextField
 	 */
 	public static JTextField createJTextField(JTextField textField) {
 		textField = new JTextField();

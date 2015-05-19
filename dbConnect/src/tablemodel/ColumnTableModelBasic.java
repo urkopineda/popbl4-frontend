@@ -17,8 +17,8 @@ public class ColumnTableModelBasic extends DefaultTableColumnModel {
 	/**
 	 * Contructor del modelo de columna, carga el nombre de las columnas del objeto 'Data'.
 	 * 
-	 * @param newTrazador
-	 * @param data
+	 * @param TrazadorTableBasic newTrazador
+	 * @param Data data
 	 */
 	public ColumnTableModelBasic(TrazadorTableBasic newTrazador, Data data){
 		super();
@@ -29,9 +29,9 @@ public class ColumnTableModelBasic extends DefaultTableColumnModel {
 	/**
 	 * Método para añadir una columna.
 	 * 
-	 * @param texto
-	 * @param indice
-	 * @param ancho
+	 * @param String texto
+	 * @param int indice
+	 * @param int ancho
 	 * @return TableColumn columna
 	 */
 	private TableColumn crearColumna(String texto, int indice, int ancho) {

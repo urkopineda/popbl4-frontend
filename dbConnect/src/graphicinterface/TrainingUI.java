@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import main.Configuration;
 import task.ChronoTimer;
 import utils.ImagePanel;
 import utils.WindowMaker;
@@ -36,25 +37,22 @@ public class TrainingUI implements ActionListener {
 	JPanel heartRatePanel = null;
 	JPanel heartRateImage = null;
 	JPanel chronometerPanel = null;
-	JButton buttonConnect = null;
 	JButton buttonStart = null;
 	JButton buttonStop = null;
 	JButton buttonExit = null;
 	JButton buttonPause = null;
-	JLabel sensorMessage = null;
 	JLabel cronometerNumbers = null;
 	JLabel ppmNumbers = null;
-	boolean heartState = false;
-	boolean sensorState = false;
 	
 	/**
 	 * Constructor de la UI de Training, oculta el panel anterior y crea uno nuevo.
 	 * 
-	 * @param systemController
-	 * @param window
+	 * @param Controller systemController
+	 * @param MainUI lastUI
 	 */
 	public TrainingUI(Controller systemController, MainUI lastUI) {
 		this.window = lastUI.window;
+		this.systemController = systemController;
 		window.setTitle("Entrenamiento");
 		window.setSize(640, 640);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -65,7 +63,12 @@ public class TrainingUI implements ActionListener {
 		buttonPause.setEnabled(false);
 		buttonStop.setEnabled(false);
 	}
-		
+	
+	/**
+	 * Crea el panel principal con sus sub-paneles.
+	 * 
+	 * @return JPanel mainPanel
+	 */
 	private Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
@@ -74,12 +77,22 @@ public class TrainingUI implements ActionListener {
 		return mainPanel;
 	}
 	
+	/**
+	 * Crea el panel norte.
+	 * 
+	 * @return JPanel northPanel
+	 */
 	private Container createNorthPanel() {
 		northPanel = new JPanel();
 		
 		return northPanel;
 	}
 	
+	/**
+	 * Crea el panel central.
+	 * 
+	 * @return JPanel centerPanel
+	 */
 	private Container createCenterPanel() {
 		centerPanel = new JPanel(new GridLayout(2, 1, 0, 0));
 		centerPanel.add(createChronometerPanel());
@@ -87,24 +100,34 @@ public class TrainingUI implements ActionListener {
 		return centerPanel;
 	}
 	
+	/**
+	 * Crea el panel del cronómetro que puede que contenga el panel del reproductor.
+	 * 
+	 * @return JPanel chronometerPanel
+	 */
 	private Container createChronometerPanel() {
 		chronometerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
 		cronometerNumbers = WindowMaker.createJLabel(cronometerNumbers, "00:00:00", 75);
 		chronometerPanel.add(cronometerNumbers);
 		// PRUEBAS
 		JLabel mensajePrueba = null;
-		mensajePrueba = WindowMaker.createJLabel(mensajePrueba, "Aquí irá algo sobre conectar el sensor!", 25);
+		mensajePrueba = WindowMaker.createJLabel(mensajePrueba, "¡Aquí irá el reproductor MP3!", 25);
 		chronometerPanel.add(mensajePrueba);
 		// PRUEBAS
 		return chronometerPanel;
 	}
 	
+	/**
+	 * Crea el panel donde se visualiza el estado del sensor y las pulsaciones, y el número exacto de las mismas.
+	 * 
+	 * @return JPanel heartRatePanel
+	 */
 	private Container createHeartRatePanel() {
 		heartRatePanel = new JPanel(new BorderLayout());
-		if (sensorState) {
-			if (heartState)	heartRateImage = new ImagePanel(new ImageIcon("img/heart_on_up.png").getImage());
-			else if (!heartState) heartRateImage = new ImagePanel(new ImageIcon("img/heart_on_down.png").getImage());
-		} else if (!sensorState) {
+		if (Configuration.bluetoothIsConnected) {
+			if (Configuration.heartRateState)	heartRateImage = new ImagePanel(new ImageIcon("img/heart_on_up.png").getImage());
+			else if (!Configuration.heartRateState) heartRateImage = new ImagePanel(new ImageIcon("img/heart_on_down.png").getImage());
+		} else if (!Configuration.bluetoothIsConnected) {
 			heartRateImage = new ImagePanel(new ImageIcon("img/heart_off.png").getImage());
 		}
 		heartRatePanel.add(heartRateImage, BorderLayout.CENTER);
@@ -113,8 +136,13 @@ public class TrainingUI implements ActionListener {
 		return heartRatePanel;
 	}
 	
+	/**
+	 * Crea el panel sur con los botones necesarios.
+	 * 
+	 * @return JPanel southPanel
+	 */
 	private Container createSouthPanel() {
-		southPanel = new JPanel(new GridLayout(1, 3, 0, 0));
+		southPanel = new JPanel(new GridLayout(1, 4, 0, 0));
 		buttonStart = WindowMaker.createJButton(buttonStart, "Iniciar", "start", null, this, false);
 		buttonPause = WindowMaker.createJButton(buttonPause, "Pausar", "pause", null, this, false);
 		buttonStop = WindowMaker.createJButton(buttonStop, "Parar", "stop", null, this, false);
@@ -126,6 +154,9 @@ public class TrainingUI implements ActionListener {
 		return southPanel;
 	}
 	
+	/**
+	 * Refresca/Actualiza la UI de este panel.
+	 */
 	public void refreshUI() {
 		window.setContentPane(createMainPanel());
 		window.repaint();
