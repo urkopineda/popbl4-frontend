@@ -9,37 +9,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import main.Configuration;
+
 /**
- * Esta clase que crea una nueva conexión a la base de datos.
+ * Crea una nueva conexión a la base de datos, además de conseguir información de la misma.
  * 
  * @author Runnstein Team
  */
 public class DataBaseBasics {
-	Connection con = null;
-	String url = null;
-	int port = 0;
-	String username = null;
-	String password = null;
-	String dbName = null;
-	
+	Connection con = null;	
 	int tableNumber = -1;
-	
-	/**
-	 * Constructor de SQL - Guarda todos los parámetros necesarios para la conexión en un nuevo objeto.
-	 * 
-	 * @param url
-	 * @param port
-	 * @param username
-	 * @param password
-	 * @param dbName
-	 */
-	public DataBaseBasics(String url, int port, String username, String password, String dbName) {
-		this.url = url;
-		this.port = port;
-		this.username = username;
-		this.password = password;
-		this.dbName = dbName;
-	}
 	
 	/**
 	 * Devuelve el estado de la conexión a la base de datos.
@@ -65,11 +44,11 @@ public class DataBaseBasics {
 	 */
 	public void openDataBase() throws SQLException, ClassNotFoundException {
 		String generalURL = null;
-		System.out.print("Connecting to MySQL database at '"+url+":"+port+"'...");
+		System.out.print("Connecting to MySQL database at '"+Configuration.dbUrl+":"+Configuration.port+"'...");
 		Class.forName("com.mysql.jdbc.Driver");
-        if (dbName == null) generalURL = "jdbc:mysql://"+url+":"+port;
-        else generalURL = "jdbc:mysql://"+url+":"+port+"/"+dbName;
-        con = DriverManager.getConnection(generalURL, username, password);
+        if (Configuration.dbName == null) generalURL = "jdbc:mysql://"+Configuration.dbUrl+":"+Configuration.port;
+        else generalURL = "jdbc:mysql://"+Configuration.dbUrl+":"+Configuration.port+"/"+Configuration.dbName;
+        con = DriverManager.getConnection(generalURL, Configuration.user, Configuration.password);
         System.out.println(" Connected!");
 	}
 	
@@ -87,7 +66,7 @@ public class DataBaseBasics {
 	}
 	
 	/**
-	 * Selecciona una base de datos en la conexión.
+	 * Selecciona una base de datos a usar dentro del servidor.
 	 * 
 	 * @param dbName
 	 * @throws SQLException
@@ -185,7 +164,7 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve los nombres de las tablas en un array de String.
 	 * 
-	 * @return String []
+	 * @return String [] listaTablas
 	 */
 	public String [] tableNames() {
 		try {
@@ -210,7 +189,7 @@ public class DataBaseBasics {
 	/**
 	 * Devuelve la conexión existente.
 	 * 
-	 * @return
+	 * @return Connection con
 	 */
 	public Connection getDataBaseConnection() {
 		return con;

@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -25,6 +26,11 @@ import administration.Controller;
 import database.DataBaseBasics;
 import database.StatementBasics;
 
+/**
+ * UI de log in - Comprueba si el usuario y contraseña metidos concuerdan.
+ * 
+ * @author Runnstein Team
+ */
 public class LogInUI implements ActionListener{
 	Controller systemController = null;
 	DataBaseBasics conDataBase = null;
@@ -47,7 +53,11 @@ public class LogInUI implements ActionListener{
 	protected String user = null;
 	protected String password = null;
 	
-	
+	/**
+	 * Contructor de 'LogInUI' que crea la ventana de log in.
+	 * 
+	 * @param systemController
+	 */
 	public LogInUI(Controller systemController) {
 		this.systemController = systemController;
 		window = new JFrame();
@@ -60,6 +70,11 @@ public class LogInUI implements ActionListener{
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Crea el panel principal.
+	 * 
+	 * @return JPanel mainPanel
+	 */
 	private Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
@@ -68,6 +83,11 @@ public class LogInUI implements ActionListener{
 		return mainPanel;
 	}
 	
+	/**
+	 * Crea el panel norte.
+	 * 
+	 * @return JPanel northPanel
+	 */
 	private Container createNorthPanel() {
 		northPanel = new JPanel();
 		titleText = WindowMaker.createJLabel(titleText, "Runnstein", 25);
@@ -75,6 +95,11 @@ public class LogInUI implements ActionListener{
 		return northPanel;
 	}
 	
+	/**
+	 * Crea el panel central.
+	 * 
+	 * @return JPanel centerPanel
+	 */
 	private Container createCenterPanel() {
 		centerPanel = new JPanel(new BorderLayout());
 		centerPanel.setLayout(new GridBagLayout());
@@ -83,6 +108,11 @@ public class LogInUI implements ActionListener{
 		return centerPanel;
 	}
 	
+	/**
+	 * Crea el panel sur.
+	 * 
+	 * @return JPanel southPanel
+	 */
 	private Container createSouthPanel() {
 		southPanel = new JPanel();
 		buttonCheck = WindowMaker.createJButton(buttonCheck, "Comprobar", "check", null, this, false);
@@ -92,6 +122,11 @@ public class LogInUI implements ActionListener{
 		return southPanel;
 	}
 	
+	/**
+	 * Crea el panel de los JTextField/JPasswordField y JLabel de usuario y contraseña. Se integra en el panel central.
+	 * 
+	 * @return JPanel userPassPanel
+	 */
 	public Container crearPanelUserPass(){
 		userPassPanel = new JPanel(new GridLayout(2, 2, 10, 0));
 		userField = WindowMaker.createJTextField(userField);
@@ -105,26 +140,27 @@ public class LogInUI implements ActionListener{
 		return userPassPanel;
 	}
 	
+	/**
+	 * Comprueba que el usuario y la contraseña existen en la base de datos.
+	 * 
+	 * @return Boolean resultado
+	 */
 	private boolean checkUser() {
 		try {
-			conDataBase = new DataBaseBasics(Configuration.dbUrl, Configuration.port, Configuration.user, Configuration.password, Configuration.tableName);
+			conDataBase = new DataBaseBasics();
 			conDataBase.openDataBase();
 			stmtController = new StatementBasics(conDataBase.getDataBaseConnection());
-			System.out.println("SELECT NombreUsuario, Password FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
-			ResultSet rsUser = stmtController.exeQuery("SELECT NombreUsuario, Password FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
-			if (conDataBase.getNumberRows(rsUser) > 0) {
-				char[] input = passField.getPassword();
-				String pass = new String(input);
-				ResultSet rsPass = stmtController.exeQuery("SELECT NombreUsuario, Password FROM USUARIO WHERE Password = '"+pass+"'");
-				if (conDataBase.getNumberRows(rsPass) > 0) {
-					ResultSet rsNameSurname = stmtController.exeQuery("SELECT Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
-					while (rsNameSurname.next()) {
-						Configuration.name = rsNameSurname.getString(1);
-						Configuration.surname1 = rsNameSurname.getString(2);
-						Configuration.surname2 = rsNameSurname.getString(3);
-					}
-					return true;
-				} else return false;
+			char[] input = passField.getPassword();
+			String pass = new String(input);
+			ResultSet rs = stmtController.exeQuery("SELECT NombreUsuario, Password FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"' AND Password = '"+pass+"'");
+			if (conDataBase.getNumberRows(rs) > 0) {
+				ResultSet rsNameSurname = stmtController.exeQuery("SELECT Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
+				while (rsNameSurname.next()) {
+					Configuration.name = rsNameSurname.getString(1);
+					Configuration.surname1 = rsNameSurname.getString(2);
+					Configuration.surname2 = rsNameSurname.getString(3);
+				}
+				return true;
 			} else return false;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -141,8 +177,8 @@ public class LogInUI implements ActionListener{
 				window.dispose();
 				@SuppressWarnings("unused")
 				MainUI mainUI = new MainUI(systemController);
-			} else {
-				System.out.println("Access denied!");
+			} else if (!checkUser()){
+				JOptionPane.showMessageDialog(window, "Nombre de usuario y/o contraseña incorrectos.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (e.getActionCommand().equals("cancel")) {
 			window.dispose();

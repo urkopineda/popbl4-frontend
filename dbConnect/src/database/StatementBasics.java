@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Esta clase se encarga de construir los Strings de Query, ejecutar y gestionar los ResultSet generados por Statements.
+ * Se encarga de construir los Strings de Query, ejecutar y gestionar los ResultSet generados por Statements.
  * 
  * @author Runnstein Team
  */
@@ -34,7 +34,6 @@ public class StatementBasics {
 		System.out.print("Executing Query '"+query+"'...");
 		ResultSet rs = stmt.executeQuery(query);
 		System.out.println(" Executed!");
-		//stmt.close();
 		return rs;
 	}
 	

@@ -18,7 +18,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import main.Configuration;
 import model.Data;
 import tablemodel.ColumnTableModelBasic;
 import tablemodel.TableModelBasic;
@@ -74,7 +73,7 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 	}
 	
 	private Data pruebaGetData() {
-		DataBaseBasics dbConnect = new DataBaseBasics(Configuration.dbUrl, Configuration.port, Configuration.user, Configuration.password, Configuration.tableName);
+		DataBaseBasics dbConnect = new DataBaseBasics();
 		try {
 			dbConnect.openDataBase();
 			StatementBasics stmt = new StatementBasics(dbConnect.getDataBaseConnection());

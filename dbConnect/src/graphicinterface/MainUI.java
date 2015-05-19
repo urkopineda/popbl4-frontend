@@ -30,8 +30,9 @@ public class MainUI implements ActionListener {
 	Controller systemController = null;
 	JFrame window = null;
 	JMenuBar mainMenu = null;
-	JMenu mainFile = null;
 	JMenu mainEdit = null;
+	JMenu mainBluetooth = null;
+	JMenu mainSync = null;
 	JMenu mainExit = null;
 	JMenuItem config = null;
 	JMenuItem exit = null;
@@ -68,17 +69,25 @@ public class MainUI implements ActionListener {
 	 */
 	private JMenuBar createMenuBar(){
 		mainMenu = new JMenuBar();
-		mainMenu.add(createFileBar());
 		mainMenu.add(createEditBar());
+		mainMenu.add(Box.createHorizontalGlue());
+		mainMenu.add(createBluetoothBar());
+		mainMenu.add(createSyncBar());
 		mainMenu.add(Box.createHorizontalGlue());
 		mainMenu.add(createExitBar());
 		return mainMenu;
 	}
 	
-	private JMenu createFileBar(){
-		mainFile = new JMenu("Archivo");
-		
-		return mainFile;
+	private JMenu createBluetoothBar() {
+		mainBluetooth = new JMenu("Bluetooth");
+		mainBluetooth.setEnabled(false);
+		return mainBluetooth;
+	}
+	
+	private JMenu createSyncBar() {
+		mainSync = new JMenu("Sincronización");
+		mainSync.setEnabled(false);
+		return mainSync;
 	}
 	
 	private JMenu createEditBar(){
