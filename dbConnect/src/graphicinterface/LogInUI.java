@@ -9,7 +9,6 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -19,12 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import main.Configuration;
 import utils.WindowMaker;
 import administration.Controller;
 import database.DataBaseBasics;
 import database.StatementBasics;
 import exception.LogInException;
+import exception.RunnsteinDataBaseException;
 
 /**
  * UI de log in - Comprueba si el usuario y contraseña metidos concuerdan.
@@ -139,48 +138,26 @@ public class LogInUI implements ActionListener{
 		userPassPanel.add(passField);
 		return userPassPanel;
 	}
-	
-	/**
-	 * Comprueba que el usuario y la contraseña existen en la base de datos.
-	 */
-	private void checkUser() throws LogInException {
-		try {
-			conDataBase = new DataBaseBasics();
-			conDataBase.openDataBase();
-			stmtController = new StatementBasics(conDataBase.getDataBaseConnection());
-			char[] input = passField.getPassword();
-			String pass = new String(input);
-			ResultSet rs = stmtController.exeQuery("SELECT NombreUsuario, Password FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"' AND Password = '"+pass+"'");
-			if (conDataBase.getNumberRows(rs) > 0) {
-				ResultSet rsNameSurname = stmtController.exeQuery("SELECT Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
-				while (rsNameSurname.next()) {
-					Configuration.name = rsNameSurname.getString(1);
-					Configuration.surname1 = rsNameSurname.getString(2);
-					Configuration.surname2 = rsNameSurname.getString(3);
-				}
-				conDataBase.closeDataBase();
-			} else {
-				conDataBase.closeDataBase();
-				throw new LogInException(window);
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
-		} finally {
-			try {
-				conDataBase.closeDataBase();
-			} catch (SQLException e) {
-				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
-			}
-		}
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("check")) {
 			try {
-				checkUser();
+				DataBaseBasics conDataBase = new DataBaseBasics();
+				try {
+					conDataBase.openDataBase();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (RunnsteinDataBaseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				StatementBasics stmtController = new StatementBasics(conDataBase);
+				stmtController.checkUser(userField, passField, window);
 				window.dispose();
 				@SuppressWarnings("unused")
 				MainUI mainUI = new MainUI(systemController);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.Data;
+import model.TableData;
 
 /**
  * Un modelo de JTable de tipo AbstractTableModel.
@@ -14,7 +14,7 @@ import model.Data;
 @SuppressWarnings("serial")
 public class TableModelBasic extends AbstractTableModel {		
 	ColumnTableModelBasic columns;
-	Data objData = null;
+	ArrayList<TableData> allData;
 	
 	/**
 	 * Crea el modelo de tabla básico.
@@ -22,40 +22,10 @@ public class TableModelBasic extends AbstractTableModel {
 	 * @param ColumnTableModelBasic columns
 	 * @param Data objData
 	 */
-	public TableModelBasic(ColumnTableModelBasic columns, Data objData){
+	public TableModelBasic(ColumnTableModelBasic columns, ArrayList<TableData> allData){
 		super();
 		this.columns = columns;
-		this.objData = objData;
-	}
-	
-	/**
-	 * Insertar un dato en la lista de datos del objeto 'Data'.
-	 * 
-	 * @param ArrayList<String> newData
-	 */
-	public void insertData(ArrayList<String> newData) {
-		objData.addData(newData);
-		this.fireTableDataChanged();
-	}
-	
-	/**
-	 * Borra un dato en la lista de datos del objeto 'Data'.
-	 * 
-	 * @param int index
-	 */
-	public void deleteData(int index) {
-		objData.deleteData(index);
-		this.fireTableDataChanged();
-	}
-	
-	/**
-	 * Consigue un dato especifico del ArrayList del objeto Data y devuelve su tipo (String)
-	 * 
-	 * @param int index
-	 * @return String data
-	 */
-	public String getData(int index) {
-		return objData.getSpecificData(index);
+		this.allData = allData;
 	}
 	
 	@Override
@@ -65,15 +35,21 @@ public class TableModelBasic extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return objData.getRowNumber();
+		return allData.size();
 	}
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		int index = 0;
-		if (row == 0) index = column;
-		else index = (row * getColumnCount()) + column;
-		return objData.getData().get(index);
+		TableData tempData = allData.get(row);
+		switch (column) {
+			case 1: return "Entrenamiento Nº"+tempData.getTrainingNumber();
+			case 2: return tempData.getDateTime();
+			case 3: return tempData.getDuration();
+			case 4: return tempData.getRateMean();
+			case 5: return tempData.getRateMax();
+			case 6: return tempData.getStability();
+		}		
+		return null;
 	}
 	
 	@Override

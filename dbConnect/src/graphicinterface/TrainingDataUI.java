@@ -7,8 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,7 +20,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import model.Data;
+import model.TableData;
 import tablemodel.ColumnTableModelBasic;
 import tablemodel.TableModelBasic;
 import tablemodel.TrazadorTableBasic;
@@ -28,6 +28,7 @@ import utils.WindowMaker;
 import administration.Controller;
 import database.DataBaseBasics;
 import database.StatementBasics;
+import exception.RunnsteinDataBaseException;
 
 /**
  * UI de los datos de cada entrenamiento.
@@ -50,6 +51,8 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 	JButton buttonUpdate = null;
 	JButton buttonExit = null;
 	
+	ArrayList<TableData> tableData = null;
+	
 	/**
 	 * Contructor que utiliza la ventana anterior (JFrame) para construir la nueva UI.
 	 * 
@@ -60,7 +63,7 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 		this.window = lastUI.window;
 		this.systemController = systemController;
 		window.setTitle("Mis Entrenamientos");
-		window.setSize(640, 640);
+		window.setSize(1000, 640);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		window.setLocation(dim.width/2 - window.getSize().width/2, dim.height/2 - window.getSize().height/2);
 		window.setContentPane(createMainPanel());
@@ -73,46 +76,33 @@ public class TrainingDataUI implements ActionListener, ListSelectionListener {
 	 * Crea la tabla utilizando métodos estadísticos, modelos de tabla y columna y un trazador. 
 	 */
 	private void createTable() {
-		/*
-		 * Aquí debemos hacer lo siguiente:
-		 * 		1-. Generar el SELECT que queramos. (VISTAS!)
-		 * 		2-. Ejecutarlo y obtener su ResultSet.
-		 * 		3-. Crear un nuevo objeto 'Data' con el ResultSet.
-		 * 		4-. Utilizar las formulas estadisticas.
-		 */
-		Data data = pruebaGetData();
-		trazador = new TrazadorTableBasic();
-		columnModel = new ColumnTableModelBasic(trazador, data);
-		tableModel = new TableModelBasic(columnModel, data);
-		mainTable = new JTable(tableModel, columnModel);
-		mainTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		mainTable.getSelectionModel().addListSelectionListener(this);
-		mainTable.setFillsViewportHeight(true);
-		scrollMainPanel.setViewportView(mainTable);
-	}
-	
-	/**
-	 * PRUEBA! Para borrar en un futuro.
-	 * 
-	 * @return
-	 */
-	private Data pruebaGetData() {
-		DataBaseBasics dbConnect = new DataBaseBasics();
+		DataBaseBasics newConnect = new DataBaseBasics();
 		try {
-			dbConnect.openDataBase();
-			StatementBasics stmt = new StatementBasics(dbConnect.getDataBaseConnection());
-			ResultSet rsData = stmt.exeQuery("SELECT * FROM MUESTRA");
-			ResultSet rsColumns = stmt.exeQuery("SELECT * FROM MUESTRA");
-			Data data = new Data(rsData, dbConnect.getNumberRows(rsColumns), dbConnect.getNumberColumns("MUESTRA"));
-			return data;
+			newConnect.openDataBase();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RunnsteinDataBaseException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		StatementBasics stmt = new StatementBasics(newConnect);
+		ArrayList<TableData> allData = stmt.generateTableData();
+		if (allData == null) System.out.println("NULLLLLLLLLLLLLLLLl");
+			trazador = new TrazadorTableBasic();
+			columnModel = new ColumnTableModelBasic(trazador);
+			tableModel = new TableModelBasic(columnModel, allData);
+			mainTable = new JTable(tableModel, columnModel);
+			mainTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			mainTable.getSelectionModel().addListSelectionListener(this);
+			mainTable.setFillsViewportHeight(true);
+			scrollMainPanel.setViewportView(mainTable);
+		
+		try {
+			newConnect.closeDataBase();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

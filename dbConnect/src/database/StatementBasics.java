@@ -4,7 +4,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import main.Configuration;
+import model.TableData;
+import statistics.StatisticFormulas;
+import exception.LogInException;
 import exception.RunnsteinDataBaseException;
 
 /**
@@ -13,15 +22,17 @@ import exception.RunnsteinDataBaseException;
  * @author Runnstein Team
  */
 public class StatementBasics {
-	Connection con;
+	DataBaseBasics db = null;
+	Connection con = null;
 	
 	/**
 	 * Constructor de StatementConstructor, guarda la conexión generada por la clase SQL.
 	 * 
 	 * @param Connection con
 	 */
-	public StatementBasics(Connection con) {
-		this.con = con;
+	public StatementBasics(DataBaseBasics db) {
+		this.db = db;
+		this.con = db.getDataBaseConnection();
 	}
 	
 	/**
@@ -214,5 +225,76 @@ public class StatementBasics {
 			}
 			return query;
 		} else return null;
+	}
+	
+	/**
+	 * Comprueba que el usuario y la contraseña existen en la base de datos.
+	 */
+	public void checkUser(JTextField userField, JPasswordField passField, JFrame window) throws LogInException {
+		try {
+			char[] input = passField.getPassword();
+			String pass = new String(input);
+			ResultSet rs = exeQuery("SELECT NombreUsuario, Password FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"' AND Password = '"+pass+"'");
+			if (db.getNumberRows(rs) > 0) {
+				ResultSet rsNameSurname = exeQuery("SELECT UsuarioID, Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE NombreUsuario = '"+userField.getText()+"'");
+				while (rsNameSurname.next()) {
+					Configuration.userID = rsNameSurname.getInt(1);
+					Configuration.name = rsNameSurname.getString(2);
+					Configuration.surname1 = rsNameSurname.getString(3);
+					Configuration.surname2 = rsNameSurname.getString(4);
+				}
+				db.closeDataBase();
+			} else {
+				db.closeDataBase();
+				throw new LogInException(window);
+			}
+		} catch (SQLException e) {
+			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
+		} finally {
+			try {
+				db.closeDataBase();
+			} catch (SQLException e) {
+				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
+			}
+		}
+	}
+	
+	/**
+	 * Genera los datos que se utilizan en la JTable de la clase 'TrainingDataUI'.
+	 */
+	public ArrayList<TableData> generateTableData() {
+		ArrayList<TableData> allData = new ArrayList<>();
+		try {
+			ResultSet rsEntrenamiento = exeQuery("SELECT * FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
+			if (db.getNumberRows(rsEntrenamiento) > 0) {
+				int i = 0;
+				while (rsEntrenamiento.next()) {
+					int trainingNumber = i + 1;
+					String dateTime = rsEntrenamiento.getString(3);
+					String duration = rsEntrenamiento.getString(4);
+					ResultSet rsIntervalo = exeQuery("SELECT * FROM INTERVALO WHERE EntrenamientoID = "+rsEntrenamiento.getInt(1));
+					ArrayList<Integer> ppm = new ArrayList<>();
+					while (rsIntervalo.next()) {
+						ResultSet rsMuestra = exeQuery("SELECT * FROM MUESTRA WHERE IntervaloID = "+rsIntervalo.getInt(1));
+						while (rsMuestra.next()) {
+							ppm.add(rsMuestra.getInt(3));
+						}
+					}
+					StatisticFormulas formulas = new StatisticFormulas(ppm);
+					double rateMean = formulas.getMean();
+					double rateMax = formulas.getMax();
+					int stability = formulas.getStability();
+					allData.add(new TableData(trainingNumber, dateTime, duration, rateMean, rateMax, stability));
+				}
+				return allData;
+			} else return null;
+		} catch (RunnsteinDataBaseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

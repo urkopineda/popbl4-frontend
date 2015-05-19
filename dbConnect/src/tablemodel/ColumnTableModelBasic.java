@@ -3,8 +3,6 @@ package tablemodel;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
-import model.Data;
-
 /**
  * Modelo de columnas de la JTable utilizada para cargar datos.
  * 
@@ -15,15 +13,19 @@ public class ColumnTableModelBasic extends DefaultTableColumnModel {
 	TrazadorTableBasic newTrazador;
 	
 	/**
-	 * Contructor del modelo de columna, carga el nombre de las columnas del objeto 'Data'.
+	 * Contructor del modelo de columna.
 	 * 
 	 * @param TrazadorTableBasic newTrazador
-	 * @param Data data
 	 */
-	public ColumnTableModelBasic(TrazadorTableBasic newTrazador, Data data){
+	public ColumnTableModelBasic(TrazadorTableBasic newTrazador){
 		super();
 		this.newTrazador = newTrazador;
-		for (int i = 0; i != data.getColumnNumber(); i++) this.addColumn(crearColumna(data.getColumnNames().get(i), i, 100));
+		this.addColumn(crearColumna("Entrenamiento", 1, 30));
+		this.addColumn(crearColumna("Inicio", 2, 14));
+		this.addColumn(crearColumna("Duración", 3, 14));
+		this.addColumn(crearColumna("Media Pulsaciones", 4, 14));
+		this.addColumn(crearColumna("Máximo Pulsaciones", 5, 14));
+		this.addColumn(crearColumna("Nivel de Estabilidad", 6, 14));
 	}
 
 	/**
