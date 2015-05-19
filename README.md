@@ -1,2 +1,2 @@
-# dbConnect
-Clases de conexión y manipulación de bases de datos MySQL.
+# RunnsteinFrontEnd
+FrontEnd de la aplicación de Runnstein.
