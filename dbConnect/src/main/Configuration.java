@@ -16,8 +16,8 @@ public class Configuration {
 	public static String name = null;
 	public static String surname1 = null;
 	public static String surname2 = null;
-	public static boolean bluetoothIsConnected = false;
+	public static boolean bluetoothIsConnected = true;
 	public static boolean heartRateState = false;
-	public static boolean dbSync = false;
+	public static boolean dbSync = true;
 	public static boolean isRunning = false;
 }

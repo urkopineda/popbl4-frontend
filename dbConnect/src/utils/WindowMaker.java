@@ -1,5 +1,6 @@
 package utils;
 
+import java.awt.Graphics;
 import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
@@ -87,5 +88,19 @@ public class WindowMaker {
 	public static JTextField createJTextField(JTextField textField) {
 		textField = new JTextField();
 		return textField;
+	}
+	
+	/**
+	 * Método para crear circulos.
+	 * 
+	 * @param Graphics g
+	 * @param int x
+	 * @param int y
+	 * @param int r
+	 */
+	public static void drawCenteredCircle(Graphics g, int x, int y, int r) {
+		x = x - (r / 2);
+		y = y - (r / 2);
+		g.fillOval(x, y, r, r);
 	}
 }
