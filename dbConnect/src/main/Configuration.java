@@ -18,4 +18,6 @@ public class Configuration {
 	public static String surname2 = null;
 	public static boolean bluetoothIsConnected = false;
 	public static boolean heartRateState = false;
+	public static boolean dbSync = false;
+	public static boolean isRunning = false;
 }
