@@ -2,195 +2,137 @@ package graphicinterface;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import main.Configuration;
 import task.ChronoTimer;
-import utils.ImagePanel;
+import task.HeartAnimator;
 import utils.WindowMaker;
-import administration.Controller;
 
-/**
- * Clase que se encarga de la UI de la pantalla de Training.
- * 
- * @author Runnstein Team
- */
-public class TrainingUI implements ActionListener {
-	Controller systemController = null;
+public class TrainingUI {
 	ChronoTimer chronometerThread = null;
-	MainUI lastUI = null;
-	JFrame window = null;
+	HeartAnimator heartAnimator = null;
 	JPanel mainPanel = null;
-	JPanel northPanel = null;
-	JPanel centerPanel = null;
-	JPanel southPanel = null;
-	JPanel heartRatePanel = null;
-	JPanel heartRateImage = null;
+	JPanel rightPanel = null;
+	JPanel leftPanel = null;
+	JPanel chronoPlayerPanel = null;
 	JPanel chronometerPanel = null;
+	JPanel playerPanel = null;
+	JPanel heartRatePanel = null;
+	JPanel chronometerSouthPanel = null;
 	JButton buttonStart = null;
 	JButton buttonStop = null;
-	JButton buttonExit = null;
 	JButton buttonPause = null;
-	JLabel cronometerNumbers = null;
+	JLabel chronometerNumbers = null;
 	JLabel ppmNumbers = null;
+	JLabel ppmImage = null;
+	ActionListener act = null;
 	
-	/**
-	 * Constructor de la UI de Training, oculta el panel anterior y crea uno nuevo.
-	 * 
-	 * @param Controller systemController
-	 * @param MainUI lastUI
-	 */
-	public TrainingUI(Controller systemController, MainUI lastUI) {
-		this.window = lastUI.window;
-		this.systemController = systemController;
-		window.setTitle("Entrenamiento");
-		window.setSize(640, 640);
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		window.setLocation(dim.width/2 - window.getSize().width/2, dim.height/2 - window.getSize().height/2);
-		window.setContentPane(createMainPanel());
-		window.repaint();
-		window.revalidate();
-		buttonPause.setEnabled(false);
-		buttonStop.setEnabled(false);
+	public TrainingUI(ActionListener act) {
+		this.act = act;
 	}
 	
-	/**
-	 * Crea el panel principal con sus sub-paneles.
-	 * 
-	 * @return JPanel mainPanel
-	 */
-	private Container createMainPanel() {
-		mainPanel = new JPanel(new BorderLayout());
-		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
-		mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
-		mainPanel.add(createSouthPanel(), BorderLayout.SOUTH);
+	public Container createMainPanel() {
+		mainPanel = new JPanel(new GridLayout(1, 2, 0, 0));
+		mainPanel.add(createLeftPanel());
+		mainPanel.add(createRightPanel());
+		buttonPause.setEnabled(false);
+		buttonStop.setEnabled(false);
 		return mainPanel;
 	}
 	
-	/**
-	 * Crea el panel norte.
-	 * 
-	 * @return JPanel northPanel
-	 */
-	private Container createNorthPanel() {
-		northPanel = new JPanel();
+	private Container createRightPanel() {
+		rightPanel = new JPanel();
+		rightPanel.setBorder(BorderFactory.createTitledBorder("Gráfico del Entrenamiento"));
 		
-		return northPanel;
+		return rightPanel;
 	}
 	
-	/**
-	 * Crea el panel central.
-	 * 
-	 * @return JPanel centerPanel
-	 */
-	private Container createCenterPanel() {
-		centerPanel = new JPanel(new GridLayout(2, 1, 0, 0));
-		centerPanel.add(createChronometerPanel());
-		centerPanel.add(createHeartRatePanel());
-		return centerPanel;
+	private Container createLeftPanel() {
+		leftPanel = new JPanel(new GridLayout(2, 1, 0, 0));
+		leftPanel.setBorder(BorderFactory.createTitledBorder("Control del Entrenamiento"));
+		leftPanel.add(createChronoPlayerPanel());
+		leftPanel.add(createHeartRatePanel());
+		return leftPanel;
 	}
 	
-	/**
-	 * Crea el panel del cronómetro que puede que contenga el panel del reproductor.
-	 * 
-	 * @return JPanel chronometerPanel
-	 */
+	private Container createChronoPlayerPanel() {
+		chronoPlayerPanel = new JPanel(new GridLayout(2, 1, 0, 0));
+		chronoPlayerPanel.add(createChronometerPanel());
+		chronoPlayerPanel.add(createPlayerPanel());
+		return chronoPlayerPanel;
+	}
+	
 	private Container createChronometerPanel() {
-		chronometerPanel = new JPanel(new GridLayout(2, 1, 5, 5));
-		cronometerNumbers = WindowMaker.createJLabel(cronometerNumbers, "00:00:00", 75);
-		chronometerPanel.add(cronometerNumbers);
-		// PRUEBAS
-		JLabel mensajePrueba = null;
-		mensajePrueba = WindowMaker.createJLabel(mensajePrueba, "¡Aquí irá el reproductor MP3!", 25);
-		chronometerPanel.add(mensajePrueba);
-		// PRUEBAS
+		chronometerPanel = new JPanel(new BorderLayout());
+		chronometerPanel.setBorder(BorderFactory.createTitledBorder("Cronómetro"));
+		chronometerNumbers = WindowMaker.createJLabel(chronometerNumbers, "00:00:00", 75);
+		chronometerPanel.add(chronometerNumbers, BorderLayout.CENTER);
+		chronometerSouthPanel = new JPanel(new GridLayout(1, 3, 5, 5));
+		buttonStart = WindowMaker.createJButton(buttonStart, "Iniciar", "start", null, act, false);
+		buttonPause = WindowMaker.createJButton(buttonPause, "Pausar", "pause", null, act, false);
+		buttonStop = WindowMaker.createJButton(buttonStop, "Parar", "stop", null, act, false);
+		chronometerSouthPanel.add(buttonStart);
+		chronometerSouthPanel.add(buttonPause);
+		chronometerSouthPanel.add(buttonStop);
+		chronometerPanel.add(chronometerSouthPanel, BorderLayout.SOUTH);
 		return chronometerPanel;
 	}
 	
-	/**
-	 * Crea el panel donde se visualiza el estado del sensor y las pulsaciones, y el número exacto de las mismas.
-	 * 
-	 * @return JPanel heartRatePanel
-	 */
+	private Container createPlayerPanel() {
+		playerPanel = new JPanel(new BorderLayout());
+		playerPanel.setBorder(BorderFactory.createTitledBorder("Reproductor de Música"));
+		// AQUÍ VA LO DE UNAI!
+		return playerPanel;
+	}
+	
 	private Container createHeartRatePanel() {
 		heartRatePanel = new JPanel(new BorderLayout());
-		if (Configuration.bluetoothIsConnected) {
-			if (Configuration.heartRateState)	heartRateImage = new ImagePanel(new ImageIcon("img/heart_on_up.png").getImage());
-			else if (!Configuration.heartRateState) heartRateImage = new ImagePanel(new ImageIcon("img/heart_on_down.png").getImage());
-		} else if (!Configuration.bluetoothIsConnected) {
-			heartRateImage = new ImagePanel(new ImageIcon("img/heart_off.png").getImage());
-		}
-		heartRatePanel.add(heartRateImage, BorderLayout.CENTER);
-		ppmNumbers = WindowMaker.createJLabel(ppmNumbers, "00 ppm", 50);
+		heartRatePanel.setBorder(BorderFactory.createTitledBorder("Pulsómetro"));
+		ppmNumbers = WindowMaker.createJLabel(ppmNumbers, Configuration.ppm+" ppm", 50);
 		heartRatePanel.add(ppmNumbers, BorderLayout.NORTH);
+		ppmImage = new JLabel(new ImageIcon("img/heart_on_down.png"));
+		heartRatePanel.add(ppmImage, BorderLayout.CENTER);
 		return heartRatePanel;
 	}
 	
-	/**
-	 * Crea el panel sur con los botones necesarios.
-	 * 
-	 * @return JPanel southPanel
-	 */
-	private Container createSouthPanel() {
-		southPanel = new JPanel(new GridLayout(1, 4, 0, 0));
-		buttonStart = WindowMaker.createJButton(buttonStart, "Iniciar", "start", null, this, false);
-		buttonPause = WindowMaker.createJButton(buttonPause, "Pausar", "pause", null, this, false);
-		buttonStop = WindowMaker.createJButton(buttonStop, "Parar", "stop", null, this, false);
-		buttonExit = WindowMaker.createJButton(buttonExit, "Salir", "exit", null, this, false);
-		southPanel.add(buttonStart);
-		southPanel.add(buttonPause);
-		southPanel.add(buttonStop);
-		southPanel.add(buttonExit);
-		return southPanel;
+	
+	public void startTimer() {
+		if (chronometerThread != null) {
+			if (!chronometerThread.isAlive()) {
+				chronometerThread.start();
+				heartAnimator.start();
+			}
+		} else {
+			chronometerThread = new ChronoTimer(chronometerNumbers);
+			heartAnimator = new HeartAnimator(ppmImage);
+			chronometerThread.start();
+			heartAnimator.start();
+		}
+		chronometerThread.startTimer();
+		buttonStop.setEnabled(true);
+		buttonPause.setEnabled(true);
+		buttonStart.setEnabled(false);
 	}
 	
-	/**
-	 * Refresca/Actualiza la UI de este panel.
-	 */
-	public void refreshUI() {
-		window.setContentPane(createMainPanel());
-		window.repaint();
-		window.revalidate();
+	public void pauseTimer() {
+		chronometerThread.pauseTimer();
+		buttonPause.setEnabled(false);
+		buttonStart.setEnabled(true);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("start")) {
-			if (chronometerThread != null) {
-				if (!chronometerThread.isAlive()) {
-					chronometerThread.start();
-				}
-			} else {
-				chronometerThread = new ChronoTimer(cronometerNumbers);
-				chronometerThread.start();
-			}
-			chronometerThread.startTimer();
-			buttonStop.setEnabled(true);
-			buttonPause.setEnabled(true);
-			buttonStart.setEnabled(false);
-		} else if (e.getActionCommand().equals("pause")) {
-			chronometerThread.pauseTimer();
-			buttonPause.setEnabled(false);
-			buttonStart.setEnabled(true);
-		} else if (e.getActionCommand().equals("stop")) {
-			chronometerThread.stopTimer();
-			chronometerThread = null;
-			buttonPause.setEnabled(false);
-			buttonStop.setEnabled(false);
-			buttonStart.setEnabled(true);
-		} else if (e.getActionCommand().equals("exit")) {
-			window.dispose();
-			lastUI = new MainUI(systemController);
-		}
+	
+	public void stopTimer() {
+		chronometerThread.stopTimer();
+		chronometerThread = null;
+		buttonPause.setEnabled(false);
+		buttonStop.setEnabled(false);
+		buttonStart.setEnabled(true);
 	}
 }

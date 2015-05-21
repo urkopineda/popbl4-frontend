@@ -97,9 +97,6 @@ public class ProfileUI implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("exit")) {
-			window.dispose();
-			lastUI = new MainUI(systemController);
-		}
+		
 	}
 }

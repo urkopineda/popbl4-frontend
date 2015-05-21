@@ -18,7 +18,7 @@ import main.Configuration;
 import task.ChronoTimer;
 import utils.WindowMaker;
 
-public class NewUI implements ActionListener {
+public class MobileUI implements ActionListener {
 	JFrame window = null;
 	JPanel mainPanel = null;
 	ChronoTimer chronometerThread = null;
@@ -46,7 +46,7 @@ public class NewUI implements ActionListener {
 	JButton pauseBtn = null;
 	JButton stopBtn = null;
 	
-	public NewUI() {
+	public MobileUI() {
 		window = new JFrame("Runnstein");
 		window.setSize(360, 640);
 		window.setLocation(50, 50);
@@ -88,11 +88,11 @@ public class NewUI implements ActionListener {
 		// Set color.
 		centerNorthPanel.setBackground(new Color(16777215));
 		// Add icons.
-		if (Configuration.bluetoothIsConnected) heartSensorIcon = new JLabel(new ImageIcon("img/icons/sensorConnected.png"));
-		else if (!Configuration.bluetoothIsConnected) heartSensorIcon = new JLabel(new ImageIcon("img/icons/sensorDisconnected.png"));
+		if (Configuration.sensorState) heartSensorIcon = new JLabel(new ImageIcon("img/icons/sensorConnected.png"));
+		else if (!Configuration.sensorState) heartSensorIcon = new JLabel(new ImageIcon("img/icons/sensorDisconnected.png"));
 		centerNorthPanel.add(heartSensorIcon);
-		if (Configuration.dbSync) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverConnected.png"));
-		else if (!Configuration.dbSync) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverDisconnected.png"));
+		if (Configuration.syncState) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverConnected.png"));
+		else if (!Configuration.syncState) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverDisconnected.png"));
 		centerNorthPanel.add(serverConnectedIcon);
 		// Add subcontainer to container.
 		centerPanel.add(centerNorthPanel, BorderLayout.NORTH);
@@ -129,10 +129,9 @@ public class NewUI implements ActionListener {
 		ppmNumbers = WindowMaker.createJLabel(ppmNumbers, "00 ppm", 30);
 		southPanel.add(ppmNumbers, BorderLayout.NORTH);
 		// Add heart image.
-		if (Configuration.bluetoothIsConnected) {
-			if (Configuration.heartRateState) heartImage = new JLabel(new ImageIcon("img/heart_on_up.png"));
-			else if (!Configuration.heartRateState) heartImage = new JLabel(new ImageIcon("img/heart_on_down.png"));
-		} else if (!Configuration.bluetoothIsConnected) {
+		if (Configuration.sensorState) {
+			heartImage = new JLabel(new ImageIcon("img/heart_on_down.png"));
+		} else if (!Configuration.sensorState) {
 			heartImage = new JLabel(new ImageIcon("img/heart_off.png"));
 		}
 		southPanel.add(heartImage, BorderLayout.CENTER);
@@ -140,22 +139,15 @@ public class NewUI implements ActionListener {
 		tempBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		// Set color.
 		tempBtnPanel.setBackground(new Color(16777215));
-		if (!Configuration.isRunning) {
-			startBtn = WindowMaker.createJButton(startBtn, "Iniciar", "start", null, this, false);
-			tempBtnPanel.add(startBtn);
-		} else if (Configuration.isRunning) {
-			pauseBtn = WindowMaker.createJButton(pauseBtn, "Pausar", "pause", null, this, false);
-			stopBtn = WindowMaker.createJButton(stopBtn, "Parar", "stop", null, this, false);
-			tempBtnPanel.add(pauseBtn);
-			tempBtnPanel.add(stopBtn);
-		}
+		startBtn = WindowMaker.createJButton(startBtn, "Iniciar", "start", null, this, false);
+		tempBtnPanel.add(startBtn);
 		southPanel.add(tempBtnPanel, BorderLayout.SOUTH);
 		return southPanel;
 	}
 	
 	@SuppressWarnings("unused")
 	public static void main(String args[]) {
-		NewUI ui = new NewUI();
+		MobileUI ui = new MobileUI();
 	}
 
 	@Override
@@ -169,7 +161,6 @@ public class NewUI implements ActionListener {
 				chronometerThread = new ChronoTimer(chronometerNumbers);
 				chronometerThread.start();
 			}
-			Configuration.isRunning = true;
 			chronometerThread.startTimer();
 			mainPanel.updateUI();
 		} else if (e.getActionCommand().equals("pause")) {

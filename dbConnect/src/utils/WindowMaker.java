@@ -1,5 +1,6 @@
 package utils;
 
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
 
@@ -48,7 +49,11 @@ public class WindowMaker {
 	 */
 	public static JLabel createJLabel(JLabel label, String text, int size) {
 		label = new JLabel(text);
-		label.setFont(new java.awt.Font("Arial", 0, size));
+		Font font = new Font("Arial", 0, size);
+		if (text.equals("Runnstein")) {
+			Font newFont = font.deriveFont(Font.BOLD);
+			label.setFont(newFont);
+		} else label.setFont(font);		
 		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setVerticalAlignment(JLabel.CENTER);
 		return label;

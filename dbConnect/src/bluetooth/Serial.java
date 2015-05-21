@@ -22,7 +22,7 @@ public class Serial {
 			try {
 				port.openPort();
 				port.setParams(9600, 8, 1, 0);
-				Configuration.bluetoothIsConnected = true;
+				Configuration.sensorState = true;
 			} catch (SerialPortException e) {
 				e.printStackTrace();
 			}
@@ -68,7 +68,7 @@ public class Serial {
 				port.purgePort(1);
 				port.purgePort(2);
 				port.closePort();
-				Configuration.bluetoothIsConnected = false;
+				Configuration.sensorState = false;
 			}
 		} catch (SerialPortException e) {
 			e.printStackTrace();

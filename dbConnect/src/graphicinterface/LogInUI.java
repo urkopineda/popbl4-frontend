@@ -160,11 +160,10 @@ public class LogInUI implements ActionListener{
 				stmtController.checkUser(userField, passField, window);
 				window.dispose();
 				@SuppressWarnings("unused")
-				MainUI mainUI = new MainUI(systemController);
+				MainUI mainUI = new MainUI();
 			} catch (LogInException logE) {}
 		} else if (e.getActionCommand().equals("cancel")) {
 			window.dispose();
 		}
-		
 	}
 }
