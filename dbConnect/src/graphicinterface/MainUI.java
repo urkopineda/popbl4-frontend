@@ -1,0 +1,64 @@
+package graphicinterface;
+
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import lenguages.Strings;
+
+public class MainUI implements ChangeListener, ActionListener, ListSelectionListener{
+	ActionListener action = this;
+	ListSelectionListener list = this;
+	JFrame window = null;
+	JTabbedPane mainPanel = null;
+	TrainingUI trainingUI = null;
+	TrainingDataUI trainingDataUI = null;
+	
+	public MainUI() {
+		window = new JFrame("Runnstein");
+		window.setSize(640, 640);
+		window.setLocation(100, 100);
+		window.setContentPane(createMainPanel());
+		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		window.setVisible(true);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	private Container createMainPanel() {
+		mainPanel = new JTabbedPane();
+		trainingUI = new TrainingUI(action);
+		trainingDataUI = new TrainingDataUI(list);
+		mainPanel.add(Strings.mainTabTraining, trainingUI.createMainPanel());
+		mainPanel.add(Strings.mainTabTrainingData, trainingDataUI.createMainPanel());
+		mainPanel.addChangeListener(this);
+		return mainPanel;
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		// CAMBIA LA PESTAÑA.
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("start")) {
+			trainingUI.startTimer();
+		} else if (e.getActionCommand().equals("pause")) {
+			trainingUI.pauseTimer();
+		} else if (e.getActionCommand().equals("stop")) {
+			trainingUI.stopTimer();
+		}
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// CAMBIA EL JTABLE.
+	}
+}
