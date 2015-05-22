@@ -1,4 +1,4 @@
-package lenguages;
+package language;
 
 public class Strings {
 	// LogInUI

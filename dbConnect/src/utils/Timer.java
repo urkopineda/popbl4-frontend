@@ -28,7 +28,7 @@ public class Timer extends Thread {
 			try {
 				Thread.sleep(interval);
 			} catch (InterruptedException e) {}
-			if(isEnabled) intervalHasFinished = true;
+			if (isEnabled) intervalHasFinished = true;
 		}
 	}
 

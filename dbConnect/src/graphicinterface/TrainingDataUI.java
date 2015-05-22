@@ -12,7 +12,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionListener;
 
-import lenguages.Strings;
+import language.Strings;
 import main.Configuration;
 import model.TableData;
 import statistics.StatisticsFormulas;
@@ -20,6 +20,7 @@ import tablemodel.ColumnTableModelBasic;
 import tablemodel.TableModelBasic;
 import tablemodel.TrazadorTableBasic;
 import database.DataBaseUtils;
+
 import java.sql.SQLException;
 
 
@@ -50,26 +51,24 @@ public class TrainingDataUI {
 		try {
 			db.openDataBase();
 			ResultSet rsEntrenamiento = db.exeQuery("SELECT * FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
-			if (db.getNumberRows(rsEntrenamiento) > 0) {
-				int i = 0;
-				while (rsEntrenamiento.next()) {
-					int trainingNumber = i + 1;
-					String dateTime = rsEntrenamiento.getString(3);
-					String duration = rsEntrenamiento.getString(4);
-					ResultSet rsIntervalo = db.exeQuery("SELECT * FROM INTERVALO WHERE EntrenamientoID = "+rsEntrenamiento.getInt(1));
-					ArrayList<Integer> ppm = new ArrayList<>();
-					while (rsIntervalo.next()) {
-						ResultSet rsMuestra = db.exeQuery("SELECT * FROM MUESTRA WHERE IntervaloID = "+rsIntervalo.getInt(1));
-						while (rsMuestra.next()) {
-							ppm.add(rsMuestra.getInt(3));
-						}
+			int i = 1;
+			while (rsEntrenamiento.next()) {
+				String dateTime = rsEntrenamiento.getString(3);
+				String duration = rsEntrenamiento.getString(4);
+				ResultSet rsIntervalo = db.exeQuery("SELECT * FROM INTERVALO WHERE EntrenamientoID = "+rsEntrenamiento.getInt(1));
+				ArrayList<Integer> ppm = new ArrayList<>();
+				while (rsIntervalo.next()) {
+					ResultSet rsMuestra = db.exeQuery("SELECT * FROM MUESTRA WHERE IntervaloID = "+rsIntervalo.getInt(1));
+					while (rsMuestra.next()) {
+						ppm.add(rsMuestra.getInt(3));
 					}
-					StatisticsFormulas formulas = new StatisticsFormulas(ppm);
-					double rateMean = formulas.getMean();
-					double rateMax = formulas.getMax();
-					int stability = formulas.getStability();
-					allData.add(new TableData(trainingNumber, dateTime, duration, rateMean, rateMax, stability));
 				}
+				StatisticsFormulas formulas = new StatisticsFormulas(ppm);
+				double rateMean = formulas.getMean();
+				double rateMax = formulas.getMax();
+				int stability = formulas.getStability();
+				allData.add(new TableData(i, dateTime, duration, rateMean, rateMax, stability));
+				i++;
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -83,7 +82,7 @@ public class TrainingDataUI {
 				e.printStackTrace();
 			}
 		}
-		if (allData == null) {
+		if (allData != null) {
 			trazador = new TrazadorTableBasic();
 			columnModel = new ColumnTableModelBasic(trazador);
 			tableModel = new TableModelBasic(columnModel, allData);

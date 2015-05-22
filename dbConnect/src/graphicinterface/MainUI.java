@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import lenguages.Strings;
+import language.Strings;
 
 public class MainUI implements ChangeListener, ActionListener, ListSelectionListener{
 	ActionListener action = this;

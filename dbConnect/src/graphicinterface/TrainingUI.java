@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import lenguages.Strings;
+import language.Strings;
 import main.Configuration;
 import task.ChronoTimer;
 import task.HeartAnimator;

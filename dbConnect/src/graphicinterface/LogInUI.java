@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import lenguages.Strings;
+import language.Strings;
 import main.Configuration;
 import utils.WindowMaker;
 import database.DataBaseUtils;
@@ -40,6 +40,7 @@ public class LogInUI implements ActionListener {
 	JTextField userField = null;
 	JButton checkBtn = null;
 	JButton cancelBtn = null;
+	boolean correctLogIn = false;
 	
 	public LogInUI() {
 		window = new JFrame(Strings.windowLogIn);
@@ -111,25 +112,27 @@ public class LogInUI implements ActionListener {
 		try {
 			db.openDataBase();
 			ResultSet rs = db.exeQuery("SELECT Username, Password, UsuarioID, Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE Username = '"+userField.getText()+"' AND Password = '"+pass+"'");
-			if (db.getNumberRows(rs) > 0) {
-				while (rs.next()) {
-					Configuration.userID = rs.getInt(3);
-					Configuration.name = rs.getString(4);
-					Configuration.surname1 = rs.getString(5);
-					Configuration.surname2 = rs.getString(6);
-				}
+			while (rs.next()) {
+				Configuration.userID = rs.getInt(3);
+				Configuration.name = rs.getString(4);
+				Configuration.surname1 = rs.getString(5);
+				Configuration.surname2 = rs.getString(6);
+				correctLogIn = true;
 				@SuppressWarnings("unused")
 				MainUI mainUI = new MainUI();
 				window.dispose();
-			} else {
-				checkBtn.setText(Strings.logInCheck);
-				errorText.setVisible(true);
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
 		} finally {
+			if (!correctLogIn) {
+				checkBtn.setText(Strings.logInCheck);
+				errorText.setVisible(true);
+			} else if (correctLogIn) {
+				errorText.setVisible(false);
+			}
 			try {
 				db.closeDataBase();
 			} catch (SQLException e) {
