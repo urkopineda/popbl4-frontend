@@ -10,12 +10,12 @@ public class ColumnTableModelBasic extends DefaultTableColumnModel {
 	public ColumnTableModelBasic(TrazadorTableBasic newTrazador){
 		super();
 		this.newTrazador = newTrazador;
-		this.addColumn(crearColumna("Entrenamiento", 1, 30));
-		this.addColumn(crearColumna("Inicio", 2, 14));
-		this.addColumn(crearColumna("Duración", 3, 14));
-		this.addColumn(crearColumna("Media Pulsaciones", 4, 14));
-		this.addColumn(crearColumna("Máximo Pulsaciones", 5, 14));
-		this.addColumn(crearColumna("Nivel de Estabilidad", 6, 14));
+		this.addColumn(crearColumna("Entrenamiento", 1, 300));
+		this.addColumn(crearColumna("Inicio", 2, 200));
+		this.addColumn(crearColumna("Duración", 3, 200));
+		this.addColumn(crearColumna("Media Pulsaciones", 4, 50));
+		this.addColumn(crearColumna("Máximo Pulsaciones", 5, 50));
+		this.addColumn(crearColumna("Nivel de Estabilidad", 6, 50));
 	}
 
 	private TableColumn crearColumna(String texto, int indice, int ancho) {

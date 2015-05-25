@@ -3,6 +3,7 @@ package graphicinterface;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -19,9 +20,7 @@ import statistics.StatisticsFormulas;
 import tablemodel.ColumnTableModelBasic;
 import tablemodel.TableModelBasic;
 import tablemodel.TrazadorTableBasic;
-import database.DataBaseUtils;
-
-import java.sql.SQLException;
+import database.MySQLUtils;
 
 
 public class TrainingDataUI {
@@ -46,7 +45,7 @@ public class TrainingDataUI {
 	}
 	
 	private void createTable() {
-		DataBaseUtils db = new DataBaseUtils();
+		MySQLUtils db = new MySQLUtils();
 		ArrayList<TableData> allData = new ArrayList<>();
 		try {
 			db.openDataBase();

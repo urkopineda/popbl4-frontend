@@ -1,13 +1,16 @@
 package utils;
 
 import java.awt.Font;
+//github.com/Runnstein/RunnsteinFrontEnd.git
+import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-//github.com/Runnstein/RunnsteinFrontEnd.git
-import java.awt.event.ActionListener;
 
 public class WindowMaker {
 	public static JLabel createJLabel(JLabel newJLabel, String text, int size, String aligment) {
@@ -38,5 +41,12 @@ public class WindowMaker {
 		newJButton.addActionListener(action);
 		newJButton.setActionCommand(command);
 		return newJButton;
+	}
+	
+	public static JComboBox<String> createJComboBox(JComboBox<String> newJComboBox, ArrayList<String> list, ItemListener item) {
+		newJComboBox = new JComboBox<String>();
+		for (int i = 0; i != list.size(); i++) newJComboBox.addItem(list.get(i));
+		newJComboBox.addItemListener(item);
+		return newJComboBox;
 	}
 }

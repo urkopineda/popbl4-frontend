@@ -1,0 +1,33 @@
+package playermodel;
+
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+
+import model.Dato;
+
+@SuppressWarnings("serial")
+public class MiRenderer extends JLabel implements ListCellRenderer<Dato>{
+	@Override
+	public Component getListCellRendererComponent(JList<? extends Dato> list,
+		Dato value, int index, boolean isSelected, boolean cellHasFocus) {
+		String s = "<html> <h2>"+value.getProperty("Titulo")+"</h2> by <font size='4'>"+value.getProperty("Autor")+"</font>";
+		s += " from "+value.getProperty("Album")+" </html>";
+		this.setText(s);
+		this.setBorder(BorderFactory.createEmptyBorder());
+		this.setOpaque(true);
+		this.setForeground(new Color(0,0,0));
+		if (!isSelected) {
+			this.setBackground(new Color(255,255,255));
+		} else {
+			this.setBorder(BorderFactory.createLineBorder(new Color(38,160,218)));
+			this.setBackground(new Color(203,232,246));
+		}
+		this.setVisible(true);
+		return this;
+	}
+}

@@ -1,150 +1,77 @@
-package graphicinterface;
+package id3;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ListIterator;
+import java.util.Properties;
+import java.util.Scanner;
 
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import language.Strings;
-import main.Configuration;
-import task.ChronoTimer;
-import task.HeartAnimator;
-import utils.WindowMaker;
+import model.Album;
+import model.Autor;
+import model.Cancion;
+import model.Dato;
+import model.Playlist;
+import playermodel.MiBoton;
+import playermodel.MiMenuItem;
+import playermodel.MiRenderer;
+import database.SQLiteUtils;
+import exception.CancelException;
+import exception.RepeatedSongException;
 
-public class TrainingUI {
-	ChronoTimer chronometerThread = null;
-	HeartAnimator heartAnimator = null;
-	JPanel mainPanel = null;
-	JPanel rightPanel = null;
-	JPanel leftPanel = null;
-	JPanel chronoPlayerPanel = null;
-	JPanel chronometerPanel = null;
-	JPanel playerPanel = null;
-	JPanel heartRatePanel = null;
-	JPanel chronometerSouthPanel = null;
-	JButton buttonStart = null;
-	JButton buttonStop = null;
-	JButton buttonPause = null;
-	JLabel chronometerNumbers = null;
-	JLabel ppmNumbers = null;
-	JLabel ppmImage = null;
-	ActionListener act = null;
-	
-	// ######################################################## //
-	/*
-	JFrame window;
+@SuppressWarnings("serial")
+public class Main extends JFrame implements ActionListener, ListSelectionListener {
 	private Scanner teclado;
 	private Reproductor player;
 	private SQLiteUtils conn;
+	private final static String DBNAME = "runnstein";
 	
+	private JMenuBar menu;
+	private JMenu mArchivo;
+	private MiMenuItem miAbrirArchivo, miAbrirDirectorio, miSalir;
 	private JList<Cancion> songList;
 	private JList<Autor> authorList;
 	private JList<Album> albumList;
 	private JList<Playlist> playList;
 	private MiBoton bAnterior, bPlay, bPause, bStop, bSiguiente;
 	
-	ListSelectionListener list = null;
-	*/
-	// ######################################################## //
-	
-	public TrainingUI(ActionListener act) {
-		this.act = act;
-	}
-	
-	public Container createMainPanel() {
-		mainPanel = new JPanel(new GridLayout(1, 2, 0, 0));
-		mainPanel.add(createLeftPanel());
-		mainPanel.add(createRightPanel());
-		buttonPause.setEnabled(false);
-		buttonStop.setEnabled(false);
-		return mainPanel;
-	}
-	
-	private Container createRightPanel() {
-		rightPanel = new JPanel();
-		rightPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingList));
-		
-		return rightPanel;
-	}
-	
-	private Container createLeftPanel() {
-		leftPanel = new JPanel(new GridLayout(2, 1, 0, 0));
-		leftPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingMain));
-		leftPanel.add(createChronoPlayerPanel());
-		leftPanel.add(createHeartRatePanel());
-		return leftPanel;
-	}
-	
-	private Container createChronoPlayerPanel() {
-		chronoPlayerPanel = new JPanel(new GridLayout(2, 1, 0, 0));
-		chronoPlayerPanel.add(createChronometerPanel());
-		chronoPlayerPanel.add(createPlayerPanel());
-		return chronoPlayerPanel;
-	}
-	
-	private Container createChronometerPanel() {
-		chronometerPanel = new JPanel(new BorderLayout());
-		chronometerPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingChrono));
-		chronometerNumbers = WindowMaker.createJLabel(chronometerNumbers, "00:00:00", 75, "center");
-		chronometerPanel.add(chronometerNumbers, BorderLayout.CENTER);
-		chronometerSouthPanel = new JPanel(new GridLayout(1, 3, 5, 5));
-		buttonStart = WindowMaker.createJButton(buttonStart, Strings.trainingBtnStart, "start", act);
-		buttonPause = WindowMaker.createJButton(buttonPause, Strings.trainingBtnPause, "pause", act);
-		buttonStop = WindowMaker.createJButton(buttonStop, Strings.trainingBtnStop, "stop", act);
-		chronometerSouthPanel.add(buttonStart);
-		chronometerSouthPanel.add(buttonPause);
-		chronometerSouthPanel.add(buttonStop);
-		chronometerPanel.add(chronometerSouthPanel, BorderLayout.SOUTH);
-		return chronometerPanel;
-	}
-	
-	private Container createPlayerPanel() {
-		playerPanel = new JPanel(new BorderLayout());
-		playerPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingPlayer));
-		// AQUÍ VA LO DE UNAI!
-		// ######################################################## //
-		// setLists();
-		// ######################################################## //
-		return playerPanel;
-	}
-	
-	private Container createHeartRatePanel() {
-		heartRatePanel = new JPanel(new BorderLayout());
-		heartRatePanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingPulse));
-		ppmNumbers = WindowMaker.createJLabel(ppmNumbers, Configuration.ppm+" ppm", 50, "center");
-		heartRatePanel.add(ppmNumbers, BorderLayout.NORTH);
-		ppmImage = new JLabel(new ImageIcon("img/heart_on_down.png"));
-		heartRatePanel.add(ppmImage, BorderLayout.CENTER);
-		return heartRatePanel;
-	}
-	
-	// ######################################################## //
-	/*
-	private void setLists() {
+	public Main() {		
 		songList = new JList<>();
 		songList.setModel(Cancion.getSongListModel());
 		songList.setCellRenderer(new MiRenderer());
-		songList.addListSelectionListener(list);
+		songList.addListSelectionListener(this);
 		authorList = new JList<>();
 		authorList.setModel(Autor.getAuthorListModel());
 		albumList = new JList<>();
 		albumList.setModel(Album.getAlbumListModel());
 		playList = new JList<>();
 		playList.setModel(Playlist.getPlaylistModel());
-	}
-	
-	private void createSQLite() {
 		player = new Reproductor();
 		boolean nuevo = false;
 		teclado = new Scanner(System.in);
-		if (!(new File("./doc/"+Configuration.dbSQLite+".db")).exists()) nuevo = true;
-		conn = new SQLiteUtils(Configuration.dbSQLite);
+		if (!(new File("./doc/"+DBNAME+".db")).exists()) nuevo = true;
+		conn = new SQLiteUtils(DBNAME);
 		try {
 			String s = new String(Files.readAllBytes(Paths.get("./SQLite.sql")), StandardCharsets.UTF_8);
 			String [] dml = s.split("[;]");
@@ -158,12 +85,84 @@ public class TrainingUI {
 		} catch (SQLException e) {
 			System.out.println("Ha habido un error con la base de datos.");
 		}
-		readDB();
-		if (System.getProperty("os.name").toLowerCase().contains("windows")) searchDirectory("c:\\users\\"+System.getProperty("user.name")+"\\music");
-		else searchDirectory("~/Music");
+		leerDB();
+		if (System.getProperty("os.name").toLowerCase().contains("windows")) buscarDirectorio("c:\\users\\"+System.getProperty("user.name")+"\\music");
+		else buscarDirectorio("~/Music");
+		this.setSize(640, 480);
+		this.setExtendedState(MAXIMIZED_BOTH);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		crearMenu();
+		this.setContentPane(rellenarVentana());
+		this.setVisible(true);
 	}
 	
-	public void readDB() {
+	private void crearMenu() {
+		menu = new JMenuBar();
+		mArchivo = new JMenu("Archivo");
+		miAbrirArchivo = new MiMenuItem("Abrir una canción...", this, "abrirArchivo");
+		miAbrirDirectorio = new MiMenuItem("Abrir un directorio...", this, "abrirDirectorio");
+		miSalir = new MiMenuItem("Salir", this, "salir");
+		mArchivo.add(miAbrirArchivo);
+		mArchivo.add(miAbrirDirectorio);
+		mArchivo.addSeparator();
+		mArchivo.add(miSalir);
+		menu.add(mArchivo);
+		this.setJMenuBar(menu);
+	}
+	
+	private JPanel rellenarVentana() {
+		JPanel panel = new JPanel(new BorderLayout());
+		JScrollPane scroll = new JScrollPane();
+		scroll.setViewportView(songList);
+		panel.add(scroll, BorderLayout.CENTER);
+		panel.add(rellenarNorte(), BorderLayout.NORTH);
+		return panel;
+	}
+	
+	private JPanel rellenarNorte() {
+		JPanel panel = new JPanel(new GridLayout(1, 5));
+		bAnterior = new MiBoton(new ImageIcon("previous.png"), this, "previous");
+		bAnterior.setEnabled(false);
+		bPlay = new MiBoton(new ImageIcon("play.png"), this, "play");
+		bPlay.setEnabled(false);
+		bPause = new MiBoton(new ImageIcon("pause.png"), this, "pause");
+		bPause.setEnabled(false);
+		bStop = new MiBoton(new ImageIcon("stop.png"), this, "stop");
+		bStop.setEnabled(false);
+		bSiguiente = new MiBoton(new ImageIcon("next.png"), this, "next");
+		bSiguiente.setEnabled(false);
+		panel.add(bAnterior);
+		panel.add(bPlay);
+		panel.add(bPause);
+		panel.add(bStop);
+		panel.add(bSiguiente);
+		return panel;
+	}
+	
+	public void buscarDirectorio(String ruta) {
+		JFileChooser fileChooser = null;
+		try {
+			if (ruta == null) {
+				fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				fileChooser.showOpenDialog(this);
+				ruta = fileChooser.getSelectedFile().getAbsolutePath();
+				if (ruta == null) throw new CancelException("Elección de directorio.");
+			}
+			final File folder = new File(ruta);
+			for (final File fileEntry : folder.listFiles()) {
+				String name = fileEntry.getName();
+				if (name.toLowerCase().endsWith(".mp3")) crearCancionDesdeArchivo(fileEntry);
+			}
+			
+		} catch (CancelException e) {
+			System.out.println(e.getMessage());
+		} catch (NullPointerException e) {
+			System.out.println("Ha habido un error de puntero vacío.");
+		}
+	}
+	
+	public void leerDB() {
 		ResultSet rs;
 		int id = -1;
 		try {
@@ -197,35 +196,13 @@ public class TrainingUI {
 		
 	}
 	
-	public void searchDirectory(String ruta) {
-		JFileChooser fileChooser = null;
-		try {
-			if (ruta == null) {
-				fileChooser = new JFileChooser();
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				fileChooser.showOpenDialog(window);
-				ruta = fileChooser.getSelectedFile().getAbsolutePath();
-				if (ruta == null) throw new CancelException("Elección de directorio.");
-			}
-			final File folder = new File(ruta);
-			for (final File fileEntry : folder.listFiles()) {
-				String name = fileEntry.getName();
-				if (name.toLowerCase().endsWith(".mp3")) createSong(fileEntry);
-			}
-		} catch (CancelException e) {
-			System.out.println(e.getMessage());
-		} catch (NullPointerException e) {
-			System.out.println("Ha habido un error de puntero vacío.");
-		}
-	}
-	
-	public void searchSong() {
+	public void buscarCancion() {
 		System.out.print("Introduce la ruta de la cancion: ");
 		File file = new File(teclado.nextLine());
-		if (file.getName().toLowerCase().endsWith(".mp3")) createSong(file);
+		if (file.getName().toLowerCase().endsWith(".mp3")) crearCancionDesdeArchivo(file);
 	}
 	
-	public void createSong(File file) {
+	public void crearCancionDesdeArchivo(File file) {
 		AbstractID3 tag = null;
 		RandomAccessFile rafile = null;
 		Cancion c = null;
@@ -236,7 +213,7 @@ public class TrainingUI {
 			if (!file.exists()) throw new FileNotFoundException(file.getName());
 			pr = new Properties();
 			rafile = new RandomAccessFile(file, "r");
-			tag = detectID3(rafile);
+			tag = detectarID3(rafile);
 			pr.put("Titulo",tag.getSongTitle());
 			pr.put("Autor",tag.getLeadArtist());
 			pr.put("Album", tag.getAlbumTitle());
@@ -279,7 +256,7 @@ public class TrainingUI {
 		}
 	}
 	
-	public void showSongs() {
+	public void verCanciones() {
 		System.out.println("\nHe aquí la lista de todas las canciones:");
 		ListIterator<Cancion> it = Cancion.getSongListModel().listIterator();
 		while (it.hasNext()) {
@@ -288,7 +265,12 @@ public class TrainingUI {
 		}
 	}
 	
-	public AbstractID3 detectID3(RandomAccessFile rfile) {
+	/*
+	 * 
+	 * Este método queda muy feo así. Mi objetivo es cambiarlo.
+	 * 
+	 */
+	public AbstractID3 detectarID3(RandomAccessFile rfile) {
 		AbstractID3 ret = null;
 		try {ret=new ID3v1(rfile);}
 		catch (TagException e) {
@@ -309,7 +291,12 @@ public class TrainingUI {
 		return ret;
 	}
 	
-	public void startPlayer() {
+	public static void main(String[] args) {
+		@SuppressWarnings("unused")
+		Main main = new Main();
+	}
+	
+	public void empezarReproduccion() {
 		for (int i=songList.getSelectedIndex(); i<songList.getModel().getSize(); i++) player.addSong(songList.getModel().getElementAt(i));
 		for (int i=0; i<songList.getSelectedIndex(); i++) player.addSong(songList.getModel().getElementAt(i));
 		bAnterior.setEnabled(false);
@@ -319,14 +306,14 @@ public class TrainingUI {
 		player.play();
 	}
 	
-	public void stopPlayer() {
+	public void detenerReproduccion() {
 		player.vaciarLista();
 		bStop.setEnabled(false);
 		bSiguiente.setEnabled(false);
 		bAnterior.setEnabled(false);
 		bPause.setEnabled(false);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
@@ -361,38 +348,5 @@ public class TrainingUI {
 			}
 		}
 	}
-	*/
-	// ######################################################## //
-	
-	public void startTimer() {
-		if (chronometerThread != null) {
-			if (!chronometerThread.isAlive()) {
-				chronometerThread.start();
-				heartAnimator.start();
-			}
-		} else {
-			chronometerThread = new ChronoTimer(chronometerNumbers);
-			heartAnimator = new HeartAnimator(ppmImage);
-			chronometerThread.start();
-			heartAnimator.start();
-		}
-		chronometerThread.startTimer();
-		buttonStop.setEnabled(true);
-		buttonPause.setEnabled(true);
-		buttonStart.setEnabled(false);
-	}
-	
-	public void pauseTimer() {
-		chronometerThread.pauseTimer();
-		buttonPause.setEnabled(false);
-		buttonStart.setEnabled(true);
-	}
-	
-	public void stopTimer() {
-		chronometerThread.stopTimer();
-		chronometerThread = null;
-		buttonPause.setEnabled(false);
-		buttonStop.setEnabled(false);
-		buttonStart.setEnabled(true);
-	}
+
 }

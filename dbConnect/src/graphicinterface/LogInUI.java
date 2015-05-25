@@ -24,7 +24,7 @@ import javax.swing.JTextField;
 import language.Strings;
 import main.Configuration;
 import utils.WindowMaker;
-import database.DataBaseUtils;
+import database.MySQLUtils;
 
 public class LogInUI implements ActionListener {
 	JFrame window = null;
@@ -108,7 +108,7 @@ public class LogInUI implements ActionListener {
 	private void checkUser() {
 		char[] input = passField.getPassword();
 		String pass = new String(input);
-		DataBaseUtils db = new DataBaseUtils();
+		MySQLUtils db = new MySQLUtils();
 		try {
 			db.openDataBase();
 			ResultSet rs = db.exeQuery("SELECT Username, Password, UsuarioID, Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE Username = '"+userField.getText()+"' AND Password = '"+pass+"'");

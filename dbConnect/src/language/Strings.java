@@ -26,4 +26,6 @@ public class Strings {
 	public static String trainingBtnStop = "Stop";
 	// TrainingDataUI
 	public static String trainingDataMain = "Resumen de Entrenamientos";
+	// StatisticsUI
+	public static String statisticsMain = "Gráficos de Ejercicio";
 }

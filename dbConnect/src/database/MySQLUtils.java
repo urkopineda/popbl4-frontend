@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import main.Configuration;
 
-public class DataBaseUtils {
+public class MySQLUtils {
 	Connection con = null;	
 	int tableNumber = -1;
 	

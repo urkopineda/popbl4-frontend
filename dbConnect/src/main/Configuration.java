@@ -1,6 +1,8 @@
 package main;
 
 public class Configuration {
+	// Variables esenciales.
+	public final static String dbSQLite = "runnstein";
 	public static final int timerPeriod = 1000;
 	public static final String dbUrl = "runnstein.mooo.com";
 	public static final int port = 3026;
@@ -14,4 +16,6 @@ public class Configuration {
 	public static boolean sensorState = false;
 	public static boolean syncState = false;
 	public static int ppm = 60;
+	// Direcciones de archivos.
+	
 }
