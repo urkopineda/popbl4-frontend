@@ -3,6 +3,8 @@ package graphicinterface;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -13,13 +15,15 @@ import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
 
-public class MainUI implements ChangeListener, ActionListener, ListSelectionListener{
+public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener{
 	ActionListener action = this;
 	ListSelectionListener list = this;
+	ItemListener item = this;
 	JFrame window = null;
 	JTabbedPane mainPanel = null;
 	TrainingUI trainingUI = null;
 	TrainingDataUI trainingDataUI = null;
+	StatisticsUI statisticsUI = null;
 	
 	public MainUI() {
 		window = new JFrame("Runnstein");
@@ -35,15 +39,17 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		mainPanel = new JTabbedPane();
 		trainingUI = new TrainingUI(action);
 		trainingDataUI = new TrainingDataUI(list);
+		statisticsUI = new StatisticsUI(item);
 		mainPanel.add(Strings.mainTabTraining, trainingUI.createMainPanel());
 		mainPanel.add(Strings.mainTabTrainingData, trainingDataUI.createMainPanel());
+		mainPanel.add(Strings.mainTabStatistics, statisticsUI.createMainPanel());
 		mainPanel.addChangeListener(this);
 		return mainPanel;
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		// CAMBIA LA PESTAÑA.
+		if (mainPanel.getSelectedIndex() == 2) statisticsUI.addGraphic1();
 	}
 
 	@Override
@@ -60,5 +66,11 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// CAMBIA EL JTABLE.
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent arg0) {
+		System.out.println("CAMBIO");
+		
 	}
 }

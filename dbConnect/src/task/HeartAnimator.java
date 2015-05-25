@@ -56,7 +56,7 @@ public class HeartAnimator extends Thread{
 	 */
 	@SuppressWarnings("static-access")
 	public void executeAction() {
-		ppmImage.setIcon(new ImageIcon("img/heart_on_up.png"));
+		ppmImage.setIcon(new ImageIcon(Configuration.dHeartOn));
 		try {
 			if (Configuration.ppm < 120) changeImage.sleep(250);
 			else if ((Configuration.ppm > 120) &&  (Configuration.ppm < 160))changeImage.sleep(150);
@@ -64,6 +64,6 @@ public class HeartAnimator extends Thread{
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		ppmImage.setIcon(new ImageIcon("img/heart_on_down.png"));
+		ppmImage.setIcon(new ImageIcon(Configuration.dHeartOff));
 	}
 }

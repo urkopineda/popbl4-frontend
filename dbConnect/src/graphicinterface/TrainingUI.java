@@ -119,7 +119,7 @@ public class TrainingUI {
 		heartRatePanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingPulse));
 		ppmNumbers = WindowMaker.createJLabel(ppmNumbers, Configuration.ppm+" ppm", 50, "center");
 		heartRatePanel.add(ppmNumbers, BorderLayout.NORTH);
-		ppmImage = new JLabel(new ImageIcon("img/heart_on_down.png"));
+		ppmImage = new JLabel(new ImageIcon(Configuration.dHeartOff));
 		heartRatePanel.add(ppmImage, BorderLayout.CENTER);
 		return heartRatePanel;
 	}

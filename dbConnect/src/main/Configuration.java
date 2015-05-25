@@ -17,5 +17,8 @@ public class Configuration {
 	public static boolean syncState = false;
 	public static int ppm = 60;
 	// Direcciones de archivos.
-	
+	public static String dHeartOn = "img/heart/heart_on_up.png";
+	public static String dHeartOff = "img/heart/heart_on_down.png";
+	public static String dLogoMin = "img/logo/logo.png";
+	public static String dLogoMax = "img/logo/maxLogo.png";
 }

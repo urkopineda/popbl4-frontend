@@ -16,32 +16,32 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 public class Chart {
-	JFreeChart chart = null;
-	BufferedImage chartImage = null;
+	static JFreeChart chart = null;
+	static BufferedImage chartImage = null;
 	
-	private void updateComponents(JPanel labelContainer, JLabel chartContainer) {
+	private static void updateComponents(JPanel labelContainer, JLabel chartContainer) {
 		chartImage = chart.createBufferedImage(labelContainer.getWidth(), labelContainer.getHeight());        
 		chartContainer.setSize(labelContainer.getSize());
 		chartContainer.setIcon(new ImageIcon(chartImage));
 		labelContainer.updateUI();
 	}
 	
-	public void createBarChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
+	public static void createBarChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
 		DefaultCategoryDataset proportions = new DefaultCategoryDataset();
 		for (int i = 0; i <= data.size(); i++) proportions.setValue(data.get(i), barNames.get(i), "");
 		chart = ChartFactory.createBarChart3D(chartName, xAxis, yAxis, proportions, PlotOrientation.VERTICAL, true, true, true);
 		updateComponents(labelContainer, chartContainer);
 	}
 	
-	public void createLineChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
+	public static void createLineChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
 		XYSeries series = new XYSeries(chartName);
-		for (int i = 0; i <= data.size(); i++) series.add(Double.valueOf(data.get(i)), Double.valueOf(i));
+		for (int i = 0; i != data.size(); i++) series.add(Double.valueOf(data.get(i)), Double.valueOf(i));
 		XYSeriesCollection displayData = new XYSeriesCollection(series);
         chart = ChartFactory.createXYLineChart(chartName, xAxis, yAxis, displayData, PlotOrientation.HORIZONTAL, true, true, true);
         updateComponents(labelContainer, chartContainer);
 	}
 	
-	public void createPieChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName) {
+	public static void createPieChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName) {
 		DefaultPieDataset proportions = new DefaultPieDataset();
 		for (int i = 0; i <= data.size(); i++) proportions.setValue(barNames.get(i), data.get(i));
 		chart = ChartFactory.createPieChart3D(chartName, proportions, true, true, false);

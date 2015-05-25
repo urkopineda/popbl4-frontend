@@ -62,7 +62,7 @@ public class LogInUI implements ActionListener {
 	
 	private Container createNorthPanel() {
 		northPanel = new JPanel(new BorderLayout());
-		titleImage = new JLabel(new ImageIcon("img/logo/maxLogo.png"));
+		titleImage = new JLabel(new ImageIcon(Configuration.dLogoMax));
 		northPanel.add(titleImage, BorderLayout.CENTER);
 		errorText = WindowMaker.createJLabel(errorText, Strings.logInError, 20, "center");
 		errorText.setForeground(Color.RED);

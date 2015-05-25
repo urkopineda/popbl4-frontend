@@ -45,7 +45,7 @@ public class WindowMaker {
 	
 	public static JComboBox<String> createJComboBox(JComboBox<String> newJComboBox, ArrayList<String> list, ItemListener item) {
 		newJComboBox = new JComboBox<String>();
-		for (int i = 0; i != list.size(); i++) newJComboBox.addItem(list.get(i));
+		if (list != null) for (int i = 0; i != list.size(); i++) newJComboBox.addItem(list.get(i));
 		newJComboBox.addItemListener(item);
 		return newJComboBox;
 	}
