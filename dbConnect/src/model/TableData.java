@@ -1,12 +1,12 @@
 package model;
 
 public class TableData {
-	int trainingNumber = 0;
-	String dateTime = null;
-	String duration = null;
-	double rateMean = 0;
-	double rateMax = 0;
-	int stability = 0;
+	public int trainingNumber = 0;
+	public String dateTime = null;
+	public String duration = null;
+	public double rateMean = 0;
+	public double rateMax = 0;
+	public int stability = 0;
 	
 	public TableData(int trainingNumber, String dateTime, String duration, double rateMean,	double rateMax,	int stability) {
 		this.trainingNumber = trainingNumber;
@@ -15,30 +15,6 @@ public class TableData {
 		this.rateMean = rateMean;
 		this.rateMax = rateMax;
 		this.stability = stability;
-	}
-	
-	public int getTrainingNumber() {
-		return trainingNumber;
-	}
-	
-	public String getDateTime() {
-		return dateTime;
-	}
-	
-	public String getDuration() {
-		return duration;
-	}
-	
-	public double getRateMean() {
-		return rateMean;
-	}
-	
-	public double getRateMax() {
-		return rateMax;
-	}
-	
-	public int getStability() {
-		return stability;
 	}
 	
 	public String toString() {

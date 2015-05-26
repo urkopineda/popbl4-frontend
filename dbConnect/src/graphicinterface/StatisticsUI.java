@@ -31,6 +31,8 @@ public class StatisticsUI {
 	JComboBox<String> trainingsCB = null;
 	JComboBox<String> modeCB = null;
 	ArrayList<ChartData> allData = null;
+	ArrayList<Integer> timeData = null;
+	ArrayList<String> timeColumns = null;
 	ItemListener item = null;
 	
 	public StatisticsUI(ItemListener item) {
@@ -43,7 +45,6 @@ public class StatisticsUI {
 		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
 		createData();
 		mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
-		//addGraphic1();
 		return mainPanel;
 	}
 	
@@ -51,7 +52,9 @@ public class StatisticsUI {
 		northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		trainingsCB = WindowMaker.createJComboBox(trainingsCB, null, item);
 		modeCB = WindowMaker.createJComboBox(modeCB, null, item);
-		addModesToCB();
+		modeCB.addItem(Strings.statsModeTime);
+		modeCB.addItem(Strings.statsModeMax);
+		modeCB.addItem(Strings.statsModeMean);
 		northPanel.add(trainingsCB);
 		northPanel.add(modeCB);
 		return northPanel;
@@ -63,27 +66,47 @@ public class StatisticsUI {
 		return centerPanel;
 	}
 	
+	// ####################################################### PRUEBAS #######################################################
 	private Container createGraphic1() {
 		graphicPanel1 = new JPanel(new BorderLayout());
 		
 		return graphicPanel1;
 	}
+	// ####################################################### FIN #######################################################
 	
+	private void createAllTimesChart(JPanel containerPanel, JLabel chartLabel) {
+		chartLabel = new JLabel();
+		Chart.createLineChartv2(containerPanel, chartLabel, timeData, timeColumns, Strings.graphTime, Strings.graphTraining, Strings.statsModeTime);
+		containerPanel.add(chartLabel, BorderLayout.CENTER);
+		containerPanel.updateUI();
+	}
 	
-	void addGraphic1() {
-		if (trainingsCB.getSelectedIndex() == 0) {
-			graphicLabel1 = new JLabel();
-			Chart.createLineChart(graphicPanel1, graphicLabel1, timeData(), timeColumns(), Strings.graphTime, Strings.graphTraining, Strings.statsModeTime);
+	public void addGraphics(String trainings, String mode) {
+		if (trainings.equals("all")) {
+			if (mode.equals("time")) {
+				createAllTimesChart(graphicPanel1, graphicLabel1);
+			} else if (mode.equals("max")) {
+				
+			} else if (mode.equals("mean")) {
+				
+			}
 		} else {
-			
+			int trainingNumber = Integer.parseInt(trainings);
+			if (mode.equals("time")) {
+				
+			} else if (mode.equals("max")) {
+				
+			} else if (mode.equals("mean")) {
+				
+			}
 		}
-		graphicPanel1.add(graphicLabel1, BorderLayout.CENTER);
-		graphicPanel1.updateUI();
 	}
 	
 	private void createData() {
 		MySQLUtils db = new MySQLUtils();
 		allData = new ArrayList<>();
+		timeData = new ArrayList<>();
+		timeColumns = new ArrayList<>();
 		trainingsCB.addItem("TODOS LOS ENTRENAMIENTOS");
 		try {
 			db.openDataBase();
@@ -92,6 +115,9 @@ public class StatisticsUI {
 			while (rsEntrenamiento.next()) {
 				String dateTime = rsEntrenamiento.getString(3);
 				String duration = rsEntrenamiento.getString(4);
+				String time [] = duration.split(":");
+				timeColumns.add("Entrenamiento Nº"+i);
+				timeData.add(((Integer.parseInt(time[0]) * 60) + Integer.parseInt(time[1])));
 				ResultSet rsIntervalo = db.exeQuery("SELECT * FROM INTERVALO WHERE EntrenamientoID = "+rsEntrenamiento.getInt(1));
 				ArrayList<Integer> ppm = new ArrayList<>();
 				while (rsIntervalo.next()) {
@@ -120,29 +146,24 @@ public class StatisticsUI {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	private ArrayList<Integer> timeData() {
-		ArrayList<Integer> data = new ArrayList<>();
 		for (int i = 0; i != allData.size(); i++) {
-			String time = allData.get(i).getDuration();
-			String timeData [] = time.split(":");
-			data.add(((Integer.parseInt(timeData[2]) * 60) + Integer.parseInt(timeData[1])));
+			System.out.println();
+			System.out.println(allData.get(i).trainingNumber);
+			System.out.println(allData.get(i).dateTime);
+			System.out.println(allData.get(i).duration);
+			System.out.println(allData.get(i).rateMax);
+			System.out.println(allData.get(i).rateMean);
+			System.out.println();
 		}
-		return data;
-	}
-	
-	private ArrayList<String> timeColumns() {
-		ArrayList<String> columns = new ArrayList<>();
-		for (int i = 0; i != allData.size(); i++) {
-			columns.add("Entrenamiento Nº"+(i + 1));
+		for (int i = 0; i != timeColumns.size(); i++) {
+			System.out.println();
+			System.out.println(timeColumns.get(i));
+			System.out.println();
 		}
-		return columns;
-	}
-	
-	private void addModesToCB() {
-		modeCB.addItem(Strings.statsModeTime);
-		modeCB.addItem(Strings.statsModeMax);
-		modeCB.addItem(Strings.statsModeMin);
+		for (int i = 0; i != timeData.size(); i++) {
+			System.out.println();
+			System.out.println(timeData.get(i));
+			System.out.println();
+		}
 	}
 }

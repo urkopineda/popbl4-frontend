@@ -28,9 +28,12 @@ public class Strings {
 	public static String trainingDataMain = "Resumen de Entrenamientos";
 	// StatisticsUI
 	public static String statisticsMain = "Gráficos de Ejercicio";
-	public static String statsModeTime = "Tiempo";
+	public static String statsModeTime = "Tiempo (minutos)";
 	public static String statsModeMax = "Máximo";
 	public static String statsModeMin = "Mínimo";
+	public static String statsModeMean = "Media";
 	public static String graphTime = "Duraciones de Entrenamientos";
 	public static String graphTraining = "Entrenamientos";
+	public static String graphPPM = "Pulsaciones por Minuto";
+	public static String graphBPM = "Bits por Minuto";
 }

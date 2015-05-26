@@ -31,12 +31,12 @@ public class TableModelBasic extends AbstractTableModel {
 	public Object getValueAt(int row, int column) {
 		TableData tempData = allData.get(row);
 		switch (column) {
-			case 1: return "Entrenamiento Nº"+tempData.getTrainingNumber();
-			case 2: return tempData.getDateTime();
-			case 3: return tempData.getDuration();
-			case 4: return tempData.getRateMean();
-			case 5: return tempData.getRateMax();
-			case 6: return tempData.getStability();
+			case 1: return "Entrenamiento Nº"+tempData.trainingNumber;
+			case 2: return tempData.dateTime;
+			case 3: return tempData.duration;
+			case 4: return tempData.rateMean;
+			case 5: return tempData.rateMax;
+			case 6: return tempData.stability;
 		}		
 		return null;
 	}

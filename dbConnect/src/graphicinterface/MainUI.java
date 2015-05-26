@@ -49,7 +49,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (mainPanel.getSelectedIndex() == 2) statisticsUI.addGraphic1();
+		if (mainPanel.getSelectedIndex() == 2) statisticsUI.addGraphics("all", "time");
 	}
 
 	@Override
@@ -70,7 +70,6 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
-		System.out.println("CAMBIO");
-		
+		// CAMBIA COMBO BOX
 	}
 }
