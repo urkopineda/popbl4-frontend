@@ -75,6 +75,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
+			
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 		}
 	}

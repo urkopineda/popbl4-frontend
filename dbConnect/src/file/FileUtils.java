@@ -32,7 +32,6 @@ public class FileUtils {
             	lines.add(line);
             }
             String [] lang = lines.get(0).split("=");
-            System.out.println(lang[1]);
             Configuration.lang = Integer.parseInt(lang[1]);
             bufferedReader.close();            
         } catch (FileNotFoundException ex) {

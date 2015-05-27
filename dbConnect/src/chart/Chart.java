@@ -1,5 +1,7 @@
 package chart;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -9,7 +11,9 @@ import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
@@ -48,11 +52,19 @@ public class Chart {
         updateComponents(labelContainer, chartContainer);
 	}
 	
-	public static void createLineChartv3(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
-		// AQUí IRÁ UN RENDERER!
+	public static void createLineChartv3(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis, Color color) {
 		DefaultCategoryDataset proportions = new DefaultCategoryDataset();
 		for (int i = 0; i != data.size(); i++) proportions.addValue(data.get(i), chartName, barNames.get(i));
         chart = ChartFactory.createLineChart(chartName, xAxis, yAxis, proportions, PlotOrientation.VERTICAL, true, true, true);
+        CategoryPlot plot = chart.getCategoryPlot();
+        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+        if (color == null) {
+        	renderer.setSeriesPaint(0, Color.RED);
+        } else {
+        	renderer.setSeriesPaint(0, color);
+        }
+        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        plot.setRenderer(renderer);
         updateComponents(labelContainer, chartContainer);
 	}
 	

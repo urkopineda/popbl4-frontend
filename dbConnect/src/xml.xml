@@ -39,6 +39,9 @@
 		<string name="graphAllTrainings">ENTRENAMENDU GUZTIAK</string>
 		<string name="graphMeanBPM">Joaldien bataz bestekoa</string>
 		<string name="graphMeanPPM">Taupaden bataz bestekoa</string>
+		<string name="graphNotAvaliable">Ezin da grafiko hau sortu</string>
+		<string name="graphInterval">Bitarteak</string>
+		<string name="graphSong">Abestiak</string>
 	</idioma>
 	<idioma name="castellano">
 		<!-- LogInUI -->
@@ -80,6 +83,9 @@
 		<string name="graphAllTrainings">TODOS LOS ENTRENAMIENTOS</string>
 		<string name="graphMeanBPM">Media beats por minuto</string>
 		<string name="graphMeanPPM">Media pulsaciones por minuto</string>
+		<string name="graphNotAvaliable">El gráfico no está disponible</string>
+		<string name="graphInterval">Intervalos</string>
+		<string name="graphSong">Canciones</string>
 	</idioma>
 	<idioma name="english">
 		<!-- LogInUI -->
@@ -121,5 +127,8 @@
 		<string name="graphAllTrainings">ALL TRAININGS</string>
 		<string name="graphMeanBPM">BPM Mean</string>
 		<string name="graphMeanPPM">PPM Mean</string>
+		<string name="graphNotAvaliable">Chart not avaliable</string>
+		<string name="graphInterval">Intervals</string>
+		<string name="graphSong">Songs</string>
 	</idioma>
 </strings>

@@ -1,6 +1,7 @@
 package graphicinterface;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -81,9 +82,8 @@ public class StatisticsUI {
 					timeData.add(((Integer.parseInt(time[0]) * 60) + Integer.parseInt(time[1])));
 					timeColumns.add(Strings.get("graphTrainingGraph")+allData.get(i).trainingNumber);
 				}
-				Chart.createLineChartv2(containerPanel, chartLabel, timeData, timeColumns, Strings.get("graphTime"), Strings.get("graphTraining"), Strings.get("statsModeTime"));
+				Chart.createLineChartv3(containerPanel, chartLabel, timeData, timeColumns, Strings.get("graphTime"), Strings.get("graphTraining"), Strings.get("statsModeTime"), Color.GREEN);
 			} else if (mode == 1) {
-				System.out.println("BPM");
 				ArrayList<Integer> bpmData = new ArrayList<>();
 				ArrayList<String> bpmColumns = new ArrayList<>();
 				for (int i = 0; i != allData.size(); i++) {
@@ -91,20 +91,41 @@ public class StatisticsUI {
 					bpmData.add(((int) newMean.getMean()));
 					bpmColumns.add(Strings.get("graphTrainingGraph")+allData.get(i).trainingNumber);
 				}
-				Chart.createLineChartv2(containerPanel, chartLabel, bpmData, bpmColumns, Strings.get("graphMeanBPM"), Strings.get("graphTraining"), Strings.get("graphBPM"));
+				Chart.createLineChartv3(containerPanel, chartLabel, bpmData, bpmColumns, Strings.get("graphMeanBPM"), Strings.get("graphTraining"), Strings.get("graphBPM"), Color.BLUE);
 			} else if (mode == 2) {
-				System.out.println("PPM");
-				ArrayList<Integer> bpmData = new ArrayList<>();
-				ArrayList<String> bpmColumns = new ArrayList<>();
+				ArrayList<Integer> ppmData = new ArrayList<>();
+				ArrayList<String> ppmColumns = new ArrayList<>();
 				for (int i = 0; i != allData.size(); i++) {
 					StatisticsFormulas newMean = new StatisticsFormulas(allData.get(i).ppm);
-					bpmData.add(((int) newMean.getMean()));
-					bpmColumns.add(Strings.get("graphTrainingGraph")+allData.get(i).trainingNumber);
+					ppmData.add(((int) newMean.getMean()));
+					ppmColumns.add(Strings.get("graphTrainingGraph")+allData.get(i).trainingNumber);
 				}
-				Chart.createLineChartv2(containerPanel, chartLabel, bpmData, bpmColumns, Strings.get("graphMeanPPM"), Strings.get("graphTraining"), Strings.get("graphPPM"));
+				Chart.createLineChartv3(containerPanel, chartLabel, ppmData, ppmColumns, Strings.get("graphMeanPPM"), Strings.get("graphTraining"), Strings.get("graphPPM"), Color.RED);
 			}
 		} else {
-			
+			ChartData specificData = allData.get(trainings - 1);
+			if (mode == 0) {
+				chartLabel.setText(Strings.get("graphNotAvaliable"));
+				chartLabel.setHorizontalAlignment(JLabel.CENTER);
+				chartLabel.setVerticalAlignment(JLabel.CENTER);
+				
+			} else if (mode == 1) {
+				ArrayList<Integer> bpmData = new ArrayList<>();
+				ArrayList<String> bpmColumns = new ArrayList<>();
+				for (int i = 0; i != specificData.bpm.size(); i++) {
+					bpmData.add(specificData.bpm.get(i));
+					bpmColumns.add("#"+(i + 1));
+				}
+				Chart.createLineChartv3(containerPanel, chartLabel, bpmData, bpmColumns, Strings.get("graphBPM"), Strings.get("graphSong"), Strings.get("graphBPM"), Color.BLUE);
+			} else if (mode == 2) {
+				ArrayList<Integer> ppmData = new ArrayList<>();
+				ArrayList<String> ppmColumns = new ArrayList<>();
+				for (int i = 0; i != specificData.ppm.size(); i++) {
+					ppmData.add(specificData.ppm.get(i));
+					ppmColumns.add("#"+(i + 1));
+				}
+				Chart.createLineChartv3(containerPanel, chartLabel, ppmData, ppmColumns, Strings.get("graphPPM"), Strings.get("graphInterval"), Strings.get("graphPPM"), Color.RED);
+			}
 		}
 		containerPanel.add(chartLabel, BorderLayout.CENTER);
 		containerPanel.updateUI();
