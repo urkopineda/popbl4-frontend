@@ -33,8 +33,12 @@
 		<string name="statsModeMean">Batezbestekoa</string>
 		<string name="graphTime">Entrenamenduen iraupena</string>
 		<string name="graphTraining">Entrenamenduak</string>
+		<string name="graphTrainingGraph">Entrenamendu Zbk. </string>
 		<string name="graphPPM">Taupadak minutuko</string>
-		<string name="graphBMP">Joaldiak minutuko</string>
+		<string name="graphBPM">Joaldiak minutuko</string>
+		<string name="graphAllTrainings">ENTRENAMENDU GUZTIAK</string>
+		<string name="graphMeanBPM">Joaldien bataz bestekoa</string>
+		<string name="graphMeanPPM">Taupaden bataz bestekoa</string>
 	</idioma>
 	<idioma name="castellano">
 		<!-- LogInUI -->
@@ -70,8 +74,12 @@
 		<string name="statsModeMean">Media</string>
 		<string name="graphTime">Duración de Entrenamientos</string>
 		<string name="graphTraining">Entrenamientos</string>
+		<string name="graphTrainingGraph">Entrenamiento Nº</string>
 		<string name="graphPPM">Pulsaciones por minuto</string>
-		<string name="graphBMP">Beats por minutos</string>
+		<string name="graphBPM">Beats por minutos</string>
+		<string name="graphAllTrainings">TODOS LOS ENTRENAMIENTOS</string>
+		<string name="graphMeanBPM">Media beats por minuto</string>
+		<string name="graphMeanPPM">Media pulsaciones por minuto</string>
 	</idioma>
 	<idioma name="english">
 		<!-- LogInUI -->
@@ -107,7 +115,11 @@
 		<string name="statsModeMean">Mean</string>
 		<string name="graphTime">Training length</string>
 		<string name="graphTraining">Training</string>
+		<string name="graphTrainingGraph">Training Nº</string>
 		<string name="graphPPM">Heart beats per minute</string>
-		<string name="graphBMP">Song's BPM</string>
+		<string name="graphBPM">Song's BPM</string>
+		<string name="graphAllTrainings">ALL TRAININGS</string>
+		<string name="graphMeanBPM">BPM Mean</string>
+		<string name="graphMeanPPM">PPM Mean</string>
 	</idioma>
 </strings>

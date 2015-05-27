@@ -48,6 +48,14 @@ public class Chart {
         updateComponents(labelContainer, chartContainer);
 	}
 	
+	public static void createLineChartv3(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
+		// AQUí IRÁ UN RENDERER!
+		DefaultCategoryDataset proportions = new DefaultCategoryDataset();
+		for (int i = 0; i != data.size(); i++) proportions.addValue(data.get(i), chartName, barNames.get(i));
+        chart = ChartFactory.createLineChart(chartName, xAxis, yAxis, proportions, PlotOrientation.VERTICAL, true, true, true);
+        updateComponents(labelContainer, chartContainer);
+	}
+	
 	public static void createPieChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName) {
 		DefaultPieDataset proportions = new DefaultPieDataset();
 		for (int i = 0; i != data.size(); i++) proportions.setValue(barNames.get(i), data.get(i));

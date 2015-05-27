@@ -164,7 +164,8 @@ public class LogInUI implements ActionListener, ItemListener {
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
-			System.out.println(languageComboBox.getSelectedItem());
+			Configuration.lang = languageComboBox.getSelectedIndex();
+			FileUtils.writeConfFile();
 		}
 	}
 }

@@ -18,8 +18,9 @@ public class Configuration {
 	public static int ppm = 60;
 	public static int lang = 0;
 	// Direcciones de archivos.
-	public static String dHeartOn = "img/heart/heart_on_up.png";
-	public static String dHeartOff = "img/heart/heart_on_down.png";
-	public static String dLogoMin = "img/logo/logo.png";
-	public static String dLogoMax = "img/logo/maxLogo.png";
+	public static final String confFile = "conf.dat";
+	public static final String dHeartOn = "img/heart/heart_on_up.png";
+	public static final String dHeartOff = "img/heart/heart_on_down.png";
+	public static final String dLogoMin = "img/logo/logo.png";
+	public static final String dLogoMax = "img/logo/maxLogo.png";
 }

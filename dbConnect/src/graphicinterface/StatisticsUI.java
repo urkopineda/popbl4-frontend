@@ -52,8 +52,8 @@ public class StatisticsUI {
 		trainingsCB = WindowMaker.createJComboBox(trainingsCB, null, item);
 		modeCB = WindowMaker.createJComboBox(modeCB, null, item);
 		modeCB.addItem(Strings.get("statsModeTime"));
-		modeCB.addItem(Strings.get("statsModeMax"));
-		modeCB.addItem(Strings.get("statsModeMean"));
+		modeCB.addItem(Strings.get("graphBPM"));
+		modeCB.addItem(Strings.get("graphPPM"));
 		northPanel.add(trainingsCB);
 		northPanel.add(modeCB);
 		return northPanel;
@@ -71,8 +71,38 @@ public class StatisticsUI {
 	
 	private void createAllTimesChart(JPanel containerPanel, JLabel chartLabel, int trainings, int mode) {
 		chartLabel = new JLabel();
+		containerPanel.removeAll();
 		if (trainings == 0) {
-			//if (mode == 0) Chart.createLineChartv2(containerPanel, chartLabel, timeData, timeColumns, Strings.graphTime, Strings.graphTraining, Strings.statsModeTime);
+			if (mode == 0) {
+				ArrayList<Integer> timeData = new ArrayList<>();
+				ArrayList<String> timeColumns = new ArrayList<>();
+				for (int i = 0; i != allData.size(); i++) {
+					String time [] = allData.get(i).duration.split(":");
+					timeData.add(((Integer.parseInt(time[0]) * 60) + Integer.parseInt(time[1])));
+					timeColumns.add(Strings.get("graphTrainingGraph")+allData.get(i).trainingNumber);
+				}
+				Chart.createLineChartv2(containerPanel, chartLabel, timeData, timeColumns, Strings.get("graphTime"), Strings.get("graphTraining"), Strings.get("statsModeTime"));
+			} else if (mode == 1) {
+				System.out.println("BPM");
+				ArrayList<Integer> bpmData = new ArrayList<>();
+				ArrayList<String> bpmColumns = new ArrayList<>();
+				for (int i = 0; i != allData.size(); i++) {
+					StatisticsFormulas newMean = new StatisticsFormulas(allData.get(i).bpm);
+					bpmData.add(((int) newMean.getMean()));
+					bpmColumns.add(Strings.get("graphTrainingGraph")+allData.get(i).trainingNumber);
+				}
+				Chart.createLineChartv2(containerPanel, chartLabel, bpmData, bpmColumns, Strings.get("graphMeanBPM"), Strings.get("graphTraining"), Strings.get("graphBPM"));
+			} else if (mode == 2) {
+				System.out.println("PPM");
+				ArrayList<Integer> bpmData = new ArrayList<>();
+				ArrayList<String> bpmColumns = new ArrayList<>();
+				for (int i = 0; i != allData.size(); i++) {
+					StatisticsFormulas newMean = new StatisticsFormulas(allData.get(i).ppm);
+					bpmData.add(((int) newMean.getMean()));
+					bpmColumns.add(Strings.get("graphTrainingGraph")+allData.get(i).trainingNumber);
+				}
+				Chart.createLineChartv2(containerPanel, chartLabel, bpmData, bpmColumns, Strings.get("graphMeanPPM"), Strings.get("graphTraining"), Strings.get("graphPPM"));
+			}
 		} else {
 			
 		}
@@ -87,13 +117,14 @@ public class StatisticsUI {
 	private void createData() {
 		MySQLUtils db = new MySQLUtils();
 		allData = new ArrayList<>();
-		trainingsCB.addItem("TODOS LOS ENTRENAMIENTOS");
+		trainingsCB.addItem(Strings.get("graphAllTrainings"));
 		try {
 			db.openDataBase();
 			ResultSet rsEntrenamiento = db.exeQuery("SELECT * FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
 			int i = 1;
 			while (rsEntrenamiento.next()) {
 				int trainingNumber = i;
+				trainingsCB.addItem(Strings.get("graphTrainingGraph")+i);
 				String dateTime = rsEntrenamiento.getString(3);
 				String duration = rsEntrenamiento.getString(4);
 				ArrayList<Integer> bpm = new ArrayList<>();
@@ -107,6 +138,7 @@ public class StatisticsUI {
 					}
 				}
 				allData.add(new ChartData(trainingNumber, dateTime, duration, ppm, bpm));
+				i++;
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

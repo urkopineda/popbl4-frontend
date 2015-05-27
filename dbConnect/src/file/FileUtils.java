@@ -11,12 +11,9 @@ import java.util.ArrayList;
 import main.Configuration;
 
 public class FileUtils {
-    static String fileName = "conf.dat";
-    static String line = null;
-    
     public static void writeConfFile() {
     	 try {
-             FileWriter fileWriter = new FileWriter(fileName);
+             FileWriter fileWriter = new FileWriter(Configuration.confFile);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
              bufferedWriter.write("LANG="+Configuration.lang);
              bufferedWriter.close();
@@ -26,14 +23,16 @@ public class FileUtils {
     }
     
     public static void readConfFile() {
+    	String line = null;
     	try {
     		ArrayList<String> lines = new ArrayList<>();
-    		FileReader fileReader = new FileReader(fileName);
+    		FileReader fileReader = new FileReader(Configuration.confFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             while((line = bufferedReader.readLine()) != null) {
             	lines.add(line);
             }
             String [] lang = lines.get(0).split("=");
+            System.out.println(lang[1]);
             Configuration.lang = Integer.parseInt(lang[1]);
             bufferedReader.close();            
         } catch (FileNotFoundException ex) {
