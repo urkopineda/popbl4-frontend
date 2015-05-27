@@ -24,6 +24,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	TrainingUI trainingUI = null;
 	TrainingDataUI trainingDataUI = null;
 	StatisticsUI statisticsUI = null;
+	boolean firstLoad = false;
 	
 	public MainUI() {
 		window = new JFrame("Runnstein");
@@ -49,7 +50,10 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (mainPanel.getSelectedIndex() == 2) statisticsUI.addGraphics("all", "time");
+		if (!firstLoad) {
+			if (mainPanel.getSelectedIndex() == 2) statisticsUI.addGraphics(0, 0);
+			firstLoad = true;
+		}
 	}
 
 	@Override
@@ -69,7 +73,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	}
 
 	@Override
-	public void itemStateChanged(ItemEvent arg0) {
-		// CAMBIA COMBO BOX
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == 1) {
+			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
+		}
 	}
 }
