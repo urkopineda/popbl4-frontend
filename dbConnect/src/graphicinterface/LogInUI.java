@@ -29,6 +29,7 @@ import language.Strings;
 import main.Configuration;
 import utils.WindowMaker;
 import database.MySQLUtils;
+import file.FileUtils;
 
 public class LogInUI implements ActionListener, ItemListener {
 	JFrame window = null;
@@ -46,9 +47,12 @@ public class LogInUI implements ActionListener, ItemListener {
 	JButton cancelBtn = null;
 	JComboBox<String> languageComboBox = null;
 	boolean correctLogIn = false;
-	String selectedLanguage = null;
 	
 	public LogInUI() {
+		createJFrame();
+	}
+	
+	private void createJFrame() {
 		window = new JFrame(Strings.get("windowLogIn"));
 		window.setSize(700, 500);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -160,14 +164,7 @@ public class LogInUI implements ActionListener, ItemListener {
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
-			if (e.getStateChange() == ItemEvent.DESELECTED) {
-				boolean hasChanged = Strings.changeLanguage(((String) e.getItem()));
-				if (hasChanged) {
-					window.dispose();
-					@SuppressWarnings("unused")
-					LogInUI newLIUI = new LogInUI();
-				}
-			}
+			System.out.println(languageComboBox.getSelectedItem());
 		}
 	}
 }
