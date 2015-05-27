@@ -43,7 +43,7 @@ public class LogInUI implements ActionListener {
 	boolean correctLogIn = false;
 	
 	public LogInUI() {
-		window = new JFrame(Strings.windowLogIn);
+		window = new JFrame(Strings.get("windowLogIn"));
 		window.setSize(700, 500);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		window.setLocation(dim.width/2 - window.getSize().width/2, dim.height/2 - window.getSize().height/2);
@@ -64,7 +64,7 @@ public class LogInUI implements ActionListener {
 		northPanel = new JPanel(new BorderLayout());
 		titleImage = new JLabel(new ImageIcon(Configuration.dLogoMax));
 		northPanel.add(titleImage, BorderLayout.CENTER);
-		errorText = WindowMaker.createJLabel(errorText, Strings.logInError, 20, "center");
+		errorText = WindowMaker.createJLabel(errorText, Strings.get("logInError"), 20, "center");
 		errorText.setForeground(Color.RED);
 		errorText.setVisible(false);
 		northPanel.add(errorText, BorderLayout.SOUTH);
@@ -76,12 +76,12 @@ public class LogInUI implements ActionListener {
 		centerPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 		logInPanel = new JPanel(new GridLayout(3, 2, 5, 5));
-		userText = WindowMaker.createJLabel(userText, Strings.logInUser, 20, "right");
-		passText = WindowMaker.createJLabel(passText, Strings.logInPass, 20, "right");
+		userText = WindowMaker.createJLabel(userText, Strings.get("logInUser"), 20, "right");
+		passText = WindowMaker.createJLabel(passText, Strings.get("logInPass"), 20, "right");
 		passField = WindowMaker.createJPasswordField(passField);
 		userField = WindowMaker.createJTextField(userField);
-		checkBtn = WindowMaker.createJButton(checkBtn, Strings.logInCheck, "check", this);
-		cancelBtn = WindowMaker.createJButton(cancelBtn, Strings.logInCancel, "cancel", this);
+		checkBtn = WindowMaker.createJButton(checkBtn, Strings.get("logInCheck"), "check", this);
+		cancelBtn = WindowMaker.createJButton(cancelBtn, Strings.get("logInCancel"), "cancel", this);
 		logInPanel.add(userText);
 		logInPanel.add(userField);
 		logInPanel.add(passText);
@@ -95,7 +95,7 @@ public class LogInUI implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-			case "check": checkBtn.setText(Strings.logInChecking);
+			case "check": checkBtn.setText(Strings.get("logInChecking"));
 				checkUser();
 				break;
 			case "cancel": window.dispose();
@@ -128,7 +128,7 @@ public class LogInUI implements ActionListener {
 			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
 		} finally {
 			if (!correctLogIn) {
-				checkBtn.setText(Strings.logInCheck);
+				checkBtn.setText(Strings.get("logInCheck"));
 				errorText.setVisible(true);
 			} else if (correctLogIn) {
 				errorText.setVisible(false);

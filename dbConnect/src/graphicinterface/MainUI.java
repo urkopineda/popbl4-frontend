@@ -40,9 +40,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		trainingUI = new TrainingUI(action);
 		trainingDataUI = new TrainingDataUI(list);
 		statisticsUI = new StatisticsUI(item);
-		mainPanel.add(Strings.mainTabTraining, trainingUI.createMainPanel());
-		mainPanel.add(Strings.mainTabTrainingData, trainingDataUI.createMainPanel());
-		mainPanel.add(Strings.mainTabStatistics, statisticsUI.createMainPanel());
+		mainPanel.add(Strings.get("mainTabTraining"), trainingUI.createMainPanel());
+		mainPanel.add(Strings.get("mainTabTrainingData"), trainingDataUI.createMainPanel());
+		mainPanel.add(Strings.get("mainTabStatistics"), statisticsUI.createMainPanel());
 		mainPanel.addChangeListener(this);
 		return mainPanel;
 	}

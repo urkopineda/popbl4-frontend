@@ -1,8 +1,14 @@
 package language;
 
+import java.util.ArrayList;
+
+import main.Configuration;
+
 public class Strings {
+	public static ArrayList<LanguageList> lista = new ArrayList<>();
+	/*
 	// LogInUI
-	public static String windowLogIn = "Iniciar sesión en Runnstein";
+	public static String windowLogIn = lista.get(Configuration.lang).get("windowLogIn");
 	public static String logInUser = "Usuario: ";
 	public static String logInPass = "Contraseña: ";
 	public static String logInCheck = "Comprobar";
@@ -36,4 +42,9 @@ public class Strings {
 	public static String graphTraining = "Entrenamientos";
 	public static String graphPPM = "Pulsaciones por Minuto";
 	public static String graphBPM = "Bits por Minuto";
+	*/
+	
+	public final static String get(String key) {
+		return lista.get(Configuration.lang).get(key);
+	}
 }

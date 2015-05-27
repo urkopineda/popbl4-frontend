@@ -16,6 +16,7 @@ public class Configuration {
 	public static boolean sensorState = false;
 	public static boolean syncState = false;
 	public static int ppm = 60;
+	public static int lang = 0;
 	// Direcciones de archivos.
 	public static String dHeartOn = "img/heart/heart_on_up.png";
 	public static String dHeartOff = "img/heart/heart_on_down.png";

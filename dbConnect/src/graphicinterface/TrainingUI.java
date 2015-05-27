@@ -51,14 +51,14 @@ public class TrainingUI {
 	
 	private Container createRightPanel() {
 		rightPanel = new JPanel();
-		rightPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingList));
+		rightPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingList")));
 		
 		return rightPanel;
 	}
 	
 	private Container createLeftPanel() {
 		leftPanel = new JPanel(new GridLayout(2, 1, 0, 0));
-		leftPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingMain));
+		leftPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingMain")));
 		leftPanel.add(createChronoPlayerPanel());
 		leftPanel.add(createHeartRatePanel());
 		return leftPanel;
@@ -73,13 +73,13 @@ public class TrainingUI {
 	
 	private Container createChronometerPanel() {
 		chronometerPanel = new JPanel(new BorderLayout());
-		chronometerPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingChrono));
+		chronometerPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingChrono")));
 		chronometerNumbers = WindowMaker.createJLabel(chronometerNumbers, "00:00:00", 75, "center");
 		chronometerPanel.add(chronometerNumbers, BorderLayout.CENTER);
 		chronometerSouthPanel = new JPanel(new GridLayout(1, 3, 5, 5));
-		buttonStart = WindowMaker.createJButton(buttonStart, Strings.trainingBtnStart, "start", act);
-		buttonPause = WindowMaker.createJButton(buttonPause, Strings.trainingBtnPause, "pause", act);
-		buttonStop = WindowMaker.createJButton(buttonStop, Strings.trainingBtnStop, "stop", act);
+		buttonStart = WindowMaker.createJButton(buttonStart, Strings.get("trainingBtnStart"), "start", act);
+		buttonPause = WindowMaker.createJButton(buttonPause, Strings.get("trainingBtnPause"), "pause", act);
+		buttonStop = WindowMaker.createJButton(buttonStop, Strings.get("trainingBtnStop"), "stop", act);
 		chronometerSouthPanel.add(buttonStart);
 		chronometerSouthPanel.add(buttonPause);
 		chronometerSouthPanel.add(buttonStop);
@@ -89,7 +89,7 @@ public class TrainingUI {
 	
 	private Container createPlayerPanel() {
 		playerPanel = new JPanel(new BorderLayout());
-		playerPanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingPlayer));
+		playerPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingPlayer")));
 		// AQUÍ VA LO DE UNAI!
 		
 		return playerPanel;
@@ -97,7 +97,7 @@ public class TrainingUI {
 	
 	private Container createHeartRatePanel() {
 		heartRatePanel = new JPanel(new BorderLayout());
-		heartRatePanel.setBorder(BorderFactory.createTitledBorder(Strings.trainingPulse));
+		heartRatePanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingPulse")));
 		ppmNumbers = WindowMaker.createJLabel(ppmNumbers, Configuration.ppm+" ppm", 50, "center");
 		heartRatePanel.add(ppmNumbers, BorderLayout.NORTH);
 		ppmImage = new JLabel(new ImageIcon(Configuration.dHeartOff));
