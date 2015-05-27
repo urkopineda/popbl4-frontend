@@ -14,5 +14,4 @@ public class LanguageList extends HashMap<String, String> {
 	public String getIdioma() {
 		return get(LANG);
 	}
-	
 }

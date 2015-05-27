@@ -4,17 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,7 +30,7 @@ import main.Configuration;
 import utils.WindowMaker;
 import database.MySQLUtils;
 
-public class LogInUI implements ActionListener {
+public class LogInUI implements ActionListener, ItemListener {
 	JFrame window = null;
 	JPanel mainPanel = null;
 	JPanel northPanel = null;
@@ -40,7 +44,9 @@ public class LogInUI implements ActionListener {
 	JTextField userField = null;
 	JButton checkBtn = null;
 	JButton cancelBtn = null;
+	JComboBox<String> languageComboBox = null;
 	boolean correctLogIn = false;
+	String selectedLanguage = null;
 	
 	public LogInUI() {
 		window = new JFrame(Strings.get("windowLogIn"));
@@ -63,6 +69,16 @@ public class LogInUI implements ActionListener {
 	private Container createNorthPanel() {
 		northPanel = new JPanel(new BorderLayout());
 		titleImage = new JLabel(new ImageIcon(Configuration.dLogoMax));
+		languageComboBox = WindowMaker.createJComboBox(languageComboBox, null, this);
+		languageComboBox.addItem("Euskera");
+		languageComboBox.addItem("Castellano");
+		languageComboBox.addItem("English");
+		if (Configuration.lang == 0) languageComboBox.setSelectedItem("Euskera");
+		else if (Configuration.lang == 1) languageComboBox.setSelectedItem("Castellano");
+		else if (Configuration.lang == 2) languageComboBox.setSelectedItem("English");
+		JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		tempPanel.add(languageComboBox);
+		northPanel.add(tempPanel, BorderLayout.NORTH);
 		northPanel.add(titleImage, BorderLayout.CENTER);
 		errorText = WindowMaker.createJLabel(errorText, Strings.get("logInError"), 20, "center");
 		errorText.setForeground(Color.RED);
@@ -137,6 +153,20 @@ public class LogInUI implements ActionListener {
 				db.closeDataBase();
 			} catch (SQLException e) {
 				System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
+			}
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.DESELECTED) {
+			if (e.getStateChange() == ItemEvent.DESELECTED) {
+				boolean hasChanged = Strings.changeLanguage(((String) e.getItem()));
+				if (hasChanged) {
+					window.dispose();
+					@SuppressWarnings("unused")
+					LogInUI newLIUI = new LogInUI();
+				}
 			}
 		}
 	}
