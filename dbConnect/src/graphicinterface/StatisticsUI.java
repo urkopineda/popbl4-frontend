@@ -41,7 +41,7 @@ public class StatisticsUI {
 	
 	public Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
-		mainPanel.setBorder(BorderFactory.createTitledBorder(Strings.statisticsMain));
+		mainPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("statisticsMain")));
 		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
 		createData();
 		mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
@@ -52,9 +52,9 @@ public class StatisticsUI {
 		northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		trainingsCB = WindowMaker.createJComboBox(trainingsCB, null, item);
 		modeCB = WindowMaker.createJComboBox(modeCB, null, item);
-		modeCB.addItem(Strings.statsModeTime);
-		modeCB.addItem(Strings.statsModeMax);
-		modeCB.addItem(Strings.statsModeMean);
+		modeCB.addItem(Strings.get("statsModeTime"));
+		modeCB.addItem(Strings.get("statsModeMax"));
+		modeCB.addItem(Strings.get("statsModeMean"));
 		northPanel.add(trainingsCB);
 		northPanel.add(modeCB);
 		return northPanel;
@@ -76,7 +76,7 @@ public class StatisticsUI {
 	
 	private void createAllTimesChart(JPanel containerPanel, JLabel chartLabel) {
 		chartLabel = new JLabel();
-		Chart.createLineChartv2(containerPanel, chartLabel, timeData, timeColumns, Strings.graphTime, Strings.graphTraining, Strings.statsModeTime);
+		Chart.createLineChartv2(containerPanel, chartLabel, timeData, timeColumns, Strings.get("graphTime"), Strings.get("graphTraining"), Strings.get("statsModeTime"));
 		containerPanel.add(chartLabel, BorderLayout.CENTER);
 		containerPanel.updateUI();
 	}

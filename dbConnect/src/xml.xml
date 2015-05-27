@@ -1,0 +1,113 @@
+<strings>
+	<idioma name="euskera">
+		<!-- LogInUI -->
+		<string name="windowLogIn">Saioa hasi</string>
+		<string name="logInUser">Erabiltzailea:</string>
+		<string name="logInPass">Pasahitza:</string>
+		<string name="logInCheck">Ziurtatu</string>
+		<string name="logInChecking">Ziurtatzen...</string>
+		<string name="logInCancel">Utzi</string>
+		<string name="logInError">AKATSA: Erabiltzaile / Pasahitz okerra.</string>
+		<!-- TrainingUI -->
+		<string name="windowMain">Runnstein</string>
+		<string name="mainTabTraining">Entramendua hasi</string>
+		<string name="mainTabTrainingData">Nire entrenamenduak</string>
+		<string name="mainTabStatistics">Nire estatistikak</string>
+		<string name="mainTabProfile">Nire profila</string>
+		<!-- TrainingUI -->
+		<string name="trainingList">Erreprodukzio zerrenda</string>
+		<string name="trainingMain">Entrenamendu kontrola</string>
+		<string name="trainingChrono">Kronometro</string>
+		<string name="trainingPlayer">Musika erreproduzitzaile</string>
+		<string name="trainingPulse">Pultsometroa</string>
+		<string name="trainingBtnStart">Hasi</string>
+		<string name="trainingBtnPause">Eten</string>
+		<string name="trainingBtnStop">Stop</string>
+		<!-- TrainingDataUI -->
+		<string name="trainingDataMain">Entrenamendu laburpena</string>
+		<!-- StatisticsUI -->
+		<string name="statisticsMain">Ariketa grafikoak</string>
+		<string name="statsModeTime">Denbora (minutuak)</string>
+		<string name="statsModeMax">Maximoa</string>
+		<string name="statsModeMin">Minimoa</string>
+		<string name="statsModeMean">Batezbestekoa</string>
+		<string name="graphTime">Entrenamenduen iraupena</string>
+		<string name="graphTraining">Entrenamenduak</string>
+		<string name="graphPPM">Taupadak minutuko</string>
+		<string name="graphBMP">Joaldiak minutuko</string>
+	</idioma>
+	<idioma name="castellano">
+		<!-- LogInUI -->
+		<string name="windowLogIn">Iniciar sesión</string>
+		<string name="logInUser">Usuario:</string>
+		<string name="logInPass">Contraseña:</string>
+		<string name="logInCheck">Comprobar</string>
+		<string name="logInChecking">Comprobando...</string>
+		<string name="logInCancel">Cancelar</string>
+		<string name="logInError">ERROR: Usuario/contraseña incorrectos.</string>
+		<!-- MainUI -->
+		<string name="windowMain">Runnstein</string>
+		<string name="mainTabTraining">Iniciar Entrenamiento</string>
+		<string name="mainTabTrainingData">Mis Entrenamientos</string>
+		<string name="mainTabStatistics">Mis estadísticas</string>
+		<string name="mainTabProfile">Mi Perfil</string>
+		<!-- TrainingUI -->
+		<string name="trainingList">Lista de Reproducción</string>
+		<string name="trainingMain">Control del Entrenamiento</string>
+		<string name="trainingChrono">Cronómetro</string>
+		<string name="trainingPlayer">Reproductor de Música</string>
+		<string name="trainingPulse">Pulsómetro</string>
+		<string name="trainingBtnStart">Iniciar</string>
+		<string name="trainingBtnPause">Pausar</string>
+		<string name="trainingBtnStop">Stop</string>
+		<!-- TrainingDataUI -->
+		<string name="trainingDataMain">Resumen de Entrenamientos</string>
+		<!-- StatisticsUI -->
+		<string name="statisticsMain">Gráficos de Ejercicio</string>
+		<string name="statsModeTime">Tiempo (minutos)</string>
+		<string name="statsModeMax">Máximo</string>
+		<string name="statsModeMin">Mínimo</string>
+		<string name="statsModeMean">Media</string>
+		<string name="graphTime">Duración de Entrenamientos</string>
+		<string name="graphTraining">Entrenamientos</string>
+		<string name="graphPPM">Pulsaciones por minuto</string>
+		<string name="graphBMP">Beats por minutos</string>
+	</idioma>
+	<idioma name="english">
+		<!-- LogInUI -->
+		<string name="windowLogIn">Sign in</string>
+		<string name="logInUser">Username:</string>
+		<string name="logInPass">Password:</string>
+		<string name="logInCheck">Check</string>
+		<string name="logInChecking">Checking...</string>
+		<string name="logInCancel">Cancel</string>
+		<string name="logInError">ERROR: Incorrect user/password</string>
+		<!-- TrainingUI -->
+		<string name="windowMain">Runnstein</string>
+		<string name="mainTabTraining">Begin training</string>
+		<string name="mainTabTrainingData">My trainings</string>
+		<string name="mainTabStatistics">My statistics</string>
+		<string name="mainTabProfile">My profile</string>
+		<!-- TrainingUI -->
+		<string name="trainingList">Playlist</string>
+		<string name="trainingMain">Training control</string>
+		<string name="trainingChrono">Chronometer</string>
+		<string name="trainingPlayer">Music player</string>
+		<string name="trainingPulse">Pulse sensor</string>
+		<string name="trainingBtnStart">Begin</string>
+		<string name="trainingBtnPause">Pause</string>
+		<string name="trainingBtnStop">Stop</string>
+		<!-- TrainingDataUI -->
+		<string name="trainingDataMain">Training summary</string>
+		<!-- StatisticsUI -->
+		<string name="statisticsMain">Exercise graphics</string>
+		<string name="statsModeTime">Time (minutes)</string>
+		<string name="statsModeMax">Highest</string>
+		<string name="statsModeMin">Lowest</string>
+		<string name="statsModeMean">Mean</string>
+		<string name="graphTime">Training length</string>
+		<string name="graphTraining">Training</string>
+		<string name="graphPPM">Heart beats per minute</string>
+		<string name="graphBMP">Song's BPM</string>
+	</idioma>
+</strings>
