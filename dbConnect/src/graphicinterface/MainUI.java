@@ -24,6 +24,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	TrainingUI trainingUI = null;
 	TrainingDataUI trainingDataUI = null;
 	StatisticsUI statisticsUI = null;
+	RecordsUI recordsUI = null;
 	boolean firstLoad = false;
 	
 	public MainUI() {
@@ -41,9 +42,11 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		trainingUI = new TrainingUI(action);
 		trainingDataUI = new TrainingDataUI(list);
 		statisticsUI = new StatisticsUI(item);
+		recordsUI = new RecordsUI();
 		mainPanel.add(Strings.get("mainTabTraining"), trainingUI.createMainPanel());
 		mainPanel.add(Strings.get("mainTabTrainingData"), trainingDataUI.createMainPanel());
 		mainPanel.add(Strings.get("mainTabStatistics"), statisticsUI.createMainPanel());
+		mainPanel.add(Strings.get("mainTabRecord"), recordsUI.createMainPanel());
 		mainPanel.addChangeListener(this);
 		return mainPanel;
 	}

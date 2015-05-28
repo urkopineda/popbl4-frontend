@@ -11,12 +11,12 @@ public class Serial {
 	/**
 	 * Abrir puerto de conexión.
 	 */
-	public void openPot() {
+	public void openPort() {
 		if (SerialPortList.getPortNames().length != 0) {
 			port = new SerialPort(SerialPortList.getPortNames()[0]);	
 			try {
 				port.openPort();
-				port.setParams(9600, 8, 1, 0);
+				port.setParams(Configuration.baudRate, 8, 1, 0);
 				Configuration.sensorState = true;
 			} catch (SerialPortException e) {
 				e.printStackTrace();

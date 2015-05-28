@@ -14,6 +14,7 @@
 		<string name="mainTabTrainingData">Nire entrenamenduak</string>
 		<string name="mainTabStatistics">Nire estatistikak</string>
 		<string name="mainTabProfile">Nire profila</string>
+		<string name="mainTabRecord">Nire errekorrak</string>
 		<!-- TrainingUI -->
 		<string name="trainingList">Erreprodukzio zerrenda</string>
 		<string name="trainingMain">Entrenamendu kontrola</string>
@@ -60,6 +61,7 @@
 		<string name="mainTabTrainingData">Mis Entrenamientos</string>
 		<string name="mainTabStatistics">Mis estadísticas</string>
 		<string name="mainTabProfile">Mi Perfil</string>
+		<string name="mainTabRecord">Mis Records</string>
 		<!-- TrainingUI -->
 		<string name="trainingList">Lista de Reproducción</string>
 		<string name="trainingMain">Control del Entrenamiento</string>
@@ -106,6 +108,7 @@
 		<string name="mainTabTrainingData">My trainings</string>
 		<string name="mainTabStatistics">My statistics</string>
 		<string name="mainTabProfile">My profile</string>
+		<string name="mainTabRecord">My Records</string>
 		<!-- TrainingUI -->
 		<string name="trainingList">Playlist</string>
 		<string name="trainingMain">Training control</string>

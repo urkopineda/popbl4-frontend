@@ -17,6 +17,7 @@ public class Configuration {
 	public static boolean syncState = false;
 	public static int ppm = 60;
 	public static int lang = 0;
+	public static final int baudRate = 1200;
 	// Direcciones de archivos.
 	public static final String confFile = "conf.dat";
 	public static final String dHeartOn = "img/heart/heart_on_up.png";
