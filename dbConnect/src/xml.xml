@@ -42,6 +42,8 @@
 		<string name="graphNotAvaliable">Ezin da grafiko hau sortu</string>
 		<string name="graphInterval">Bitarteak</string>
 		<string name="graphSong">Abestiak</string>
+		<!-- RecordsUI -->
+		
 	</idioma>
 	<idioma name="castellano">
 		<!-- LogInUI -->
@@ -86,6 +88,8 @@
 		<string name="graphNotAvaliable">El gráfico no está disponible</string>
 		<string name="graphInterval">Intervalos</string>
 		<string name="graphSong">Canciones</string>
+		<!-- RecordsUI -->
+		
 	</idioma>
 	<idioma name="english">
 		<!-- LogInUI -->
@@ -130,5 +134,7 @@
 		<string name="graphNotAvaliable">Chart not avaliable</string>
 		<string name="graphInterval">Intervals</string>
 		<string name="graphSong">Songs</string>
+		<!-- RecordsUI -->
+		
 	</idioma>
 </strings>
