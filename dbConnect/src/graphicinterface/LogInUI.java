@@ -73,7 +73,7 @@ public class LogInUI implements ActionListener, ItemListener {
 	private Container createNorthPanel() {
 		northPanel = new JPanel(new BorderLayout());
 		titleImage = new JLabel(new ImageIcon(Configuration.dLogoMax));
-		languageComboBox = WindowMaker.createJComboBox(languageComboBox, null, this);
+		languageComboBox = WindowMaker.createJComboBox(null, this);
 		languageComboBox.addItem("Euskera");
 		languageComboBox.addItem("Castellano");
 		languageComboBox.addItem("English");
@@ -98,10 +98,10 @@ public class LogInUI implements ActionListener, ItemListener {
 		logInPanel = new JPanel(new GridLayout(3, 2, 5, 5));
 		userText = WindowMaker.createJLabel(userText, Strings.get("logInUser"), 20, "right");
 		passText = WindowMaker.createJLabel(passText, Strings.get("logInPass"), 20, "right");
-		passField = WindowMaker.createJPasswordField(passField);
-		userField = WindowMaker.createJTextField(userField);
-		checkBtn = WindowMaker.createJButton(checkBtn, Strings.get("logInCheck"), "check", this);
-		cancelBtn = WindowMaker.createJButton(cancelBtn, Strings.get("logInCancel"), "cancel", this);
+		passField = WindowMaker.createJPasswordField();
+		userField = WindowMaker.createJTextField();
+		checkBtn = WindowMaker.createJButton(Strings.get("logInCheck"), "check", this);
+		cancelBtn = WindowMaker.createJButton(Strings.get("logInCancel"), "cancel", this);
 		logInPanel.add(userText);
 		logInPanel.add(userField);
 		logInPanel.add(passText);

@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -15,10 +17,11 @@ import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
 
-public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener{
+public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener, PropertyChangeListener {
 	ActionListener action = this;
 	ListSelectionListener list = this;
 	ItemListener item = this;
+	PropertyChangeListener propertyChange = this;
 	JFrame window = null;
 	JTabbedPane mainPanel = null;
 	TrainingUI trainingUI = null;
@@ -38,7 +41,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	
 	private Container createMainPanel() {
 		mainPanel = new JTabbedPane();
-		trainingUI = new TrainingUI(action);
+		trainingUI = new TrainingUI(propertyChange, action, list);
 		trainingDataUI = new TrainingDataUI(list);
 		statisticsUI = new StatisticsUI(item);
 		mainPanel.add(Strings.get("mainTabTraining"), trainingUI.createMainPanel());
@@ -78,5 +81,11 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

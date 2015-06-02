@@ -139,7 +139,7 @@ public class MobileUI implements ActionListener {
 		tempBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		// Set color.
 		tempBtnPanel.setBackground(new Color(16777215));
-		startBtn = WindowMaker.createJButton(startBtn, "Iniciar", "start", this);
+		startBtn = WindowMaker.createJButton("Iniciar", "start", this);
 		tempBtnPanel.add(startBtn);
 		southPanel.add(tempBtnPanel, BorderLayout.SOUTH);
 		return southPanel;

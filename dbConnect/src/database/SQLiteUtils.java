@@ -50,6 +50,7 @@ public class SQLiteUtils {
 		try {
 			st = conn.createStatement();
 			String sql = "INSERT INTO "+table+" "+cols+" VALUES "+values;
+			System.out.println(sql);
 			st.executeUpdate(sql);
 		} catch (SQLException e) {
 			System.out.println("No se ha podido crear el nuevo dato en la base de datos. Comprueba el query.");
