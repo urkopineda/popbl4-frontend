@@ -133,6 +133,7 @@ public class LogInUI implements ActionListener, ItemListener {
 			db.openDataBase();
 			ResultSet rs = db.exeQuery("SELECT Username, Password, UsuarioID, Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE Username = '"+userField.getText()+"' AND Password = '"+pass+"'");
 			while (rs.next()) {
+				Configuration.username = rs.getString(1);
 				Configuration.userID = rs.getInt(3);
 				Configuration.name = rs.getString(4);
 				Configuration.surname1 = rs.getString(5);

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -25,7 +26,8 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	TrainingDataUI trainingDataUI = null;
 	StatisticsUI statisticsUI = null;
 	RecordsUI recordsUI = null;
-	boolean firstLoad = false;
+	ProfileUI profileUI = null;
+	ArrayList<Integer> addContentFlags = null;
 	
 	public MainUI() {
 		window = new JFrame("Runnstein");
@@ -38,24 +40,53 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	}
 	
 	private Container createMainPanel() {
+		addContentFlags = new ArrayList<>();
 		mainPanel = new JTabbedPane();
 		trainingUI = new TrainingUI(action);
 		trainingDataUI = new TrainingDataUI(list);
 		statisticsUI = new StatisticsUI(item);
 		recordsUI = new RecordsUI();
+		profileUI = new ProfileUI(action, window);
 		mainPanel.add(Strings.get("mainTabTraining"), trainingUI.createMainPanel());
+		addContentFlags.add(0);
 		mainPanel.add(Strings.get("mainTabTrainingData"), trainingDataUI.createMainPanel());
+		addContentFlags.add(0);
 		mainPanel.add(Strings.get("mainTabStatistics"), statisticsUI.createMainPanel());
+		addContentFlags.add(0);
 		mainPanel.add(Strings.get("mainTabRecord"), recordsUI.createMainPanel());
+		addContentFlags.add(0);
+		mainPanel.add(Strings.get("mainTabProfile"), profileUI.createMainPanel());
+		addContentFlags.add(0);
 		mainPanel.addChangeListener(this);
+		trainingUI.addContent();
 		return mainPanel;
 	}
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		if (!firstLoad) {
-			if (mainPanel.getSelectedIndex() == 2) statisticsUI.addGraphics(0, 0);
-			firstLoad = true;
+		if (mainPanel.getSelectedIndex() == 1) {
+			if (addContentFlags.get(mainPanel.getSelectedIndex()) == 0) {
+				addContentFlags.set(mainPanel.getSelectedIndex(), 1);
+				trainingDataUI.addContent();
+			}
+		}
+		if (mainPanel.getSelectedIndex() == 2) {
+			if (addContentFlags.get(mainPanel.getSelectedIndex()) == 0) {
+				addContentFlags.set(mainPanel.getSelectedIndex(), 1);
+				statisticsUI.addContent();
+			}
+		}
+		if (mainPanel.getSelectedIndex() == 3) {
+			if (addContentFlags.get(mainPanel.getSelectedIndex()) == 0) {
+				addContentFlags.set(mainPanel.getSelectedIndex(), 1);
+				recordsUI.addContent();
+			}
+		}
+		if (mainPanel.getSelectedIndex() == 4) {
+			if (addContentFlags.get(mainPanel.getSelectedIndex()) == 0) {
+				addContentFlags.set(mainPanel.getSelectedIndex(), 1);
+				profileUI.addContent();
+			}
 		}
 	}
 
@@ -67,6 +98,10 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			trainingUI.pauseTimer();
 		} else if (e.getActionCommand().equals("stop")) {
 			trainingUI.stopTimer();
+		} else if (e.getActionCommand().equals("cancel")) {
+			profileUI.cancelOption();
+		} else if (e.getActionCommand().equals("save")) {
+			profileUI.updateData();
 		}
 	}
 
@@ -78,7 +113,6 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
-			
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 		}
 	}

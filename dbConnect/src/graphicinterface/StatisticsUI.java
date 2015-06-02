@@ -41,11 +41,14 @@ public class StatisticsUI {
 	
 	public Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
+		return mainPanel;
+	}
+	
+	public void addContent() {
 		mainPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("statisticsMain")));
 		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
 		createData();
 		mainPanel.add(createCenterPanel(), BorderLayout.CENTER);
-		return mainPanel;
 	}
 	
 	private Container createNorthPanel() {

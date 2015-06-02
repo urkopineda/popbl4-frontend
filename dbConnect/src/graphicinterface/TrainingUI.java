@@ -42,11 +42,15 @@ public class TrainingUI {
 	
 	public Container createMainPanel() {
 		mainPanel = new JPanel(new GridLayout(1, 2, 0, 0));
+		return mainPanel;
+	}
+	
+	public void addContent() {
 		mainPanel.add(createLeftPanel());
 		mainPanel.add(createRightPanel());
 		buttonPause.setEnabled(false);
 		buttonStop.setEnabled(false);
-		return mainPanel;
+		mainPanel.updateUI();
 	}
 	
 	private Container createRightPanel() {

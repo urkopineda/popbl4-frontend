@@ -20,12 +20,15 @@ public class RecordsUI {
 	
 	RecordsData newData = null;
 	
-	public RecordsUI() {
-		newData = new RecordsData();
-	}
+	public RecordsUI() {}
 	
 	public Container createMainPanel() {
 		mainPanel = new JPanel(new GridLayout(5, 1, 5, 5));
+		return mainPanel;
+	}
+	
+	public void addContent() {
+		newData = new RecordsData();
 		label1 = WindowMaker.createJLabel(label1, "Total de minutos entrenados: "+newData.totalDuration+" minutos.", 30, "center");
 		label2 = WindowMaker.createJLabel(label2, "Máximo de minutos entrenados en un único entrenamiento: "+newData.maxDuration+" minutos.", 30, "center");
 		label3 = WindowMaker.createJLabel(label3, "Máximo de pulsaciones por minuto: "+newData.maxPPM+" ppm.", 30, "center");
@@ -36,6 +39,5 @@ public class RecordsUI {
 		mainPanel.add(label2);
 		mainPanel.add(label3);
 		mainPanel.add(label4);
-		return mainPanel;
 	}
 }

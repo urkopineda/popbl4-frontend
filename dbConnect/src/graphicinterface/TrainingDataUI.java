@@ -38,10 +38,13 @@ public class TrainingDataUI {
 	
 	public Container createMainPanel() {
 		mainPanel = new JPanel(new BorderLayout());
+		return mainPanel;
+	}
+	
+	public void addContent() {
 		mainPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingDataMain")));
 		mainPanel.add(scrollMainPanel = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 		createTable();
-		return mainPanel;
 	}
 	
 	private void createTable() {

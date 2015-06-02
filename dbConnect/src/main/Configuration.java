@@ -10,6 +10,7 @@ public class Configuration {
 	public static final String password = "javarunnsteinuser";
 	public static final String dbName = "RunnsteinDB";
 	public static int userID = 0;
+	public static String username = null;
 	public static String name = null;
 	public static String surname1 = null;
 	public static String surname2 = null;
