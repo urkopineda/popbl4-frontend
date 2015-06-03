@@ -61,13 +61,17 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("start")) {
-			trainingUI.startTimer();
-		} else if (e.getActionCommand().equals("pause")) {
-			trainingUI.pauseTimer();
-		} else if (e.getActionCommand().equals("stop")) {
-			trainingUI.stopTimer();
-		}
+		String cmd = e.getActionCommand();
+		switch (cmd) {
+		case "start": trainingUI.startTimer(); break;
+		case "pause": trainingUI.pauseTimer(); break;
+		case "stop": trainingUI.stopTimer(); break;
+		case "playSong": System.out.println("Play"); break;
+		case "stopSong": System.out.println("Stop"); break;
+		case "pauseSong": System.out.println("Pause"); break;
+		case "nextSong": System.out.println("Next"); break;
+		case "previousSong": System.out.println("Previous"); break;
+		}		
 	}
 
 	@Override
@@ -77,8 +81,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		if (e.getStateChange() == ItemEvent.DESELECTED) {
-			
+		if (e.getStateChange() == ItemEvent.DESELECTED) {			
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 		}
 	}

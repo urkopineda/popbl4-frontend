@@ -41,10 +41,10 @@ public class Song extends DataType {
 	@Override
 	public void searchID(SQLiteUtils conn) {
 		Properties pr = new Properties();
-		if (this.getAuthor().getID()!=null) pr.put("AuthorID", this.getAuthor().getID());
+		if (this.getAuthor().getID()!=null) pr.put("AutorID", this.getAuthor().getID());
 		if (this.getAlbum().getID()!=null) pr.put("AlbumID", this.getAlbum().getID());
-		pr.put("Path", this.getPath());
-		setID(conn.getID("Song", pr));
+		pr.put("Ruta", this.getPath());
+		setID(conn.getID("Cancion", pr));
 	}
 	
 	public static int calculateLength(File file) {
@@ -138,7 +138,7 @@ public class Song extends DataType {
 
 	@Override
 	public String getColumnValues() {
-		return "("+getAuthor().id+","+getAlbum().getID()+","+duration+",'"+title.replaceAll("'", "''")+"', '"+path.replaceAll("'", "''")+"')";
+		return "("+getAuthor().getID()+","+getAlbum().getID()+","+duration.inSeconds()+",'"+title.replaceAll("'", "''")+"', '"+path.replaceAll("'", "''")+"')";
 	}
 
 	@Override

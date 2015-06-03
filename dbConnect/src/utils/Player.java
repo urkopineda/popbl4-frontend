@@ -4,6 +4,7 @@ import jaco.mp3.player.MP3Player;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -50,7 +51,7 @@ import database.SQLiteUtils;
 import exceptions.CancelacionException;
 import exceptions.CancionRepetidaException;
 
-public class Player {
+public class Player implements ActionListener {
 	private MP3Player player;
 	private ArrayList<Song> list;
 	private int n;
@@ -80,7 +81,6 @@ public class Player {
 	private JLabel txtTitle, txtAuthor, txtAlbum, actualDuration, totalDuration;
 	private JProgressBar progressBar;
 	
-	private Task task;
 	private Thread thread;
 	
 	public Player(PropertyChangeListener pgListener, ActionListener actionListener, ListSelectionListener listListener) {
@@ -299,12 +299,6 @@ public class Player {
 		return playerList;
 	}
 	
-	private void executeTask() {
-		task = new Task();
-		task.addPropertyChangeListener(pgListener);
-		task.execute();
-	}
-	
 	public void addSong(Song c) {
 		player.addToPlayList(new File(c.getPath()));
 		list.add(c);
@@ -316,7 +310,6 @@ public class Player {
 		playing = null;
 		n=0;
 		//actualizarLabels();
-		task = null;
 	}
 	
 	private String parseURL(URL url) {
@@ -335,7 +328,6 @@ public class Player {
 		String path = parseURL((URL)player.getPlayList().get(n));
 		playing = Song.checkDuplicateSong(path, Song.getSongListModel());
 		System.out.println(playing);
-		executeTask();
 		//actualizarLabels();
 	}
 	
@@ -362,9 +354,6 @@ public class Player {
 	public void stop() {
 		thread.stop();
 		thread = null;
-		task.cancel(true);
-		task.restart();
-		task = null;
 		progressBar.setValue(0);
 		player.stop();
 	}
@@ -392,7 +381,6 @@ public class Player {
 	public boolean skipForward() {
 		thread.stop();
 		createThread();
-		task.restart();
 		progressBar.setValue(0);
 		played = new Duration(0);
 		player.skipForward();
@@ -406,7 +394,6 @@ public class Player {
 	public boolean skipBackward() {
 		thread.stop();
 		createThread();
-		task.restart();
 		progressBar.setValue(0);
 		played = new Duration(0);
 		player.skipBackward();
@@ -419,19 +406,19 @@ public class Player {
 	
 	private void fillPlayerButtonView() {
 		playerButtons = new JPanel(new GridLayout(1, 5));
-		previousButton = WindowMaker.createJButton(new ImageIcon("res/previous.png"), "previousSong", actionListener);
+		previousButton = WindowMaker.createJButton(new ImageIcon("img/player/previous.png"), "previousSong", this);
 		setButtonStyle(previousButton);
 		playerButtons.add(previousButton);
-		pauseButton = WindowMaker.createJButton(new ImageIcon("res/pause.png"), "pauseSong", actionListener);
+		pauseButton = WindowMaker.createJButton(new ImageIcon("img/player/pause.png"), "pauseSong", this);
 		setButtonStyle(pauseButton);
 		playerButtons.add(pauseButton);
-		playButton = WindowMaker.createJButton(new ImageIcon("res/play.png"), "playSong", actionListener);
+		playButton = WindowMaker.createJButton(new ImageIcon("img/player/play.png"), "playSong", this);
 		setButtonStyle(playButton);
 		playerButtons.add(playButton);
-		stopButton = WindowMaker.createJButton(new ImageIcon("res/stop.png"), "stopSong", actionListener);
+		stopButton = WindowMaker.createJButton(new ImageIcon("img/player/stop.png"), "stopSong", this);
 		setButtonStyle(stopButton);
 		playerButtons.add(stopButton);
-		nextButton = WindowMaker.createJButton(new ImageIcon("res/next.png"), "nextSong", actionListener);
+		nextButton = WindowMaker.createJButton(new ImageIcon("img/player/next.png"), "nextSong", this);
 		setButtonStyle(nextButton);
 		playerButtons.add(nextButton);
 	}
@@ -439,7 +426,7 @@ public class Player {
 	private void setButtonStyle(JButton btn) {
 		btn.setOpaque(true);
 		btn.setContentAreaFilled(false);
-		btn.setBorderPainted(false);
+		btn.setBorderPainted(true);
 	}
 	
 	private void fillPlayerListView() {
@@ -448,79 +435,16 @@ public class Player {
 		scroll.setViewportView(songList);
 		playerList.add(scroll);
 	}
-	
-	/*private void rellenarVista() {
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
-		
-		txtTitle = new JLabel(txtTitulo_INICIAL);
-		txtTitle.setFont(new Font(txtTitle.getFont().getFontName(), Font.BOLD, 28));
-		txtTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridwidth = 2;
-		add(txtTitle, c);
-		
-		txtAlbum = new JLabel();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 1;
-		c.gridwidth = 2;
-		add(txtAlbum, c);
-		
-		txtAuthor = new JLabel();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 2;
-		c.gridwidth = 2;
-		add(txtAuthor, c);
-		
-		actualDuration = new JLabel();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 3;
-		c.anchor = GridBagConstraints.WEST;
-		add(actualDuration, c);
-		
-		totalDuration = new JLabel();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 4;
-		c.anchor = GridBagConstraints.EAST;
-		add(totalDuration, c);
-		
-		progressBar = new JProgressBar();
-		c.gridx = 0;
-		c.gridy = 5;
-		c.gridwidth = 2;
-		c.anchor = GridBagConstraints.CENTER;
-		add(progressBar, c);
-	}*/
-	
-	private class Task extends SwingWorker<Void, Void> {
-		private int progress;
-		
-		@Override
-		protected Void doInBackground() {
-			progress = 0;
-			setProgress(0);
-			while (progress<100) {
-				int n = 0;
-				try {
-					do Thread.sleep(1); while (n++<playing.getDuration().enSegundos()*10);
-				} catch (InterruptedException e) {
-					System.out.println("Se ha interrumpido la espera.");
-				}
-				progress++;
-				setProgress(progress);
-			}
-			return null;
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String cmd = e.getActionCommand();
+		switch (cmd) {
+		case "playSong": System.out.println("Play"); break;
+		case "stopSong": System.out.println("Stop"); break;
+		case "pauseSong": System.out.println("Pause"); break;
+		case "nextSong": System.out.println("Next"); break;
+		case "previousSong": System.out.println("Previous"); break;
 		}
-		
-		public void restart() {
-			progress = 0;
-		}
-		
 	}
 }

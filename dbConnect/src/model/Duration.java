@@ -15,15 +15,15 @@ public class Duration {
 		this.sec = s;
 	}
 	
-	public int enSegundos() {
+	public int inSeconds() {
 		return sec;
 	}
 	
-	public int enMilisegundos() {
+	public int inMilliseconds() {
 		return sec*1000;
 	}
 	
-	public int enMinutos() {
+	public int inMinutes() {
 		return sec/60;
 	}
 	

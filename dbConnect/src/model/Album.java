@@ -53,7 +53,7 @@ public class Album extends DataType {
 	public void searchID(SQLiteUtils conn) {
 		Properties pr = new Properties();
 		pr.put("Nombre", this.getTitle());
-		if (this.getAuthor().getID()!=null) pr.put("AuthorID", this.getAuthor().getID());
+		if (this.getAuthor().getID()!=null) pr.put("AutorID", this.getAuthor().getID());
 		setID(conn.getID("Album", pr));
 	}
 
