@@ -281,7 +281,8 @@ public class Player implements ActionListener {
 					while (true) {
 						Thread.sleep(1000);
 						played.addSecond();
-						actualDuration.setText(played.toString());
+						System.out.println(played);
+						//actualDuration.setText(played.toString());
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -297,6 +298,42 @@ public class Player implements ActionListener {
 	
 	public JPanel getPlayerList() {
 		return playerList;
+	}
+	
+	public void startReproduction() {
+		Song s = songList.getSelectedValue();
+		if (s==null) s = songList.getModel().getElementAt(0);
+		addSong(s);
+		previousButton.setEnabled(false);
+		stopButton.setEnabled(true);
+		nextButton.setEnabled(true);
+		pauseButton.setEnabled(true);
+		playButton.setEnabled(false);
+		play();
+	}
+	
+	public void pauseReproduction() {
+		pause();
+		pauseButton.setEnabled(false);
+		stopButton.setEnabled(false);
+		playButton.setEnabled(true);
+	}
+	
+	public void stopReproduction() {
+		stop();
+		clear();
+		stopButton.setEnabled(false);
+		nextButton.setEnabled(false);
+		previousButton.setEnabled(false);
+		pauseButton.setEnabled(false);
+		playButton.setEnabled(true);
+	}
+	
+	public void resumeReproduction() {
+		play();
+		pauseButton.setEnabled(true);
+		stopButton.setEnabled(true);
+		playButton.setEnabled(false);
 	}
 	
 	public void addSong(Song c) {
@@ -328,23 +365,7 @@ public class Player implements ActionListener {
 		String path = parseURL((URL)player.getPlayList().get(n));
 		playing = Song.checkDuplicateSong(path, Song.getSongListModel());
 		System.out.println(playing);
-		//actualizarLabels();
 	}
-	
-	/*private void actualizarLabels() {
-		if (playing == null) {
-			txtTitle.setText(txtTitulo_INICIAL);
-			txtAlbum.setText("");
-			txtAuthor.setText("");
-			totalDuration.setText("");
-		} else {
-			txtTitle.setText(playing.getTitle());
-			txtAlbum.setText(playing.getAlbum().toString());
-			txtAuthor.setText(playing.getAuthor().toString());
-			totalDuration.setText(playing.getDuration().toString());
-		}
-		actualDuration.setText("0:00");
-	}*/
 	
 	public void pause() {
 		thread.stop();
@@ -386,7 +407,6 @@ public class Player implements ActionListener {
 		player.skipForward();
 		playing = list.get(++n);
 		System.out.println(playing);
-		//actualizarLabels();
 		if (n==list.size()-1) return false;
 		return true;
 	}
@@ -399,7 +419,6 @@ public class Player implements ActionListener {
 		player.skipBackward();
 		playing = list.get(--n);
 		System.out.println(playing);
-		//actualizarLabels();
 		if (n==0) return false;
 		return true;
 	}
@@ -408,18 +427,23 @@ public class Player implements ActionListener {
 		playerButtons = new JPanel(new GridLayout(1, 5));
 		previousButton = WindowMaker.createJButton(new ImageIcon("img/player/previous.png"), "previousSong", this);
 		setButtonStyle(previousButton);
+		previousButton.setEnabled(false);
 		playerButtons.add(previousButton);
 		pauseButton = WindowMaker.createJButton(new ImageIcon("img/player/pause.png"), "pauseSong", this);
 		setButtonStyle(pauseButton);
+		pauseButton.setEnabled(false);
 		playerButtons.add(pauseButton);
 		playButton = WindowMaker.createJButton(new ImageIcon("img/player/play.png"), "playSong", this);
 		setButtonStyle(playButton);
+		playButton.setEnabled(true);
 		playerButtons.add(playButton);
 		stopButton = WindowMaker.createJButton(new ImageIcon("img/player/stop.png"), "stopSong", this);
 		setButtonStyle(stopButton);
+		stopButton.setEnabled(false);
 		playerButtons.add(stopButton);
 		nextButton = WindowMaker.createJButton(new ImageIcon("img/player/next.png"), "nextSong", this);
 		setButtonStyle(nextButton);
+		nextButton.setEnabled(false);
 		playerButtons.add(nextButton);
 	}
 	
@@ -440,11 +464,24 @@ public class Player implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		switch (cmd) {
-		case "playSong": System.out.println("Play"); break;
-		case "stopSong": System.out.println("Stop"); break;
-		case "pauseSong": System.out.println("Pause"); break;
-		case "nextSong": System.out.println("Next"); break;
-		case "previousSong": System.out.println("Previous"); break;
+		case "playSong":
+			if (isPaused()) resumeReproduction();
+			else startReproduction();
+			break;
+		case "stopSong":
+			stopReproduction();
+			break;
+		case "pauseSong":
+			pauseReproduction();
+			break;
+		case "nextSong":
+			nextButton.setEnabled(skipForward());
+			previousButton.setEnabled(true);
+			break;
+		case "previousSong":
+			previousButton.setEnabled(skipBackward());
+			nextButton.setEnabled(true);
+			break;
 		}
 	}
 }
