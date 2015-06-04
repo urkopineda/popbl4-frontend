@@ -190,8 +190,12 @@ public class Song extends DataType {
 	public void parseProperties(Properties pr) {
 		this.title = pr.getProperty("Title");
 		this.path = pr.getProperty("Path");
-		this.bpm = Double.parseDouble(pr.getProperty("BPM"));
-		this.duration = new Duration((pr.getProperty("Duration")==null)?0:Integer.parseInt(pr.getProperty("Duration")));
+		try {
+			this.bpm = Double.parseDouble(pr.getProperty("BPM"));
+			this.duration = new Duration((pr.getProperty("Duration")==null)?0:Integer.parseInt(pr.getProperty("Duration")));
+		} catch (NullPointerException e) {
+			System.out.println("No se ha encontrado información de la duración o de BPMs.");
+		}		
 		try {this.id = Integer.parseInt(pr.getProperty("SongID"));}
 		catch (NumberFormatException e) {System.out.println("No se ha definidio ID de canción.");}
 	}

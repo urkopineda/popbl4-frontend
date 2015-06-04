@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.ListIterator;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
@@ -27,7 +26,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
 
@@ -79,7 +77,6 @@ public class Player implements ActionListener {
 	private SQLiteUtils conn;
 	
 	private JLabel txtTitle, txtAuthor, txtAlbum, actualDuration, totalDuration;
-	private JProgressBar progressBar;
 	
 	//private Thread thread;
 	private RunnsteinCalculator calculator;
@@ -311,6 +308,7 @@ public class Player implements ActionListener {
 	public void stopReproduction() {
 		stop();
 		clear();
+		calculator.clearPlayedSongsList();
 		stopButton.setEnabled(false);
 		nextButton.setEnabled(false);
 		previousButton.setEnabled(false);
@@ -377,21 +375,38 @@ public class Player implements ActionListener {
 	}
 	
 	private boolean skipForward() {
-		addSong(calculator.getChosenSong());
-		played = new Duration(0);
-		player.skipForward();
-		playing = list.get(++n);
+		/*if (calculator.getChosenSong() != playing && n==list.size()-1) {
+			played = new Duration(0);
+			if (n==list.size()-1) addSong(calculator.getChosenSong());
+			n++;
+			player.skipForward();
+			calculator.fireSongChanged();
+		}*/
+		
+		if (n==list.size()-1 && !calculator.getChosenSong().equals(playing)) {
+			addSong(calculator.getChosenSong());
+			played = new Duration(0);
+			n++;
+			player.skipForward();
+			calculator.fireSongChanged();
+		} else if (n<list.size()-1) {
+			played = new Duration(0);
+			n++;
+			player.skipForward();
+			calculator.fireSongChanged();
+		}
+		playing = list.get(n);
 		System.out.println(playing);
 		//if (n==list.size()-1) return false;
 		return true;
 	}
 	
 	private boolean skipBackward() {
-		progressBar.setValue(0);
 		played = new Duration(0);
 		player.skipBackward();
 		playing = list.get(--n);
 		System.out.println(playing);
+		calculator.fireSongChanged();
 		if (n==0) return false;
 		return true;
 	}
@@ -433,6 +448,10 @@ public class Player implements ActionListener {
 		playerList.add(scroll);
 	}
 
+	private RunnsteinCalculator getCalculator() {
+		return calculator;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();

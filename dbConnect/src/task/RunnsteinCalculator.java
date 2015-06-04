@@ -26,9 +26,13 @@ public class RunnsteinCalculator extends Thread {
 	}
 	
 	public Song getChosenSong() {
-		playedSongsList.add(chosenSong);
-		songChanged = true;
 		return chosenSong;
+	}
+	
+	public void fireSongChanged() {
+		playedSongsList.add(chosenSong);
+		count = 0;
+		this.songChanged = true;
 	}
 	
 	public void setPlayingSong(Song s) {
@@ -37,6 +41,10 @@ public class RunnsteinCalculator extends Thread {
 	
 	public void setPaused(boolean state) {
 		this.paused = state;
+	}
+	
+	public void clearPlayedSongsList() {
+		playedSongsList.clear();
 	}
 	
 	public boolean getPaused() {
