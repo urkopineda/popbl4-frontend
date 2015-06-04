@@ -248,6 +248,8 @@ public class Player implements ActionListener {
 			System.out.println("Ya no se encuentra la siguiente cancion: "+e.getMessage()+". Tal vez se haya borrado.");
 		} catch (CancionRepetidaException e) {
 			System.out.println("Ya existe la siguiente canción: "+e.getMessage()+".");
+		} catch (NullPointerException e) {
+			System.out.println("Ha habido un error cargando la canción: "+file.getPath());
 		}
 	}
 	
@@ -374,15 +376,7 @@ public class Player implements ActionListener {
 		return player.isStopped();
 	}
 	
-	private boolean skipForward() {
-		/*if (calculator.getChosenSong() != playing && n==list.size()-1) {
-			played = new Duration(0);
-			if (n==list.size()-1) addSong(calculator.getChosenSong());
-			n++;
-			player.skipForward();
-			calculator.fireSongChanged();
-		}*/
-		
+	private boolean skipForward() {		
 		if (n==list.size()-1 && !calculator.getChosenSong().equals(playing)) {
 			addSong(calculator.getChosenSong());
 			played = new Duration(0);

@@ -55,10 +55,6 @@ public class RunnsteinCalculator extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				while (count<playingSong.getDuration().inMilliseconds()/Configuration.samplesPerSong) {
-					sleep(1);
-					if (!paused) count++;
-				}
 				count = 0;
 				System.out.println("Calculando...");
 				//INSERT LUEGO
@@ -70,6 +66,10 @@ public class RunnsteinCalculator extends Thread {
 				}
 				System.out.println("Se elige "+chosenSong);
 				lastBPM = Configuration.ppm;
+				while (count<playingSong.getDuration().inMilliseconds()/Configuration.samplesPerSong) {
+					sleep(1);
+					if (!paused) count++;
+				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

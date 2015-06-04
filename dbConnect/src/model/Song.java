@@ -161,7 +161,7 @@ public class Song extends DataType {
 	
 	@Override
 	public String toString() {
-		return this.getTitle()+" by "+this.getAuthor()+" (from "+this.getAlbum()+") "+this.getDuration()+"seg.";
+		return this.getTitle()+" by "+this.getAuthor()+" (from "+this.getAlbum()+") "+this.getDuration()+"seg. ("+getBPM()+"BPM)";
 	}
 
 	@Override
