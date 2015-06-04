@@ -142,4 +142,8 @@ public class TrainingUI {
 		buttonStop.setEnabled(false);
 		buttonStart.setEnabled(true);
 	}
+	
+	public Player getPlayer() {
+		return player;
+	}
 }

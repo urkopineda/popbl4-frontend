@@ -14,5 +14,11 @@
 	<classpathentry kind="lib" path="lib/mp3spi1.9.5.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.8.7.jar"/>
 	<classpathentry kind="lib" path="lib/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="TrackAnalyzer.jar"/>
+	<classpathentry kind="lib" path="lib/commons-math3-3.0.jar"/>
+	<classpathentry kind="lib" path="lib/jaudiotagger-2.0.4-20111207.115108-15.jar"/>
+	<classpathentry kind="lib" path="lib/jave-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/jcommander-1.30-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/jtransforms-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

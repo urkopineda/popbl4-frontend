@@ -63,6 +63,7 @@ CREATE VIEW IF NOT EXISTS vCanciones AS
 				C.Nombre,
 				C.Ruta,
 				C.Duracion,
+				C.BPM,
 				Al.Nombre AS Album,
 				Al.AlbumID,
 				Au.Nombre AS Autor,

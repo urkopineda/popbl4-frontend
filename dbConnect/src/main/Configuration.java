@@ -9,13 +9,14 @@ public class Configuration {
 	public static final String user = "java";
 	public static final String password = "javarunnsteinuser";
 	public static final String dbName = "RunnsteinDB";
+	public static final int samplesPerSong = 30;
 	public static int userID = 0;
 	public static String name = null;
 	public static String surname1 = null;
 	public static String surname2 = null;
 	public static boolean sensorState = false;
 	public static boolean syncState = false;
-	public static int ppm = 60;
+	public static int ppm = 85;
 	public static int lang = 0;
 	// Direcciones de archivos.
 	public static final String confFile = "conf.dat";

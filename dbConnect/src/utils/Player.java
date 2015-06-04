@@ -29,7 +29,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
-import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionListener;
 
 import model.Album;
@@ -47,6 +46,7 @@ import org.farng.mp3.id3.ID3v2_3;
 import org.farng.mp3.id3.ID3v2_4;
 
 import playerModel.MiRenderer;
+import task.RunnsteinCalculator;
 import database.SQLiteUtils;
 import exceptions.CancelacionException;
 import exceptions.CancionRepetidaException;
@@ -65,7 +65,7 @@ public class Player implements ActionListener {
 	private JPanel playerButtons;
 	private JPanel playerList;
 	
-	private JList<Song>songList;
+	private JList<Song> songList;
 	private JList<Author> authorList;
 	private JList<Album> albumList;
 	private JList<Playlist> playList;
@@ -81,7 +81,8 @@ public class Player implements ActionListener {
 	private JLabel txtTitle, txtAuthor, txtAlbum, actualDuration, totalDuration;
 	private JProgressBar progressBar;
 	
-	private Thread thread;
+	//private Thread thread;
+	private RunnsteinCalculator calculator;
 	
 	public Player(PropertyChangeListener pgListener, ActionListener actionListener, ListSelectionListener listListener) {
 		player = new MP3Player();
@@ -95,7 +96,7 @@ public class Player implements ActionListener {
 		this.listListener = listListener;
 	}
 	
-	public void loadPlayer() {
+	private void loadPlayer() {
 		songList = new JList<>();
 		songList.setModel(Song.getSongListModel());
 		songList.setCellRenderer(new MiRenderer());
@@ -132,13 +133,15 @@ public class Player implements ActionListener {
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) searchDirectory("c:\\users\\"+System.getProperty("user.name")+"\\music");
 		else searchDirectory("~/Music");
 		
+		calculator = new RunnsteinCalculator(Song.getSongListModel().getArrayList());
+		
 		fillPlayerButtonView();
 		fillPlayerListView();
 		
 		isLoaded = true;
 	}
 	
-	public void readDB() {
+	private void readDB() {
 		ResultSet rs;
 		int id = -1;
 		try {
@@ -157,6 +160,7 @@ public class Player implements ActionListener {
 					pr.put("AlbumID", String.valueOf(rs.getInt("AlbumID")));
 					pr.put("Author", rs.getString("Autor"));
 					pr.put("AuthorID", String.valueOf(rs.getInt("AutorID")));
+					pr.put("BPM", String.valueOf(rs.getInt("BPM")));
 					Song c = new Song(pr, new Album(pr, new Author(pr)));
 					Song.getSongListModel().addElement(c);
 					Author.getAuthorListModel().addElement(c.getAuthor());
@@ -172,7 +176,7 @@ public class Player implements ActionListener {
 		}
 	}
 	
-	public void searchDirectory(String ruta) {
+	private void searchDirectory(String ruta) {
 		JFileChooser fileChooser = null;
 		try {
 			if (ruta == null) {
@@ -194,7 +198,7 @@ public class Player implements ActionListener {
 		}
 	}
 	
-	public void createSongFromFile(File file) {
+	private void createSongFromFile(File file) {
 		AbstractID3 tag = null;
 		RandomAccessFile rafile = null;
 		Song c = null;
@@ -210,7 +214,6 @@ public class Player implements ActionListener {
 			pr.put("Author",tag.getLeadArtist());
 			pr.put("Album", tag.getAlbumTitle());
 			pr.put("Path", file.getAbsolutePath());
-			pr.put("Duration", String.valueOf(Song.calculateLength(file)));
 			c = new Song(pr);
 			aut = new Author(pr);
 			alb = new Album(pr, aut);
@@ -236,6 +239,9 @@ public class Player implements ActionListener {
 				}
 				c.setAlbum(alb);
 				c.setAuthor(aut);
+				pr.put("BPM", String.valueOf(Song.calculateBPM(file)));
+				pr.put("Duration", String.valueOf(Song.calculateLength(file)));
+				c.parseProperties(pr);
 				conn.insertQuery("Cancion", c.getTableColumns(), c.getColumnValues());
 				c.searchID(conn);
 				Song.getSongListModel().addElement(c);
@@ -252,7 +258,7 @@ public class Player implements ActionListener {
 		return isLoaded;
 	}
 	
-	public AbstractID3 detectID3(RandomAccessFile rfile) {
+	private AbstractID3 detectID3(RandomAccessFile rfile) {
 		AbstractID3 ret = null;
 		try {ret=new ID3v1(rfile);}
 		catch (TagException e) {
@@ -273,25 +279,6 @@ public class Player implements ActionListener {
 		return ret;
 	}
 	
-	private void createThread() {
-		thread = new Thread() {
-			private boolean isStopped = false;
-			public void run() {
-				try {
-					while (true) {
-						Thread.sleep(1000);
-						played.addSecond();
-						System.out.println(played);
-						//actualDuration.setText(played.toString());
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		thread.start();
-	}
-	
 	public JPanel getPlayerButtons() {
 		return playerButtons;
 	}
@@ -304,6 +291,8 @@ public class Player implements ActionListener {
 		Song s = songList.getSelectedValue();
 		if (s==null) s = songList.getModel().getElementAt(0);
 		addSong(s);
+		calculator.setPlayingSong(s);
+		calculator.start();
 		previousButton.setEnabled(false);
 		stopButton.setEnabled(true);
 		nextButton.setEnabled(true);
@@ -336,17 +325,16 @@ public class Player implements ActionListener {
 		playButton.setEnabled(false);
 	}
 	
-	public void addSong(Song c) {
+	private void addSong(Song c) {
 		player.addToPlayList(new File(c.getPath()));
 		list.add(c);
 	}
 	
-	public void clear() {
+	private void clear() {
 		player.getPlayList().clear();
 		list.clear();
 		playing = null;
 		n=0;
-		//actualizarLabels();
 	}
 	
 	private String parseURL(URL url) {
@@ -357,38 +345,27 @@ public class Player implements ActionListener {
 		return ret;
 	}
 	
-	public void play() {
+	private void play() {
 		played = new Duration(0);
-		if (thread == null) createThread();
-		else thread.resume();
+		calculator.setPaused(false);
 		player.play();
 		String path = parseURL((URL)player.getPlayList().get(n));
 		playing = Song.checkDuplicateSong(path, Song.getSongListModel());
 		System.out.println(playing);
 	}
 	
-	public void pause() {
-		thread.stop();
+	private void pause() {
+		calculator.setPaused(true);
 		player.pause();
 	}
 	
-	public void stop() {
-		thread.stop();
-		thread = null;
-		progressBar.setValue(0);
+	private void stop() {
+		calculator.stop();
 		player.stop();
 	}
 	
 	public Song getWhatsPlaying() {
 		return playing;
-	}
-	
-	public void addPlaylist(Playlist list) {
-		ListIterator<Song> it = list.getListIterator();
-		while (it.hasNext()) {
-			Song c = it.next();
-			addSong(c);
-		}
 	}
 	
 	public boolean isPaused() {
@@ -399,21 +376,17 @@ public class Player implements ActionListener {
 		return player.isStopped();
 	}
 	
-	public boolean skipForward() {
-		thread.stop();
-		createThread();
-		progressBar.setValue(0);
+	private boolean skipForward() {
+		addSong(calculator.getChosenSong());
 		played = new Duration(0);
 		player.skipForward();
 		playing = list.get(++n);
 		System.out.println(playing);
-		if (n==list.size()-1) return false;
+		//if (n==list.size()-1) return false;
 		return true;
 	}
 	
-	public boolean skipBackward() {
-		thread.stop();
-		createThread();
+	private boolean skipBackward() {
 		progressBar.setValue(0);
 		played = new Duration(0);
 		player.skipBackward();

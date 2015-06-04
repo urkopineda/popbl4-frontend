@@ -17,7 +17,7 @@ public class MiRenderer extends JLabel implements ListCellRenderer<DataType>{
 			DataType value, int index, boolean isSelected, boolean cellHasFocus) {
 		// TODO Auto-generated method stub
 		String s = "<html> <h2>"+value.getProperty("Title")+"</h2> by <font size='4'>"+value.getProperty("Author")+"</font>";
-		s += " from "+value.getProperty("Album")+" </html>";
+		s += " from "+value.getProperty("Album")+" <p align='left'>"+value.getProperty("BPM")+"</p> </html>";
 		this.setText(s);
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setOpaque(true);

@@ -63,9 +63,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		switch (cmd) {
-		case "start": trainingUI.startTimer(); break;
-		case "pause": trainingUI.pauseTimer(); break;
-		case "stop": trainingUI.stopTimer(); break;
+		case "start": trainingUI.startTimer(); trainingUI.getPlayer().startReproduction(); break;
+		case "pause": trainingUI.pauseTimer(); trainingUI.getPlayer().pauseReproduction(); break;
+		case "stop": trainingUI.stopTimer(); trainingUI.getPlayer().stopReproduction(); break;
 		case "playSong": System.out.println("Play"); break;
 		case "stopSong": System.out.println("Stop"); break;
 		case "pauseSong": System.out.println("Pause"); break;

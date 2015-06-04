@@ -8,23 +8,23 @@ import java.util.ListIterator;
 import javax.swing.DefaultListModel;
 
 public class MiListModel<Dato> extends DefaultListModel<Dato> {
-	ArrayList<Dato> lista;	
+	ArrayList<Dato> list;	
 	
 	public MiListModel() {
 		super();
-		lista = new ArrayList<>();
+		list = new ArrayList<>();
 	}
 	
 	@Override
 	public void addElement(Dato element) {
 		super.addElement(element);
-		lista.add(element);
+		list.add(element);
 		
 	}
 
 	@Override
 	public Dato get(int index) {
-		return lista.get(index);
+		return list.get(index);
 	}
 
 	@Override
@@ -33,11 +33,11 @@ public class MiListModel<Dato> extends DefaultListModel<Dato> {
 	}
 	
 	public ArrayList<Dato> getArrayList() {
-		return lista;
+		return list;
 	}
 	
 	public ListIterator<Dato> listIterator() {
-		return lista.listIterator();
+		return list.listIterator();
 	}
 
 	@Override

@@ -1,7 +1,11 @@
 package model;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Properties;
@@ -20,6 +24,7 @@ public class Song extends DataType {
 	private Album album;
 	private String path;
 	private Duration duration;
+	private double bpm;
 	private static MiListModel<Song> songListModel = new MiListModel<Song>();
 	
 	public static MiListModel<Song> getSongListModel() {
@@ -84,6 +89,10 @@ public class Song extends DataType {
 		return this.path;
 	}
 	
+	public double getBPM() {
+		return this.bpm;
+	}
+	
 	public void setAuthor(Author a) {
 		this.author = a;
 		this.setProperty("Author", (String) a.getProperty("Author"));
@@ -92,6 +101,42 @@ public class Song extends DataType {
 	public void setAlbum(Album a) {
 		this.album = a;
 		this.setProperty("Album", (String) a.getProperty("Album"));
+	}
+	
+	public static double calculateBPM(File file) {
+		Runtime rt = Runtime.getRuntime();
+		BufferedReader buff = null;
+		String ret = null;
+		Process child = null;
+		double bpm = -1;
+		String [] command = {"cmd"};
+		
+		try {
+			(new File("music.txt")).delete();
+			child = rt.exec(command);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		PrintWriter stdin = new PrintWriter(child.getOutputStream());
+		stdin.println("java -jar TrackAnalyzer.jar \""+file.getPath()+"\" -w -o music.txt");
+		stdin.close();
+		boolean hasFinished = false;
+		while (!hasFinished) {
+			try {
+				buff = new BufferedReader(new FileReader("music.txt"));
+				ret = buff.readLine();
+				buff.close();
+				bpm = Double.parseDouble(ret.split("[;]")[2]);
+				hasFinished = true;
+			} catch (FileNotFoundException e) {
+				
+			} catch (Exception e) {
+				
+			}
+		}
+		return bpm;
 	}
 	
 	public static Song checkDuplicateSong(Song c, MiListModel<Song> songListModel) {
@@ -133,18 +178,19 @@ public class Song extends DataType {
 
 	@Override
 	public String getTableColumns() {
-		return "(AutorID, AlbumID, Duracion, Nombre, Ruta)";
+		return "(AutorID, BPM, AlbumID, Duracion, Nombre, Ruta)";
 	}
 
 	@Override
 	public String getColumnValues() {
-		return "("+getAuthor().getID()+","+getAlbum().getID()+","+duration.inSeconds()+",'"+title.replaceAll("'", "''")+"', '"+path.replaceAll("'", "''")+"')";
+		return "("+getAuthor().getID()+", "+getBPM()+","+getAlbum().getID()+","+duration.inSeconds()+",'"+title.replaceAll("'", "''")+"', '"+path.replaceAll("'", "''")+"')";
 	}
 
 	@Override
 	public void parseProperties(Properties pr) {
 		this.title = pr.getProperty("Title");
 		this.path = pr.getProperty("Path");
+		this.bpm = Double.parseDouble(pr.getProperty("BPM"));
 		this.duration = new Duration((pr.getProperty("Duration")==null)?0:Integer.parseInt(pr.getProperty("Duration")));
 		try {this.id = Integer.parseInt(pr.getProperty("SongID"));}
 		catch (NumberFormatException e) {System.out.println("No se ha definidio ID de canción.");}
