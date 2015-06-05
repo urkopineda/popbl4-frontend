@@ -5,12 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-<<<<<<< HEAD
-import java.util.ArrayList;
-=======
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
->>>>>>> playerBranch
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -98,31 +95,20 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 		if (e.getActionCommand().equals("start")) {
 			trainingUI.startTimer();
+			trainingUI.getPlayer().startReproduction();
 		} else if (e.getActionCommand().equals("pause")) {
 			trainingUI.pauseTimer();
+			trainingUI.getPlayer().pauseReproduction();
 		} else if (e.getActionCommand().equals("stop")) {
 			trainingUI.stopTimer();
+			trainingUI.getPlayer().stopReproduction();
 		} else if (e.getActionCommand().equals("cancel")) {
 			profileUI.cancelOption();
 		} else if (e.getActionCommand().equals("save")) {
 			profileUI.updateData();
 		}
-=======
-		String cmd = e.getActionCommand();
-		switch (cmd) {
-		case "start": trainingUI.startTimer(); trainingUI.getPlayer().startReproduction(); break;
-		case "pause": trainingUI.pauseTimer(); trainingUI.getPlayer().pauseReproduction(); break;
-		case "stop": trainingUI.stopTimer(); trainingUI.getPlayer().stopReproduction(); break;
-		case "playSong": System.out.println("Play"); break;
-		case "stopSong": System.out.println("Stop"); break;
-		case "pauseSong": System.out.println("Pause"); break;
-		case "nextSong": System.out.println("Next"); break;
-		case "previousSong": System.out.println("Previous"); break;
-		}		
->>>>>>> playerBranch
 	}
 
 	@Override
@@ -132,11 +118,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-<<<<<<< HEAD
-		if (e.getStateChange() == ItemEvent.DESELECTED) {
-=======
 		if (e.getStateChange() == ItemEvent.DESELECTED) {			
->>>>>>> playerBranch
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 		}
 	}

@@ -13,7 +13,6 @@ public class RecordsData {
 	public int totalTrainings = 0;
 	public int totalDuration = 0;
 	
-<<<<<<< HEAD
 	public RecordsData() {
 		MySQLUtils db = new MySQLUtils();
 		try {
@@ -48,13 +47,5 @@ public class RecordsData {
 				e.printStackTrace();
 			}
 		}
-=======
-	public RecordsData(int trainingNumber, String dateTime, String duration, ArrayList<Integer> ppm, ArrayList<Integer> bpm) {
-		/*this.trainingNumber = trainingNumber;
-		this.dateTime = dateTime;
-		this.duration = duration;
-		this.ppm = ppm;
-		this.bpm = bpm;*/
->>>>>>> playerBranch
 	}
 }

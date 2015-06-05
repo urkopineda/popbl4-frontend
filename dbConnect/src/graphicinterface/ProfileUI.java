@@ -78,8 +78,8 @@ public class ProfileUI {
 		JPanel logInPanel = new JPanel(new GridLayout(2, 2, 5, 5));
 		userText = WindowMaker.createJLabel(userText, Strings.get("logInUser"), 20, "right");
 		passText = WindowMaker.createJLabel(passText, Strings.get("logInPass"), 20, "right");
-		passField = WindowMaker.createJPasswordField(passField);
-		userField = WindowMaker.createJTextField(userField);
+		passField = WindowMaker.createJPasswordField();
+		userField = WindowMaker.createJTextField();
 		logInPanel.add(userText);
 		logInPanel.add(userField);
 		logInPanel.add(passText);
@@ -97,9 +97,9 @@ public class ProfileUI {
 		nameText = WindowMaker.createJLabel(nameText, "Nombre", 20, "right");
 		surname1Text = WindowMaker.createJLabel(surname1Text, "1º Apellido", 20, "right");
 		surname2Text = WindowMaker.createJLabel(surname2Text, "2º Apellido", 20, "right");
-		nameField = WindowMaker.createJTextField(nameField);
-		surname1Field = WindowMaker.createJTextField(surname1Field);
-		surname2Field = WindowMaker.createJTextField(surname2Field);
+		nameField = WindowMaker.createJTextField();
+		surname1Field = WindowMaker.createJTextField();
+		surname2Field = WindowMaker.createJTextField();
 		logInPanel.add(nameText);
 		logInPanel.add(nameField);
 		logInPanel.add(surname1Text);
@@ -118,8 +118,8 @@ public class ProfileUI {
 	
 	private Container createSouthPanel() {
 		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		saveBtn = WindowMaker.createJButton(saveBtn, "Guardar", "save", act);
-		cancelBtn = WindowMaker.createJButton(cancelBtn, "Cancelar", "cancel", act);
+		saveBtn = WindowMaker.createJButton("Guardar", "save", act);
+		cancelBtn = WindowMaker.createJButton("Cancelar", "cancel", act);
 		southPanel.add(saveBtn);
 		southPanel.add(cancelBtn);
 		return southPanel;
