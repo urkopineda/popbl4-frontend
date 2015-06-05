@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
@@ -72,6 +73,7 @@ public class Player implements ActionListener {
 	private final String DBNAME = "Runnstein";
 	
 	private boolean isLoaded;
+	private boolean justRestarted;
 	
 	//private final String txtTitulo_INICIAL = "Selecciona una canción";
 	private SQLiteUtils conn;
@@ -87,6 +89,7 @@ public class Player implements ActionListener {
 		n = 0;
 		playing = null;
 		isLoaded = false;
+		justRestarted = false;
 		loadPlayer();
 		this.pgListener = pgListener;
 		this.actionListener = actionListener;
@@ -288,10 +291,11 @@ public class Player implements ActionListener {
 	
 	public void startReproduction() {
 		Song s = songList.getSelectedValue();
-		if (s==null) s = songList.getModel().getElementAt(0);
-		addSong(s);
+		if (s==null && songList.getModel().getSize()>0) s = songList.getModel().getElementAt(0);
+		else if (s==null) JOptionPane.showMessageDialog(this.getPlayerButtons().getParent(), "No has añadido ninguna canción", "ERROR", JOptionPane.ERROR_MESSAGE);
+		else addSong(s);
+		calculator.setPaused(false);
 		calculator.setPlayingSong(s);
-		calculator.start();
 		previousButton.setEnabled(false);
 		stopButton.setEnabled(true);
 		nextButton.setEnabled(true);
@@ -308,9 +312,11 @@ public class Player implements ActionListener {
 	}
 	
 	public void stopReproduction() {
-		stop();
+		player.stop();
 		clear();
 		calculator.clearPlayedSongsList();
+		calculator.setPlayingSong(null);
+		calculator.setPaused(true);
 		stopButton.setEnabled(false);
 		nextButton.setEnabled(false);
 		previousButton.setEnabled(false);
@@ -331,8 +337,10 @@ public class Player implements ActionListener {
 	}
 	
 	private void clear() {
+		for (int i=player.getPlayList().size(); i>0; i--) player.skipBackward();
 		player.getPlayList().clear();
 		list.clear();
+		justRestarted = true;
 		playing = null;
 		n=0;
 	}
@@ -348,20 +356,21 @@ public class Player implements ActionListener {
 	private void play() {
 		played = new Duration(0);
 		calculator.setPaused(false);
-		player.play();
-		String path = parseURL((URL)player.getPlayList().get(n));
-		playing = Song.checkDuplicateSong(path, Song.getSongListModel());
-		System.out.println(playing);
+		if (justRestarted) {
+			justRestarted = false;
+			player.skipBackward();
+		}
+		if (player.getPlayList().size()>0) {
+			player.play();
+			String path = parseURL((URL)player.getPlayList().get(n));
+			playing = Song.checkDuplicateSong(path, Song.getSongListModel());
+			System.out.println(playing);
+		}
 	}
 	
 	private void pause() {
 		calculator.setPaused(true);
 		player.pause();
-	}
-	
-	private void stop() {
-		calculator.stop();
-		player.stop();
 	}
 	
 	public Song getWhatsPlaying() {
