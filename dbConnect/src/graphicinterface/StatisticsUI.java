@@ -53,8 +53,8 @@ public class StatisticsUI {
 	
 	private Container createNorthPanel() {
 		northPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		trainingsCB = WindowMaker.createJComboBox(trainingsCB, null, item);
-		modeCB = WindowMaker.createJComboBox(modeCB, null, item);
+		trainingsCB = WindowMaker.createJComboBox(null, item);
+		modeCB = WindowMaker.createJComboBox(null, item);
 		modeCB.addItem(Strings.get("statsModeTime"));
 		modeCB.addItem(Strings.get("graphBPM"));
 		modeCB.addItem(Strings.get("graphPPM"));

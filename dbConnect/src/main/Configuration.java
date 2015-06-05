@@ -9,6 +9,7 @@ public class Configuration {
 	public static final String user = "java";
 	public static final String password = "javarunnsteinuser";
 	public static final String dbName = "RunnsteinDB";
+	public static final int samplesPerSong = 30;
 	public static int userID = 0;
 	public static String username = null;
 	public static String name = null;
@@ -16,7 +17,7 @@ public class Configuration {
 	public static String surname2 = null;
 	public static boolean sensorState = false;
 	public static boolean syncState = false;
-	public static int ppm = 60;
+	public static int ppm = 100;
 	public static int lang = 0;
 	public static final int baudRate = 1200;
 	// Direcciones de archivos.

@@ -6,9 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -28,25 +30,39 @@ public class WindowMaker {
 		return newJLabel;
 	}
 	
-	public static JTextField createJTextField(JTextField newJTextField) {
-		return newJTextField = new JTextField();
+	public static JTextField createJTextField() {
+		return new JTextField();
 	}
 	
-	public static JPasswordField createJPasswordField(JPasswordField newJPasswordField) {
-		return newJPasswordField = new JPasswordField();
+	public static JPasswordField createJPasswordField() {
+		return new JPasswordField();
 	}
 	
-	public static JButton createJButton(JButton newJButton, String text, String command, ActionListener action) {
-		newJButton = new JButton(text);
+	public static JButton createJButton(String text, String command, ActionListener action) {
+		JButton newJButton = new JButton(text);
 		newJButton.addActionListener(action);
 		newJButton.setActionCommand(command);
 		return newJButton;
 	}
 	
-	public static JComboBox<String> createJComboBox(JComboBox<String> newJComboBox, ArrayList<String> list, ItemListener item) {
-		newJComboBox = new JComboBox<String>();
+	public static JButton createJButton(ImageIcon icon, String command, ActionListener action) {
+		JButton newJButton = new JButton(icon);
+		newJButton.addActionListener(action);
+		newJButton.setActionCommand(command);
+		return newJButton;
+	}
+	
+	public static JComboBox<String> createJComboBox(ArrayList<String> list, ItemListener item) {
+		JComboBox<String> newJComboBox = new JComboBox<String>();
 		if (list != null) for (int i = 0; i != list.size(); i++) newJComboBox.addItem(list.get(i));
 		newJComboBox.addItemListener(item);
 		return newJComboBox;
+	}
+	
+	public static JMenuItem createJMenuItem(String text, ActionListener al, String actionCmd) {
+		JMenuItem jMenuItem = new JMenuItem(text);
+		jMenuItem.addActionListener(al);
+		jMenuItem.setActionCommand(actionCmd);
+		return jMenuItem;
 	}
 }

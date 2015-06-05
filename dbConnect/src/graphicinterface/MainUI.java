@@ -5,7 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+>>>>>>> playerBranch
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -16,10 +21,11 @@ import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
 
-public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener{
+public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener, PropertyChangeListener {
 	ActionListener action = this;
 	ListSelectionListener list = this;
 	ItemListener item = this;
+	PropertyChangeListener propertyChange = this;
 	JFrame window = null;
 	JTabbedPane mainPanel = null;
 	TrainingUI trainingUI = null;
@@ -42,7 +48,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	private Container createMainPanel() {
 		addContentFlags = new ArrayList<>();
 		mainPanel = new JTabbedPane();
-		trainingUI = new TrainingUI(action);
+		trainingUI = new TrainingUI(propertyChange, action, list);
 		trainingDataUI = new TrainingDataUI(list);
 		statisticsUI = new StatisticsUI(item);
 		recordsUI = new RecordsUI();
@@ -92,6 +98,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 		if (e.getActionCommand().equals("start")) {
 			trainingUI.startTimer();
 		} else if (e.getActionCommand().equals("pause")) {
@@ -103,6 +110,19 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		} else if (e.getActionCommand().equals("save")) {
 			profileUI.updateData();
 		}
+=======
+		String cmd = e.getActionCommand();
+		switch (cmd) {
+		case "start": trainingUI.startTimer(); trainingUI.getPlayer().startReproduction(); break;
+		case "pause": trainingUI.pauseTimer(); trainingUI.getPlayer().pauseReproduction(); break;
+		case "stop": trainingUI.stopTimer(); trainingUI.getPlayer().stopReproduction(); break;
+		case "playSong": System.out.println("Play"); break;
+		case "stopSong": System.out.println("Stop"); break;
+		case "pauseSong": System.out.println("Pause"); break;
+		case "nextSong": System.out.println("Next"); break;
+		case "previousSong": System.out.println("Previous"); break;
+		}		
+>>>>>>> playerBranch
 	}
 
 	@Override
@@ -112,8 +132,18 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+<<<<<<< HEAD
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
+=======
+		if (e.getStateChange() == ItemEvent.DESELECTED) {			
+>>>>>>> playerBranch
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 		}
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

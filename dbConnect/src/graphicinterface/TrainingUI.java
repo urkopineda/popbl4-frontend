@@ -4,17 +4,20 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
 import main.Configuration;
 import task.ChronoTimer;
 import task.HeartAnimator;
+import utils.Player;
 import utils.WindowMaker;
 
 public class TrainingUI {
@@ -35,9 +38,11 @@ public class TrainingUI {
 	JLabel ppmNumbers = null;
 	JLabel ppmImage = null;
 	ActionListener act = null;
+	Player player = null;
 	
-	public TrainingUI(ActionListener act) {
+	public TrainingUI(PropertyChangeListener pg, ActionListener act, ListSelectionListener ls) {
 		this.act = act;
+		player = new Player(pg, act, ls);
 	}
 	
 	public Container createMainPanel() {
@@ -54,9 +59,10 @@ public class TrainingUI {
 	}
 	
 	private Container createRightPanel() {
-		rightPanel = new JPanel();
+		rightPanel = new JPanel(new BorderLayout());
 		rightPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingList")));
-		
+		//ESTO ES DE UNAI
+		rightPanel.add(player.getPlayerList());
 		return rightPanel;
 	}
 	
@@ -81,9 +87,9 @@ public class TrainingUI {
 		chronometerNumbers = WindowMaker.createJLabel(chronometerNumbers, "00:00:00", 75, "center");
 		chronometerPanel.add(chronometerNumbers, BorderLayout.CENTER);
 		chronometerSouthPanel = new JPanel(new GridLayout(1, 3, 5, 5));
-		buttonStart = WindowMaker.createJButton(buttonStart, Strings.get("trainingBtnStart"), "start", act);
-		buttonPause = WindowMaker.createJButton(buttonPause, Strings.get("trainingBtnPause"), "pause", act);
-		buttonStop = WindowMaker.createJButton(buttonStop, Strings.get("trainingBtnStop"), "stop", act);
+		buttonStart = WindowMaker.createJButton(Strings.get("trainingBtnStart"), "start", act);
+		buttonPause = WindowMaker.createJButton(Strings.get("trainingBtnPause"), "pause", act);
+		buttonStop = WindowMaker.createJButton(Strings.get("trainingBtnStop"), "stop", act);
 		chronometerSouthPanel.add(buttonStart);
 		chronometerSouthPanel.add(buttonPause);
 		chronometerSouthPanel.add(buttonStop);
@@ -95,7 +101,7 @@ public class TrainingUI {
 		playerPanel = new JPanel(new BorderLayout());
 		playerPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingPlayer")));
 		// AQUÍ VA LO DE UNAI!
-		
+		playerPanel.add(player.getPlayerButtons());
 		return playerPanel;
 	}
 	
@@ -139,5 +145,9 @@ public class TrainingUI {
 		buttonPause.setEnabled(false);
 		buttonStop.setEnabled(false);
 		buttonStart.setEnabled(true);
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 }
