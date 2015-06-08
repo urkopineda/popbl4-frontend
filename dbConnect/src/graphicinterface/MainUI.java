@@ -110,7 +110,6 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 		if (e.getActionCommand().equals("start")) {
 			trainingUI.startTimer();
 			trainingUI.getPlayer().startReproduction();
@@ -124,17 +123,11 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			profileUI.cancelOption();
 		} else if (e.getActionCommand().equals("save")) {
 			profileUI.updateData();
+		} else if (e.getActionCommand().equals("loadPath")) {
+			trainingUI.getPlayer().searchDirectory(null);
+		} else if (e.getActionCommand().equals("loadFile")) {
+			trainingUI.getPlayer().searchSong();
 		}
-=======
-		String cmd = e.getActionCommand();
-		switch (cmd) {
-		case "start": trainingUI.startTimer(); trainingUI.getPlayer().startReproduction(); break;
-		case "pause": trainingUI.pauseTimer(); trainingUI.getPlayer().pauseReproduction(); break;
-		case "stop": trainingUI.stopTimer(); trainingUI.getPlayer().stopReproduction(); break;
-		case "loadPath": trainingUI.getPlayer().searchDirectory(null); break;
-		case "loadFile": trainingUI.getPlayer().searchSong(); break;
-		}		
->>>>>>> playerBranch
 	}
 
 	@Override
