@@ -57,7 +57,7 @@ public class RunnsteinCalculator extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				if (playingSong != null || !songList.isEmpty()) {
+				if (playingSong != null && !songList.isEmpty()) {
 					count = 0;
 					//INSERT LUEGO
 					if (Math.abs(lastBPM-Configuration.ppm)>10 || songChanged) {

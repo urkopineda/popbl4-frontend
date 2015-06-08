@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 
 import model.Album;
 import model.Author;
@@ -46,6 +47,7 @@ import org.farng.mp3.id3.ID3v2_4;
 
 import playerModel.MiRenderer;
 import task.RunnsteinCalculator;
+import task.SongLengthTimer;
 import database.SQLiteUtils;
 import exceptions.CancelacionException;
 import exceptions.CancionRepetidaException;
@@ -75,13 +77,12 @@ public class Player implements ActionListener {
 	private boolean isLoaded;
 	private boolean justRestarted;
 	
-	//private final String txtTitulo_INICIAL = "Selecciona una canción";
 	private SQLiteUtils conn;
 	
 	private JLabel txtTitle, txtAuthor, txtAlbum, actualDuration, totalDuration;
 	
-	//private Thread thread;
 	private RunnsteinCalculator calculator;
+	private SongLengthTimer songLength;
 	
 	public Player(PropertyChangeListener pgListener, ActionListener actionListener, ListSelectionListener listListener) {
 		player = new MP3Player();
@@ -138,6 +139,8 @@ public class Player implements ActionListener {
 		fillPlayerButtonView();
 		fillPlayerListView();
 		
+		songLength = new SongLengthTimer(this);
+		
 		isLoaded = true;
 	}
 	
@@ -176,7 +179,7 @@ public class Player implements ActionListener {
 		}
 	}
 	
-	private void searchDirectory(String ruta) {
+	public void searchDirectory(String ruta) {
 		JFileChooser fileChooser = null;
 		try {
 			if (ruta == null) {
@@ -195,6 +198,31 @@ public class Player implements ActionListener {
 			System.out.println(e.getMessage());
 		} catch (NullPointerException e) {
 			System.out.println("Ha habido un error de puntero vacío.");
+		}
+	}
+	
+	public void searchSong() {
+		JFileChooser chooser = null;
+		try {
+			chooser = new JFileChooser();
+			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			chooser.setFileFilter(new FileFilter() {
+				@Override
+				public boolean accept(File file) {
+					if (file.getName().endsWith(".mp3")||file.isDirectory()) return true;
+					else return false;
+				}
+				@Override
+				public String getDescription() {
+					return "Archivo MP3";
+				}			
+			});
+			chooser.showOpenDialog(getPlayerButtons().getParent().getParent());
+			File file = chooser.getSelectedFile();
+			if (file == null) throw new CancelacionException("Carga de archivo único");
+			createSongFromFile(file);
+		} catch (CancelacionException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -290,6 +318,7 @@ public class Player implements ActionListener {
 	}
 	
 	public void startReproduction() {
+		songLength.setIsPlaying(true);
 		Song s = songList.getSelectedValue();
 		if (s==null && songList.getModel().getSize()>0) s = songList.getModel().getElementAt(0);
 		else if (s==null) JOptionPane.showMessageDialog(this.getPlayerButtons().getParent(), "No has añadido ninguna canción", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -302,10 +331,12 @@ public class Player implements ActionListener {
 		pauseButton.setEnabled(true);
 		playButton.setEnabled(false);
 		play();
+		songLength.setPlaying(playing);
 	}
 	
 	public void pauseReproduction() {
 		pause();
+		songLength.setIsPlaying(false);
 		pauseButton.setEnabled(false);
 		stopButton.setEnabled(false);
 		playButton.setEnabled(true);
@@ -313,6 +344,8 @@ public class Player implements ActionListener {
 	
 	public void stopReproduction() {
 		player.stop();
+		songLength.setIsPlaying(false);
+		songLength.setPlaying(null);
 		clear();
 		calculator.clearPlayedSongsList();
 		calculator.setPlayingSong(null);
@@ -325,6 +358,7 @@ public class Player implements ActionListener {
 	}
 	
 	public void resumeReproduction() {
+		songLength.setIsPlaying(true);
 		play();
 		pauseButton.setEnabled(true);
 		stopButton.setEnabled(true);
@@ -385,7 +419,7 @@ public class Player implements ActionListener {
 		return player.isStopped();
 	}
 	
-	private boolean skipForward() {		
+	public boolean skipForward() {		
 		if (n==list.size()-1 && !calculator.getChosenSong().equals(playing)) {
 			addSong(calculator.getChosenSong());
 			played = new Duration(0);
