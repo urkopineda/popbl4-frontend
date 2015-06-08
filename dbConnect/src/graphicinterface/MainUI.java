@@ -10,6 +10,9 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -17,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
+import utils.WindowMaker;
 
 public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener, PropertyChangeListener {
 	ActionListener action = this;
@@ -24,6 +28,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	ItemListener item = this;
 	PropertyChangeListener propertyChange = this;
 	JFrame window = null;
+	JMenuBar menuBar = null;
+	JMenu archivoMenu = null;
+	JMenuItem cargarDirectorioItem = null, cargarArchivoItem = null;
 	JTabbedPane mainPanel = null;
 	TrainingUI trainingUI = null;
 	TrainingDataUI trainingDataUI = null;
@@ -40,6 +47,14 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setVisible(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuBar = new JMenuBar();
+		archivoMenu = new JMenu("Archivo");
+		cargarDirectorioItem = WindowMaker.createJMenuItem("Cargar directorio", this, "loadPath");
+		cargarArchivoItem = WindowMaker.createJMenuItem("Cargar archivo", this, "loadFile");
+		archivoMenu.add(cargarDirectorioItem);
+		archivoMenu.add(cargarArchivoItem);
+		menuBar.add(archivoMenu);
+		window.setJMenuBar(menuBar);
 	}
 	
 	private Container createMainPanel() {
@@ -95,6 +110,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
 		if (e.getActionCommand().equals("start")) {
 			trainingUI.startTimer();
 			trainingUI.getPlayer().startReproduction();
@@ -109,6 +125,16 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		} else if (e.getActionCommand().equals("save")) {
 			profileUI.updateData();
 		}
+=======
+		String cmd = e.getActionCommand();
+		switch (cmd) {
+		case "start": trainingUI.startTimer(); trainingUI.getPlayer().startReproduction(); break;
+		case "pause": trainingUI.pauseTimer(); trainingUI.getPlayer().pauseReproduction(); break;
+		case "stop": trainingUI.stopTimer(); trainingUI.getPlayer().stopReproduction(); break;
+		case "loadPath": trainingUI.getPlayer().searchDirectory(null); break;
+		case "loadFile": trainingUI.getPlayer().searchSong(); break;
+		}		
+>>>>>>> playerBranch
 	}
 
 	@Override

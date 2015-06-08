@@ -9,7 +9,7 @@ import model.Song;
 
 public class RunnsteinCalculator extends Thread {
 	private Song chosenSong;
-	private Song playingSong;
+	private volatile Song playingSong;
 	private ArrayList<Song> songList;
 	private ArrayList<Song> playedSongsList;
 	private int count;
@@ -23,6 +23,7 @@ public class RunnsteinCalculator extends Thread {
 		lastBPM = -1;
 		paused = false;
 		songChanged = false;
+		start();
 	}
 	
 	public Song getChosenSong() {
@@ -37,6 +38,7 @@ public class RunnsteinCalculator extends Thread {
 	
 	public void setPlayingSong(Song s) {
 		this.playingSong = s;
+		System.out.println(s);
 	}
 	
 	public void setPaused(boolean state) {
@@ -55,20 +57,22 @@ public class RunnsteinCalculator extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				count = 0;
-				System.out.println("Calculando...");
-				//INSERT LUEGO
-				if (Math.abs(lastBPM-Configuration.ppm)>10 || songChanged) {
-					songChanged = false;
-					ArrayList<Song> suitableSongs = makeSuitableSongList();
-					suitableSongs = cleanAlreadyPlayedSongs(suitableSongs);
-					chosenSong = suitableSongs.get((new Random()).nextInt(suitableSongs.size()));
-				}
-				System.out.println("Se elige "+chosenSong);
-				lastBPM = Configuration.ppm;
-				while (count<playingSong.getDuration().inMilliseconds()/Configuration.samplesPerSong) {
-					sleep(1);
-					if (!paused) count++;
+				if (playingSong != null && !songList.isEmpty()) {
+					count = 0;
+					//INSERT LUEGO
+					if (Math.abs(lastBPM-Configuration.ppm)>10 || songChanged) {
+						songChanged = false;
+						ArrayList<Song> suitableSongs = makeSuitableSongList();
+						suitableSongs = cleanAlreadyPlayedSongs(suitableSongs);
+						chosenSong = suitableSongs.get((new Random()).nextInt(suitableSongs.size()));
+						System.out.println("Se elige "+chosenSong);
+					}
+					lastBPM = Configuration.ppm;
+					while (count<playingSong.getDuration().inMilliseconds()/Configuration.samplesPerSong) {
+						sleep(1);
+						if (playingSong == null) break;
+						if (!paused) count++;
+					}
 				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -82,7 +86,6 @@ public class RunnsteinCalculator extends Thread {
 		double songBPM = playingSong.getBPM();
 		double heartRate = Configuration.ppm;
 		double diff = heartRate - songBPM;
-		//Si diff<0 es que la cancion es "demasiado rapida"
 		int permittedDiff = 15;
 		double diffCompare = 0;
 		boolean onlyTakeGreaterBPM = true;
@@ -91,17 +94,6 @@ public class RunnsteinCalculator extends Thread {
 			ListIterator<Song> it = songList.listIterator();
 			while (it.hasNext()) {
 				Song s = it.next();
-				/*if (onlyTakeGreaterBPM) diffCompare = (diff>0)?diff:-diff;
-				else diffCompare = Math.abs(diff);
-				if (Math.abs(diff)<permittedDiff) {
-					if (s.getBPM()>heartRate+diffCompare) {
-						suitableSongs.add(s);
-					}
-				} else if (Math.abs(diff)>=permittedDiff && diff<0) {
-					if (s.getBPM()+permittedDiff<heartRate) {
-						suitableSongs.add(s);
-					}
-				}*/
 				if (onlyTakeGreaterBPM) diffCompare = heartRate;
 				else diffCompare = heartRate - permittedDiff;
 				if (s.getBPM()<heartRate+permittedDiff && s.getBPM() > diffCompare) {
@@ -135,7 +127,7 @@ public class RunnsteinCalculator extends Thread {
 	
 	@Override
 	public void start() {
-		chosenSong = songList.get(1);
+		//chosenSong = songList.get(1);
 		count = 0;
 		System.out.println("Comienza");
 		super.start();
