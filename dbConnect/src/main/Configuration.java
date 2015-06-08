@@ -17,9 +17,10 @@ public class Configuration {
 	public static String surname2 = null;
 	public static boolean sensorState = false;
 	public static boolean syncState = false;
-	public static int ppm = 100;
+	public static int ppm = 1;
 	public static int lang = 0;
 	public static final int baudRate = 1200;
+	public static final int requestMessage = 66;
 	// Direcciones de archivos.
 	public static final String confFile = "conf.dat";
 	public static final String dHeartOn = "img/heart/heart_on_up.png";

@@ -35,7 +35,7 @@ public class TrainingUI {
 	JButton buttonStop = null;
 	JButton buttonPause = null;
 	JLabel chronometerNumbers = null;
-	JLabel ppmNumbers = null;
+	public static JLabel ppmNumbers = null;
 	JLabel ppmImage = null;
 	ActionListener act = null;
 	Player player = null;

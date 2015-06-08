@@ -3,7 +3,8 @@ package utils;
 import main.Configuration;
 
 public class Heart extends Thread {
-	int interval = 60000;
+	static int miliseconds = 60000;
+	static double interval = 0;
 	volatile boolean intervalHasFinished = false;
 	volatile boolean isEnabled = false;
 	volatile boolean endThread = false;
@@ -14,7 +15,8 @@ public class Heart extends Thread {
 	 * @param interval
 	 */
 	public Heart() {
-		interval /= Configuration.ppm;
+		if (Configuration.ppm == 0) interval = miliseconds / 1;
+		else interval = miliseconds / Configuration.ppm;
 		System.out.println(interval);
 		intervalHasFinished = false;
 		endThread = false;
@@ -24,15 +26,16 @@ public class Heart extends Thread {
 	/**
 	 * Recalcula el intervalo de las pulsaciones.
 	 */
-	public void recalculatePPM() {
-		interval /= Configuration.ppm;
+	public static void recalculatePPM() {
+		if (Configuration.ppm == 0) interval = miliseconds / 1;
+		else interval = miliseconds / Configuration.ppm;
 	}
 	
 	@Override
 	public void run() {
 		while(!endThread){
 			try {
-				Thread.sleep(interval);
+				Thread.sleep((int) interval);
 			} catch (InterruptedException e) {}
 			if (isEnabled) intervalHasFinished = true;
 		}

@@ -31,7 +31,7 @@ public class HeartAnimator extends Thread{
 	public void run() {
 		while(true){
 			try {
-				Thread.sleep(Configuration.timerPeriod / 4);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.getStackTrace();
 			}
@@ -58,9 +58,10 @@ public class HeartAnimator extends Thread{
 	public void executeAction() {
 		ppmImage.setIcon(new ImageIcon(Configuration.dHeartOn));
 		try {
-			if (Configuration.ppm < 120) changeImage.sleep(250);
+			changeImage.sleep(25);
+			/*if (Configuration.ppm < 120) changeImage.sleep(250);
 			else if ((Configuration.ppm > 120) &&  (Configuration.ppm < 160))changeImage.sleep(150);
-			else changeImage.sleep(100);
+			else changeImage.sleep(100);*/
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

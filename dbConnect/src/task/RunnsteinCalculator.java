@@ -1,11 +1,14 @@
 package task;
 
+import graphicinterface.TrainingUI;
+
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Random;
 
 import main.Configuration;
 import model.Song;
+import bluetooth.COMManager;
 
 public class RunnsteinCalculator extends Thread {
 	private Song chosenSong;
@@ -17,7 +20,11 @@ public class RunnsteinCalculator extends Thread {
 	private boolean songChanged;
 	private double lastBPM;
 	
+	COMManager comManager = null;
+	
 	public RunnsteinCalculator(ArrayList<Song> songList) {
+		comManager = new COMManager();
+		comManager.start();
 		this.songList = songList;
 		playedSongsList = new ArrayList<>();
 		lastBPM = -1;
@@ -58,6 +65,9 @@ public class RunnsteinCalculator extends Thread {
 				count = 0;
 				System.out.println("Calculando...");
 				//INSERT LUEGO
+				comManager.getSerialComm().sendMessage();
+				
+				//
 				if (Math.abs(lastBPM-Configuration.ppm)>10 || songChanged) {
 					songChanged = false;
 					ArrayList<Song> suitableSongs = makeSuitableSongList();
@@ -71,7 +81,6 @@ public class RunnsteinCalculator extends Thread {
 					if (!paused) count++;
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			super.run();

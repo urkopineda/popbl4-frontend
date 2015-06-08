@@ -29,9 +29,9 @@ public class Serial {
 	 * 
 	 * @param int message
 	 */
-	public void sendMessage(int message){
+	public void sendMessage(){
 		try {
-			port.writeInt(message);
+			port.writeInt(Configuration.requestMessage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -42,12 +42,12 @@ public class Serial {
 	 * 
 	 * @return long data
 	 */
-	public long receiveMessage(){
+	public int receiveMessage(){
 		byte[] buffer = null; 
-		long data = 0;
+		int data = 0;
 		try { 
 			buffer = port.readBytes(1);
-			data = Byte.toUnsignedLong(buffer[0]);
+			data = Byte.toUnsignedInt(buffer[0]);
 		} catch(Exception e) { 
 			e.printStackTrace(); 
 		} 

@@ -22,6 +22,7 @@ public class Playlist {
 	public static MiListModel<Playlist> getPlaylistModel() {
 		return playListModel;
 	}
+	
 	public ListIterator<Song> getListIterator() {
 		return list.listIterator();
 	}
