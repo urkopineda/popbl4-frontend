@@ -10,6 +10,9 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -17,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
+import utils.WindowMaker;
 
 public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener, PropertyChangeListener {
 	ActionListener action = this;
@@ -24,6 +28,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	ItemListener item = this;
 	PropertyChangeListener propertyChange = this;
 	JFrame window = null;
+	JMenuBar menuBar = null;
+	JMenu archivoMenu = null;
+	JMenuItem cargarDirectorioItem = null, cargarArchivoItem = null;
 	JTabbedPane mainPanel = null;
 	TrainingUI trainingUI = null;
 	TrainingDataUI trainingDataUI = null;
@@ -40,6 +47,14 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setVisible(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		menuBar = new JMenuBar();
+		archivoMenu = new JMenu("Archivo");
+		cargarDirectorioItem = WindowMaker.createJMenuItem("Cargar directorio", this, "loadPath");
+		cargarArchivoItem = WindowMaker.createJMenuItem("Cargar archivo", this, "loadFile");
+		archivoMenu.add(cargarDirectorioItem);
+		archivoMenu.add(cargarArchivoItem);
+		menuBar.add(archivoMenu);
+		window.setJMenuBar(menuBar);
 	}
 	
 	private Container createMainPanel() {
@@ -108,6 +123,10 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			profileUI.cancelOption();
 		} else if (e.getActionCommand().equals("save")) {
 			profileUI.updateData();
+		} else if (e.getActionCommand().equals("loadPath")) {
+			trainingUI.getPlayer().searchDirectory(null);
+		} else if (e.getActionCommand().equals("loadFile")) {
+			trainingUI.getPlayer().searchSong();
 		}
 	}
 
