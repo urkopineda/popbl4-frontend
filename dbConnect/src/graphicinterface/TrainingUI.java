@@ -61,7 +61,6 @@ public class TrainingUI {
 	private Container createRightPanel() {
 		rightPanel = new JPanel(new BorderLayout());
 		rightPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingList")));
-		//ESTO ES DE UNAI
 		rightPanel.add(player.getPlayerList());
 		return rightPanel;
 	}
@@ -100,7 +99,6 @@ public class TrainingUI {
 	private Container createPlayerPanel() {
 		playerPanel = new JPanel(new BorderLayout());
 		playerPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingPlayer")));
-		// AQUÍ VA LO DE UNAI!
 		playerPanel.add(player.getPlayerButtons());
 		return playerPanel;
 	}
@@ -149,5 +147,9 @@ public class TrainingUI {
 	
 	public Player getPlayer() {
 		return player;
+	}
+	
+	public int getListSize() {
+		return player.getListSize();
 	}
 }

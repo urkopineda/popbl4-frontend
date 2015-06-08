@@ -489,6 +489,10 @@ public class Player implements ActionListener {
 		return calculator;
 	}
 	
+	public int getListSize() {
+		return songList.getModel().getSize();
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
