@@ -21,7 +21,6 @@ public class SongLengthTimer extends Thread {
 		while (true) {
 			try {
 				if (isPlaying && playing != null) {
-					System.out.println(count);
 					sleep(1000);
 					count++;
 					if (count == playing.getDuration().inSeconds()) {
