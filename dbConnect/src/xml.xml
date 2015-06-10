@@ -45,6 +45,25 @@
 		<string name="graphSong">Abestiak</string>
 		<!-- RecordsUI -->
 		
+		<!-- MiLoadScreen -->
+		<string name="loadScreenFirstLoadWarning">Runnsteinekin lehenengo aldia baduzu, honek luze joko du!</string>
+		<string name="loadScreenLoading">Kargatzen...</string>
+		<!-- Player -->
+		<string name="loadPlayerIOExceptionMessage">SQL script-a irakurtzea akats bat gertatu da.</string>
+		<string name="loadPlayerSQLExceptionMessage">Datu basearekin akats bat gertatu da.</string>
+		<string name="readDBSongRead">Hurrengo abestia irakurri da: </string>
+		<string name="readDBFileNotFoundMessage">Hurrengo fitxategia ez da aurkitu: </string>
+		<string name="searchDirectoryThrowCancelation">Direktorio hautaketa</string>
+		<string name="searchDirectoryFileNotMP3">Fitxategia ez da MP3: </string>
+		<string name="searchDirectoryNullPointer">Erakusle huts akats bat gertatu da.</string>
+		<string name="searchSongThrowCancelation">Fitxategi bakar baten karga</string>
+		<string name="songFromFileBPMCalculate">Abestiaren minutuko joaldiak kalkulatu behar dira</string>
+		<string name="songFromFileLengthCalculate">Abestiaren iraupena kalkulatu behar da</string>
+		<string name="songFromFileNewSongAdded">Abesti berri bat gehitu da:</string>
+		<string name="songFromFileExistingSong">Zerrendan jada zegoen abesti bat aurkitu da:</string>
+		<string name="songFromFileNotFound">Hurrengo abestia ez da aurkitzen:</string>
+		<string name="songFromFileNullPointer">Hurrengo abestia kargatzen akats bat gertatu da:</string>
+		<string name="startRepNoSong">Ez duzu abestirik gehitu.</string>
 	</idioma>
 	<idioma name="castellano">
 		<!-- LogInUI -->
@@ -91,6 +110,26 @@
 		<string name="graphInterval">Intervalos</string>
 		<string name="graphSong">Canciones</string>
 		<!-- RecordsUI -->
+		
+		<!-- MiLoadScreen -->
+		<string name="loadScreenFirstLoadWarning">Si es la primera vez que abres Runnstein, esto será largo!</string>
+		<string name="loadScreenLoading">Cargando...</string>
+		<!-- Player -->
+		<string name="loadPlayerIOExceptionMessage">Ha habido un error al leer el script SQL.</string>
+		<string name="loadPlayerSQLExceptionMessage">Ha habido un error con la base de datos.</string>
+		<string name="readDBSongRead">Se ha leído la canción: </string>
+		<string name="readDBFileNotFoundMessage">El siguiente archivo no se ha encontrado: </string>
+		<string name="searchDirectoryThrowCancelation">Elección de directorio</string>
+		<string name="searchDirectoryFileNotMP3">El archivo no es MP3: </string>
+		<string name="searchDirectoryNullPointer">Ha habido un error de puntero vacío.</string>
+		<string name="searchSongThrowCancelation">Carga de archivo único</string>
+		<string name="songFromFileBPMCalculate">Se va a calcular el BPM de la canción</string>
+		<string name="songFromFileLengthCalculate">Se va a calcular la duración de la canción</string>
+		<string name="songFromFileNewSongAdded">Se ha añadido una nueva canción:</string>
+		<string name="songFromFileExistingSong">Se ha encontrado una canción que ya estaba en la lista:</string>
+		<string name="songFromFileNotFound">Ya no se encuentra la siguiente cancion:</string>
+		<string name="songFromFileNullPointer">Ha habido un error cargando la canción:</string>
+		<string name="startRepNoSong">No has añadido ninguna canción</string>
 		
 	</idioma>
 	<idioma name="english">
@@ -139,5 +178,24 @@
 		<string name="graphSong">Songs</string>
 		<!-- RecordsUI -->
 		
+		<!-- MiLoadScreen -->
+		<string name="loadScreenFirstLoadWarning">If it's your first time with Runnstein, this will take long!</string>
+		<string name="loadScreenLoading">Loading...</string>
+		<!-- Player -->
+		<string name="loadPlayerIOExceptionMessage">An error has occurred when reading the SQL script.</string>
+		<string name="loadPlayerSQLExceptionMessage">A database error has occurred</string>
+		<string name="readDBSongRead">The song has been read: </string>
+		<string name="readDBFileNotFoundMessage">The file has not been found: </string>
+		<string name="searchDirectoryThrowCancelation">Directory loading</string>
+		<string name="searchDirectoryFileNotMP3">The file is not MP3: </string>
+		<string name="searchDirectoryNullPointer">A null pointer error has occured.</string>
+		<string name="searchSongThrowCancelation">Unique file loading</string>
+		<string name="songFromFileBPMCalculate">Calculating BPM of the song</string>
+		<string name="songFromFileLengthCalculate">Calculating length of the song</string>
+		<string name="songFromFileNewSongAdded">A new song has been added:</string>
+		<string name="songFromFileExistingSong">A existing song has been found:</string>
+		<string name="songFromFileNotFound">The following song has not been found:</string>
+		<string name="songFromFileNullPointer">An error occurred when loading the song:</string>
+		<string name="songFromFileNullPointer">No song has been added</string>
 	</idioma>
 </strings>

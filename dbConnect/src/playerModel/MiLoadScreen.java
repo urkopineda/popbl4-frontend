@@ -2,14 +2,18 @@ package playerModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultCaret;
+
+import language.Strings;
 
 
 public class MiLoadScreen extends JFrame {
@@ -18,7 +22,7 @@ public class MiLoadScreen extends JFrame {
 	int workToMake, workMade;
 	
 	public MiLoadScreen(JFrame parent, int workToMake) {
-		super("Cargando...");
+		super(Strings.get("loadScreenLoading"));
 		setContentPane(fillDialog());
 		setSize(450, 300);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -29,7 +33,7 @@ public class MiLoadScreen extends JFrame {
 	}
 	
 	public MiLoadScreen(JFrame parent) {
-		super("Cargando...");
+		super(Strings.get("loadScreenLoading"));
 		setContentPane(fillDialog());
 		setSize(450, 300);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,6 +45,9 @@ public class MiLoadScreen extends JFrame {
 	private JPanel fillDialog() {
 		JPanel panel = new JPanel(new BorderLayout());
 		JPanel textPanel = new JPanel(new BorderLayout());
+		JLabel label = new JLabel(Strings.get("loadScreenFirstLoadWarning"));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		label.setFont(new Font(label.getFont().getName(), Font.BOLD, 13));
 		textPanel.setPreferredSize(new Dimension(450, 275));
 		textArea = new JTextArea();
 		textArea.setEditable(false);
@@ -51,6 +58,7 @@ public class MiLoadScreen extends JFrame {
 		scroll.setViewportView(textPanel);
 		panel.add(scroll);
 		panel.add(progressBar, BorderLayout.NORTH);
+		panel.add(label, BorderLayout.SOUTH);
 		return panel;
 	}
 	

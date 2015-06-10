@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
+import language.Strings;
 import model.Album;
 import model.Author;
 import model.Duration;
@@ -60,6 +60,8 @@ public class Player implements ActionListener {
 	private int n;
 	private Song playing;
 	private Duration played;
+	
+	private MiLoadScreen load;
 	
 	private ListSelectionListener listListener;
 	
@@ -125,9 +127,9 @@ public class Player implements ActionListener {
 				conn.executeUpdate("INSERT INTO Album VALUES (0,0,'Desconocido');");
 			}
 		} catch (IOException e) {
-			System.out.println("Ha habido un error al leer el script SQL.");
+			System.out.println(Strings.get("loadPlayerIOExceptionMessage"));
 		} catch (SQLException e) {
-			System.out.println("Ha habido un error con la base de datos.");
+			System.out.println(Strings.get("loadPlayerSQLExceptionMessage"));
 		}
 		readDB();
 		if (System.getProperty("os.name").toLowerCase().contains("windows")) searchDirectory("c:\\users\\"+System.getProperty("user.name")+"\\music");
@@ -146,10 +148,10 @@ public class Player implements ActionListener {
 	private void readDB() {
 		ResultSet rs;
 		int id = -1;
-		MiLoadScreen load = new MiLoadScreen(parent);
 		try {
 			String sql = "SELECT * FROM vCanciones";
 			rs = conn.executeQuery(sql);
+			load = new MiLoadScreen(parent);
 			load.setWorkToMake(conn.executeQuery("SELECT COUNT(*) AS N FROM vCanciones").getInt("N"));
 			while (rs.next()) {
 				try {
@@ -169,9 +171,9 @@ public class Player implements ActionListener {
 					Song.getSongListModel().addElement(c);
 					Author.getAuthorListModel().addElement(c.getAuthor());
 					Album.getAlbumListModel().addElement(c.getAlbum());
-					load.progressHasBeenMade("Se ha leído la canción "+c);
+					load.progressHasBeenMade(Strings.get("readDBSongRead")+c);
 				} catch (FileNotFoundException e) {
-					System.out.println("Ya no se encuentra el archivo "+e.getMessage()+". Tal vez haya sido borrado.");
+					System.out.println(Strings.get("readDBFileNotFoundMessage")+e.getMessage());
 					conn.deleteEntry("Cancion", id);
 				}
 			}
@@ -186,13 +188,12 @@ public class Player implements ActionListener {
 	
 	public void searchDirectory(String ruta) {
 		JFileChooser fileChooser = null;
-		MiLoadScreen load = null;
 		try {
 			if (ruta == null) {
 				fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.showOpenDialog(parent);
-				if (fileChooser.getSelectedFile() == null) throw new CancelacionException("Elección de directorio.");
+				if (fileChooser.getSelectedFile() == null) throw new CancelacionException(Strings.get("searchDirectoryThrowCancelation"));
 				ruta = fileChooser.getSelectedFile().getAbsolutePath();
 			}
 			final File folder = new File(ruta);
@@ -202,15 +203,14 @@ public class Player implements ActionListener {
 				String name = fileEntry.getName();
 				if (name.toLowerCase().endsWith(".mp3")) {
 					createSongFromFile(fileEntry);
-					load.progressHasBeenMade("Canción nueva añadida: "+name);
 				} else {
-					load.progressHasBeenMade("El archivo no es MP3: "+name);
+					load.progressHasBeenMade(Strings.get("searchDirectoryFileNotMP3")+name);
 				}
 			}			
 		} catch (CancelacionException e) {
 			System.out.println(e.getMessage());
 		} catch (NullPointerException e) {
-			System.out.println("Ha habido un error de puntero vacío.");
+			System.out.println(Strings.get("searchDirectoryNullPointer"));
 		} finally {
 			if (load != null) load.dispose();
 			load = null;
@@ -235,7 +235,7 @@ public class Player implements ActionListener {
 			});
 			chooser.showOpenDialog(parent);
 			File file = chooser.getSelectedFile();
-			if (file == null) throw new CancelacionException("Carga de archivo único");
+			if (file == null) throw new CancelacionException(Strings.get("searchSongThrowCancelation"));
 			createSongFromFile(file);
 		} catch (CancelacionException e) {
 			System.out.println(e.getMessage());
@@ -283,20 +283,21 @@ public class Player implements ActionListener {
 				}
 				c.setAlbum(alb);
 				c.setAuthor(aut);
+				load.publishWithoutProgress(Strings.get("songFromFileBPMCalculate")+" \""+c.getTitle()+"\"");
 				pr.put("BPM", String.valueOf(Song.calculateBPM(file)));
+				load.publishWithoutProgress(Strings.get("songFromFileLengthCalculate")+" \""+c.getTitle()+"\"");
 				pr.put("Duration", String.valueOf(Song.calculateLength(file)));
 				c.parseProperties(pr);
 				conn.insertQuery("Cancion", c.getTableColumns(), c.getColumnValues());
 				c.searchID(conn);
+				load.progressHasBeenMade(Strings.get("songFromFileNewSongAdded")+"\""+c.toString()+"\"");
 				Song.getSongListModel().addElement(c);
 			}
-			else throw new CancionRepetidaException(c.toString());
+			else load.progressHasBeenMade(Strings.get("songFromFileExistingSong")+c.getTitle());
 		} catch (FileNotFoundException e) {
-			System.out.println("Ya no se encuentra la siguiente cancion: "+e.getMessage()+". Tal vez se haya borrado.");
-		} catch (CancionRepetidaException e) {
-			System.out.println("Ya existe la siguiente canción: "+e.getMessage()+".");
+			System.out.println(Strings.get("songFromFileNotFound")+e.getMessage()+". Tal vez se haya borrado.");
 		} catch (NullPointerException e) {
-			System.out.println("Ha habido un error cargando la canción: "+file.getPath());
+			System.out.println(Strings.get("songFromFileNullPointer")+file.getPath());
 		}
 	}
 	
@@ -337,7 +338,7 @@ public class Player implements ActionListener {
 		songLength.setIsPlaying(true);
 		Song s = songList.getSelectedValue();
 		if (s==null && songList.getModel().getSize()>0) s = songList.getModel().getElementAt(0);
-		else if (s==null) JOptionPane.showMessageDialog(parent, "No has añadido ninguna canción", "ERROR", JOptionPane.ERROR_MESSAGE);
+		else if (s==null) JOptionPane.showMessageDialog(parent, Strings.get("startRepNoSong"), "ERROR", JOptionPane.ERROR_MESSAGE);
 		else addSong(s);
 		calculator.setPaused(false);
 		calculator.setPlayingSong(s);
@@ -501,7 +502,7 @@ public class Player implements ActionListener {
 		playerList.add(scroll);
 	}
 
-	private RunnsteinCalculator getCalculator() {
+	public RunnsteinCalculator getCalculator() {
 		return calculator;
 	}
 	
