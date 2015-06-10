@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -110,8 +111,10 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("start")) {
-			trainingUI.startTimer();
-			trainingUI.getPlayer().startReproduction();
+			if (trainingUI.getListSize() != 0) {
+				trainingUI.startTimer();
+				trainingUI.getPlayer().startReproduction();
+			} else JOptionPane.showMessageDialog(window, "No se encuentra ninguna canción.", "Error", JOptionPane.ERROR_MESSAGE);
 		} else if (e.getActionCommand().equals("pause")) {
 			trainingUI.pauseTimer();
 			trainingUI.getPlayer().pauseReproduction();
