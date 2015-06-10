@@ -4,14 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
 import main.Configuration;
@@ -40,9 +39,9 @@ public class TrainingUI {
 	ActionListener act = null;
 	Player player = null;
 	
-	public TrainingUI(PropertyChangeListener pg, ActionListener act, ListSelectionListener ls) {
+	public TrainingUI(ActionListener act, JFrame window) {
 		this.act = act;
-		player = new Player(pg, act, ls);
+		player = new Player(window);
 	}
 	
 	public Container createMainPanel() {

@@ -23,6 +23,7 @@ import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -45,6 +46,7 @@ import org.farng.mp3.id3.ID3v2_2;
 import org.farng.mp3.id3.ID3v2_3;
 import org.farng.mp3.id3.ID3v2_4;
 
+import playerModel.MiLoadScreen;
 import playerModel.MiRenderer;
 import task.RunnsteinCalculator;
 import task.SongLengthTimer;
@@ -59,12 +61,11 @@ public class Player implements ActionListener {
 	private Song playing;
 	private Duration played;
 	
-	private PropertyChangeListener pgListener;
-	private ActionListener actionListener;
 	private ListSelectionListener listListener;
 	
 	private JPanel playerButtons;
 	private JPanel playerList;
+	private JFrame parent;
 	
 	private JList<Song> songList;
 	private JList<Author> authorList;
@@ -84,17 +85,15 @@ public class Player implements ActionListener {
 	private RunnsteinCalculator calculator;
 	private SongLengthTimer songLength;
 	
-	public Player(PropertyChangeListener pgListener, ActionListener actionListener, ListSelectionListener listListener) {
+	public Player(JFrame parent) {
 		player = new MP3Player();
 		list = new ArrayList<>();
 		n = 0;
 		playing = null;
 		isLoaded = false;
 		justRestarted = false;
+		this.parent = parent;
 		loadPlayer();
-		this.pgListener = pgListener;
-		this.actionListener = actionListener;
-		this.listListener = listListener;
 	}
 	
 	private void loadPlayer() {
@@ -147,9 +146,11 @@ public class Player implements ActionListener {
 	private void readDB() {
 		ResultSet rs;
 		int id = -1;
+		MiLoadScreen load = new MiLoadScreen(parent);
 		try {
 			String sql = "SELECT * FROM vCanciones";
 			rs = conn.executeQuery(sql);
+			load.setWorkToMake(conn.executeQuery("SELECT COUNT(*) AS N FROM vCanciones").getInt("N"));
 			while (rs.next()) {
 				try {
 					Properties pr = new Properties();
@@ -168,6 +169,7 @@ public class Player implements ActionListener {
 					Song.getSongListModel().addElement(c);
 					Author.getAuthorListModel().addElement(c.getAuthor());
 					Album.getAlbumListModel().addElement(c.getAlbum());
+					load.progressHasBeenMade("Se ha leído la canción "+c);
 				} catch (FileNotFoundException e) {
 					System.out.println("Ya no se encuentra el archivo "+e.getMessage()+". Tal vez haya sido borrado.");
 					conn.deleteEntry("Cancion", id);
@@ -176,28 +178,42 @@ public class Player implements ActionListener {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if (load != null) load.dispose();
+			load = null;
 		}
 	}
 	
 	public void searchDirectory(String ruta) {
 		JFileChooser fileChooser = null;
+		MiLoadScreen load = null;
 		try {
 			if (ruta == null) {
 				fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				fileChooser.showOpenDialog(this.playerButtons.getParent());
+				fileChooser.showOpenDialog(parent);
 				if (fileChooser.getSelectedFile() == null) throw new CancelacionException("Elección de directorio.");
 				ruta = fileChooser.getSelectedFile().getAbsolutePath();
 			}
 			final File folder = new File(ruta);
+			load = new MiLoadScreen(parent);
+			load.setWorkToMake(folder.listFiles().length);
 			for (final File fileEntry : folder.listFiles()) {
 				String name = fileEntry.getName();
-				if (name.toLowerCase().endsWith(".mp3")) createSongFromFile(fileEntry);
+				if (name.toLowerCase().endsWith(".mp3")) {
+					createSongFromFile(fileEntry);
+					load.progressHasBeenMade("Canción nueva añadida: "+name);
+				} else {
+					load.progressHasBeenMade("El archivo no es MP3: "+name);
+				}
 			}			
 		} catch (CancelacionException e) {
 			System.out.println(e.getMessage());
 		} catch (NullPointerException e) {
 			System.out.println("Ha habido un error de puntero vacío.");
+		} finally {
+			if (load != null) load.dispose();
+			load = null;
 		}
 	}
 	
@@ -217,7 +233,7 @@ public class Player implements ActionListener {
 					return "Archivo MP3";
 				}			
 			});
-			chooser.showOpenDialog(getPlayerButtons().getParent().getParent());
+			chooser.showOpenDialog(parent);
 			File file = chooser.getSelectedFile();
 			if (file == null) throw new CancelacionException("Carga de archivo único");
 			createSongFromFile(file);
@@ -321,7 +337,7 @@ public class Player implements ActionListener {
 		songLength.setIsPlaying(true);
 		Song s = songList.getSelectedValue();
 		if (s==null && songList.getModel().getSize()>0) s = songList.getModel().getElementAt(0);
-		else if (s==null) JOptionPane.showMessageDialog(this.getPlayerButtons().getParent(), "No has añadido ninguna canción", "ERROR", JOptionPane.ERROR_MESSAGE);
+		else if (s==null) JOptionPane.showMessageDialog(parent, "No has añadido ninguna canción", "ERROR", JOptionPane.ERROR_MESSAGE);
 		else addSong(s);
 		calculator.setPaused(false);
 		calculator.setPlayingSong(s);

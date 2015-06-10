@@ -22,11 +22,10 @@ import javax.swing.event.ListSelectionListener;
 import language.Strings;
 import utils.WindowMaker;
 
-public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener, PropertyChangeListener {
+public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener {
 	ActionListener action = this;
 	ListSelectionListener list = this;
 	ItemListener item = this;
-	PropertyChangeListener propertyChange = this;
 	JFrame window = null;
 	JMenuBar menuBar = null;
 	JMenu archivoMenu = null;
@@ -60,7 +59,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	private Container createMainPanel() {
 		addContentFlags = new ArrayList<>();
 		mainPanel = new JTabbedPane();
-		trainingUI = new TrainingUI(propertyChange, action, list);
+		trainingUI = new TrainingUI(action, window);
 		trainingDataUI = new TrainingDataUI(list);
 		statisticsUI = new StatisticsUI(item);
 		recordsUI = new RecordsUI();
@@ -140,11 +139,5 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		if (e.getStateChange() == ItemEvent.DESELECTED) {			
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 		}
-	}
-
-	@Override
-	public void propertyChange(PropertyChangeEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 }
