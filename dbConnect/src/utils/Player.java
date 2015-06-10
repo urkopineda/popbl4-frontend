@@ -171,7 +171,7 @@ public class Player implements ActionListener {
 					Song.getSongListModel().addElement(c);
 					Author.getAuthorListModel().addElement(c.getAuthor());
 					Album.getAlbumListModel().addElement(c.getAlbum());
-					load.progressHasBeenMade(Strings.get("readDBSongRead")+c);
+					load.progressHasBeenMade(Strings.get("readDBSongRead")+c, null);
 				} catch (FileNotFoundException e) {
 					System.out.println(Strings.get("readDBFileNotFoundMessage")+e.getMessage());
 					conn.deleteEntry("Cancion", id);
@@ -198,13 +198,13 @@ public class Player implements ActionListener {
 			}
 			final File folder = new File(ruta);
 			load = new MiLoadScreen(parent);
-			load.setWorkToMake(folder.listFiles().length);
+			load.setWorkToMake(folder.listFiles().length*3);
 			for (final File fileEntry : folder.listFiles()) {
 				String name = fileEntry.getName();
 				if (name.toLowerCase().endsWith(".mp3")) {
 					createSongFromFile(fileEntry);
 				} else {
-					load.progressHasBeenMade(Strings.get("searchDirectoryFileNotMP3")+name);
+					load.progressHasBeenMade(Strings.get("searchDirectoryFileNotMP3")+name, 3);
 				}
 			}			
 		} catch (CancelacionException e) {
@@ -283,17 +283,17 @@ public class Player implements ActionListener {
 				}
 				c.setAlbum(alb);
 				c.setAuthor(aut);
-				load.publishWithoutProgress(Strings.get("songFromFileBPMCalculate")+" \""+c.getTitle()+"\"");
+				load.progressHasBeenMade(Strings.get("songFromFileBPMCalculate")+" \""+c.getTitle()+"\"", null);
 				pr.put("BPM", String.valueOf(Song.calculateBPM(file)));
-				load.publishWithoutProgress(Strings.get("songFromFileLengthCalculate")+" \""+c.getTitle()+"\"");
+				load.progressHasBeenMade(Strings.get("songFromFileLengthCalculate")+" \""+c.getTitle()+"\"", null);
 				pr.put("Duration", String.valueOf(Song.calculateLength(file)));
 				c.parseProperties(pr);
 				conn.insertQuery("Cancion", c.getTableColumns(), c.getColumnValues());
 				c.searchID(conn);
-				load.progressHasBeenMade(Strings.get("songFromFileNewSongAdded")+"\""+c.toString()+"\"");
+				load.progressHasBeenMade(Strings.get("songFromFileNewSongAdded")+"\""+c.toString()+"\"", null);
 				Song.getSongListModel().addElement(c);
 			}
-			else load.progressHasBeenMade(Strings.get("songFromFileExistingSong")+c.getTitle());
+			else load.progressHasBeenMade(Strings.get("songFromFileExistingSong")+c.getTitle(), 3);
 		} catch (FileNotFoundException e) {
 			System.out.println(Strings.get("songFromFileNotFound")+e.getMessage()+". Tal vez se haya borrado.");
 		} catch (NullPointerException e) {

@@ -45,20 +45,18 @@ public class MiLoadScreen extends JFrame {
 	private JPanel fillDialog() {
 		JPanel panel = new JPanel(new BorderLayout());
 		JPanel textPanel = new JPanel(new BorderLayout());
-		JLabel label = new JLabel(Strings.get("loadScreenFirstLoadWarning"));
-		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setFont(new Font(label.getFont().getName(), Font.BOLD, 13));
 		textPanel.setPreferredSize(new Dimension(450, 275));
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		progressBar = new JProgressBar();
+		progressBar.setStringPainted(true);
+		progressBar.setString(String.valueOf(progressBar.getValue())+"%");
 		((DefaultCaret) textArea.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		textPanel.add(textArea);
 		scroll.setViewportView(textPanel);
 		panel.add(scroll);
 		panel.add(progressBar, BorderLayout.NORTH);
-		panel.add(label, BorderLayout.SOUTH);
 		return panel;
 	}
 	
@@ -66,9 +64,12 @@ public class MiLoadScreen extends JFrame {
 		workToMake = value;
 	}
 	
-	public void progressHasBeenMade(String text) {
+	public void progressHasBeenMade(String text, Integer value) {
 		textArea.setText(text+"\n"+textArea.getText());
-		progressBar.setValue(++workMade*100/workToMake);
+		if (value == null) workMade++;
+		else workMade += value;
+		progressBar.setValue(workMade*100/workToMake);
+		progressBar.setString(String.valueOf(progressBar.getValue())+"%");
 		update(getGraphics());
 	}
 	
