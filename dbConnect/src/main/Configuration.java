@@ -15,6 +15,13 @@ public class Configuration {
 	public static String name = null;
 	public static String surname1 = null;
 	public static String surname2 = null;
+	public static String provincia = null;
+	public static String pueblo = null;
+	public static String calle = null;
+	public static String numero = null;
+	public static String piso = null;
+	public static String letra = null;
+	public static String tlf = null;
 	public static boolean sensorState = false;
 	public static boolean syncState = false;
 	public static int ppm = 100;

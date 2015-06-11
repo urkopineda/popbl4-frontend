@@ -30,6 +30,8 @@ public class ProfileUI {
 	JPanel profileNamePanel = null;
 	JPanel profileUserPanel = null;
 	JPanel optionsPanel = null;
+	JPanel directPanel = null;
+	JPanel phonePanel = null;
 	JLabel userText = null;
 	JLabel passText = null;
 	JTextField userField = null;
@@ -44,6 +46,20 @@ public class ProfileUI {
 	JButton cancelBtn = null;
 	ActionListener act = null;
 	JFrame window = null;
+	JLabel phoneLabel = null;
+	JTextField phoneField = null;
+	JTextField provinField = null;
+	JTextField puebloField = null;
+	JTextField calleField = null;
+	JTextField numField = null;
+	JTextField pisoField = null;
+	JTextField letraField = null;
+	JLabel provinLabel = null;
+	JLabel puebloLabel = null;
+	JLabel calleLabel = null;
+	JLabel numLabel = null;
+	JLabel pisoLabel = null;
+	JLabel letraLabel = null;
 		
 	public ProfileUI(ActionListener act, JFrame window) {
 		this.act = act;
@@ -65,14 +81,14 @@ public class ProfileUI {
 		centerPanel = new JPanel(new GridLayout(2, 2, 5, 5));
 		centerPanel.add(createProfileNamePanel());
 		centerPanel.add(createProfileUserPanel());
-		centerPanel.add(createOptionsPanel());
-		centerPanel.add(createOptionsPanel());
+		centerPanel.add(createDirectionsPanel());
+		centerPanel.add(createPhonePanel());
 		return centerPanel;
 	}
 	
 	private Container createProfileNamePanel() {
 		profileNamePanel = new JPanel(new GridLayout(1, 1, 5, 5));
-		profileNamePanel.setBorder(BorderFactory.createTitledBorder("Incio de sesión"));
+		profileNamePanel.setBorder(BorderFactory.createTitledBorder(Strings.get("sesion")));
 		profileNamePanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 		JPanel logInPanel = new JPanel(new GridLayout(2, 2, 5, 5));
@@ -90,13 +106,13 @@ public class ProfileUI {
 	
 	private Container createProfileUserPanel() {
 		profileUserPanel = new JPanel(new GridLayout(1, 1, 5, 5));
-		profileUserPanel.setBorder(BorderFactory.createTitledBorder("Datos Personales"));
+		profileUserPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("persData")));
 		profileUserPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 		JPanel logInPanel = new JPanel(new GridLayout(3, 2, 5, 5));
-		nameText = WindowMaker.createJLabel(nameText, "Nombre", 20, "right");
-		surname1Text = WindowMaker.createJLabel(surname1Text, "1º Apellido", 20, "right");
-		surname2Text = WindowMaker.createJLabel(surname2Text, "2º Apellido", 20, "right");
+		nameText = WindowMaker.createJLabel(nameText, Strings.get("userName"), 20, "right");
+		surname1Text = WindowMaker.createJLabel(surname1Text, Strings.get("userApe1"), 20, "right");
+		surname2Text = WindowMaker.createJLabel(surname2Text, Strings.get("userApe2"), 20, "right");
 		nameField = WindowMaker.createJTextField();
 		surname1Field = WindowMaker.createJTextField();
 		surname2Field = WindowMaker.createJTextField();
@@ -110,10 +126,52 @@ public class ProfileUI {
 		return profileUserPanel;
 	}
 	
-	private Container createOptionsPanel() {
-		optionsPanel = new JPanel(new GridLayout(2, 2, 5, 5));
-		optionsPanel.setBorder(BorderFactory.createTitledBorder("Opciones"));
-		return optionsPanel;
+	private Container createDirectionsPanel() {
+		directPanel = new JPanel(new GridLayout(2, 2, 5, 5));
+		directPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("direccionB")));
+		directPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+		JPanel logInPanel = new JPanel(new GridLayout(6, 2, 5, 5));
+		provinLabel = WindowMaker.createJLabel(provinLabel,	Strings.get("provin"), 20, "right");
+		puebloLabel = WindowMaker.createJLabel(puebloLabel, Strings.get("pueblo"), 20, "right");
+		calleLabel = WindowMaker.createJLabel(calleLabel, Strings.get("calle"), 20, "right");
+		numLabel = WindowMaker.createJLabel(numLabel, Strings.get("num"), 20, "right");
+		pisoLabel = WindowMaker.createJLabel(pisoLabel, Strings.get("piso"), 20, "right");
+		letraLabel = WindowMaker.createJLabel(letraLabel, Strings.get("letra"), 20, "right");
+		provinField = WindowMaker.createJTextField();
+		puebloField = WindowMaker.createJTextField();
+		calleField = WindowMaker.createJTextField();
+		numField = WindowMaker.createJTextField();
+		pisoField = WindowMaker.createJTextField();
+		letraField = WindowMaker.createJTextField();
+		logInPanel.add(provinLabel);
+		logInPanel.add(provinField);
+		logInPanel.add(puebloLabel);
+		logInPanel.add(puebloField);
+		logInPanel.add(calleLabel);
+		logInPanel.add(calleField);
+		logInPanel.add(numLabel);
+		logInPanel.add(numField);
+		logInPanel.add(pisoLabel);
+		logInPanel.add(pisoField);
+		logInPanel.add(letraLabel);
+		logInPanel.add(letraField);
+		directPanel.add(logInPanel, gbc);
+		return directPanel;
+	}
+	
+	private Container createPhonePanel() {
+		phonePanel = new JPanel(new GridLayout(2, 2, 5, 5));
+		phonePanel.setBorder(BorderFactory.createTitledBorder(Strings.get("phoneB")));
+		phonePanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+		JPanel logInPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+		phoneLabel = WindowMaker.createJLabel(phoneLabel, Strings.get("phone"), 20, "right");
+		phoneField = WindowMaker.createJTextField();
+		logInPanel.add(phoneLabel);
+		logInPanel.add(phoneField);
+		phonePanel.add(logInPanel, gbc);
+		return phonePanel;
 	}
 	
 	private Container createSouthPanel() {

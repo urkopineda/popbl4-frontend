@@ -21,12 +21,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import language.Strings;
 import main.Configuration;
+import playerModel.MiLoadScreen;
 import utils.WindowMaker;
 import database.MySQLUtils;
 import file.FileUtils;
@@ -51,6 +53,8 @@ public class LogInUI implements ActionListener, ItemListener {
 	JButton signUpBtn = null;
 	JComboBox<String> languageComboBox = null;
 	boolean correctLogIn = false;
+	boolean first = false;
+	MiLoadScreen load = null;
 	
 	public LogInUI() {
 		createJFrame();
@@ -145,28 +149,56 @@ public class LogInUI implements ActionListener, ItemListener {
 	}
 	
 	private void checkUser() {
+		load = new MiLoadScreen(window);
 		char[] input = passField.getPassword();
 		String pass = new String(input);
 		MySQLUtils db = new MySQLUtils();
 		try {
 			db.openDataBase();
+			load.setWorkToMake(12);
 			ResultSet rs = db.exeQuery("SELECT Username, Password, UsuarioID, Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE Username = '"+userField.getText()+"' AND Password = '"+pass+"'");
 			while (rs.next()) {
 				Configuration.username = rs.getString(1);
+				load.progressHasBeenMade("Username", 1);
 				Configuration.userID = rs.getInt(3);
+				load.progressHasBeenMade("User ID", 1);
 				Configuration.name = rs.getString(4);
+				load.progressHasBeenMade("Name", 1);
 				Configuration.surname1 = rs.getString(5);
+				load.progressHasBeenMade("Surname 1", 1);
 				Configuration.surname2 = rs.getString(6);
+				load.progressHasBeenMade("Surname 2", 1);
 				correctLogIn = true;
 				@SuppressWarnings("unused")
 				MainUI mainUI = new MainUI();
 				window.dispose();
+			}
+			ResultSet rsT = db.exeQuery("SELECT Provincia, Pueblo, Calle, Numero, Piso, Letra  FROM DIRECCION WHERE UsuarioID = "+Configuration.userID);
+			while(rsT.next()) {
+				Configuration.provincia = rsT.getString(1);
+				load.progressHasBeenMade("Province", 1);
+				Configuration.pueblo = rsT.getString(2);
+				load.progressHasBeenMade("City", 1);
+				Configuration.calle = rsT.getString(3);
+				load.progressHasBeenMade("Street", 1);
+				Configuration.numero = rsT.getString(4);
+				load.progressHasBeenMade("Number", 1);
+				Configuration.piso = rsT.getString(5);
+				load.progressHasBeenMade("Floor", 1);
+				Configuration.letra = rsT.getString(6);
+				load.progressHasBeenMade("Leter", 1);
+			}
+			ResultSet rsD = db.exeQuery("SELECT Numero FROM TELEFONO WHERE UsuarioID = "+Configuration.userID);
+			while(rsD.next()) {
+				Configuration.tlf = rsD.getString(1);
+				load.progressHasBeenMade("Phone", 1);
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
 		} finally {
+			load.closeScreen();
 			if (!correctLogIn) {
 				checkBtn.setText(Strings.get("logInCheck"));
 				errorText.setVisible(true);
@@ -186,6 +218,8 @@ public class LogInUI implements ActionListener, ItemListener {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
 			Configuration.lang = languageComboBox.getSelectedIndex();
 			FileUtils.writeConfFile();
+			if (!first) first = true;
+			else JOptionPane.showMessageDialog(window, Strings.get("idiomaAlertM"), Strings.get("idiomaAlert"), JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }

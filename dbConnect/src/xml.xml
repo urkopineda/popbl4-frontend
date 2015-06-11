@@ -10,6 +10,8 @@
 		<string name="logInError">AKATSA: Erabiltzaile / Pasahitz okerra.</string>
 		<string name="signUp">Oraindik ez zara Runnstein erabiltzalea?</string>
 		<string name="signUpBtn">Izena eman!</string>
+		<string name="idiomaAlert">Abisua</string>
+		<string name="idiomaAlertM">Programa berrabiarazi edo saioa hasi hizkuntza aldaketa egiteko.</string>
 		<!--  SignInUI -->
 		<string name="windowSignIn">Izena eman</string>
 		<string name="userName">Izena</string>
@@ -55,6 +57,18 @@
 		<string name="graphSong">Abestiak</string>
 		<!-- RecordsUI -->
 		
+		<!-- ProfileUI -->
+		<string name="sesion">Sesioaren datuak</string>
+		<string name="persData">Datu pertsonala</string>
+		<string name="provin">Probintzia:</string>
+		<string name="pueblo">Herria:</string>
+		<string name="calle">Kalea:</string>
+		<string name="num">Zenbakia:</string>
+		<string name="piso">Pisua:</string>
+		<string name="letra">Letra:</string>
+		<string name="phone">Telefonoa:</string>
+		<string name="phoneB">Telefonoa</string>
+		<string name="direccionB">Helbidea</string>
 		<!-- MiLoadScreen -->
 		<string name="loadScreenFirstLoadWarning">Runnsteinekin lehenengo aldia baduzu, honek luze joko du!</string>
 		<string name="loadScreenLoading">Kargatzen...</string>
@@ -86,6 +100,8 @@
 		<string name="logInError">ERROR: Usuario/contraseña incorrectos.</string>
 		<string name="signUp">¿Aún no eres un usuario Runnstein?</string>
 		<string name="signUpBtn">¡Registrate!</string>
+		<string name="idiomaAlert">Aviso</string>
+		<string name="idiomaAlertM">Reinicia el programa o inicia sesión para aplicar el cambio de idioma.</string>
 		<!--  SignInUI -->
 		<string name="windowSignIn">Registrate</string>
 		<string name="userName">Nombre</string>
@@ -131,6 +147,18 @@
 		<string name="graphSong">Canciones</string>
 		<!-- RecordsUI -->
 		
+		<!-- ProfileUI -->
+		<string name="sesion">Información de sesión</string>
+		<string name="persData">Datos personales</string>
+		<string name="provin">Provincia:</string>
+		<string name="pueblo">Pueblo:</string>
+		<string name="calle">Calle:</string>
+		<string name="num">Número:</string>
+		<string name="piso">Piso:</string>
+		<string name="letra">Letra:</string>
+		<string name="phone">Teléfono:</string>
+		<string name="phoneB">Teléfono</string>
+		<string name="direccionB">Dirección</string>
 		<!-- MiLoadScreen -->
 		<string name="loadScreenFirstLoadWarning">Si es la primera vez que abres Runnstein, esto será largo!</string>
 		<string name="loadScreenLoading">Cargando...</string>
@@ -163,6 +191,8 @@
 		<string name="logInError">ERROR: Incorrect user/password</string>
 		<string name="signUp">You haven't signed up yet?</string>
 		<string name="signUpBtn">Sign up!</string>
+		<string name="idiomaAlert">Alert</string>
+		<string name="idiomaAlertM">You must restart the program or log in to apply changes.</string>
 		<!--  SignInUI -->
 		<string name="windowSignIn">Sign up</string>
 		<string name="userName">Name</string>
@@ -208,6 +238,18 @@
 		<string name="graphSong">Songs</string>
 		<!-- RecordsUI -->
 		
+		<!-- ProfileUI -->
+		<string name="sesion">Sesion data</string>
+		<string name="persData">Personal data</string>
+		<string name="provin">Province / State:</string>
+		<string name="pueblo">City:</string>
+		<string name="calle">Street:</string>
+		<string name="num">Number:</string>
+		<string name="piso">Floor:</string>
+		<string name="letra">Leter:</string>
+		<string name="phone">Phone number:</string>
+		<string name="phoneB">Phone number</string>
+		<string name="direccionB">Directions</string>
 		<!-- MiLoadScreen -->
 		<string name="loadScreenFirstLoadWarning">If it's your first time with Runnstein, this will take long!</string>
 		<string name="loadScreenLoading">Loading...</string>
