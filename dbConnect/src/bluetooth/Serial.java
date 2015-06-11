@@ -19,7 +19,7 @@ public class Serial {
 				port.setParams(Configuration.baudRate, 8, 1, 0);
 				Configuration.sensorState = true;
 			} catch (SerialPortException e) {
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -31,7 +31,7 @@ public class Serial {
 	 */
 	public void sendMessage(){
 		try {
-			port.writeInt(Configuration.requestMessage);
+			if (port.isOpened()) port.writeInt(Configuration.requestMessage);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -46,8 +46,10 @@ public class Serial {
 		byte[] buffer = null; 
 		int data = 0;
 		try { 
-			buffer = port.readBytes(1);
-			data = Byte.toUnsignedInt(buffer[0]);
+			if (port.isOpened()) {
+				buffer = port.readBytes(1);
+				data = Byte.toUnsignedInt(buffer[0]);
+			}
 		} catch(Exception e) { 
 			e.printStackTrace(); 
 		} 

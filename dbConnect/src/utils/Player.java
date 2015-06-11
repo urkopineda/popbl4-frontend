@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -52,7 +53,6 @@ import task.RunnsteinCalculator;
 import task.SongLengthTimer;
 import database.SQLiteUtils;
 import exceptions.CancelacionException;
-import exceptions.CancionRepetidaException;
 
 public class Player implements ActionListener {
 	private MP3Player player;
@@ -436,8 +436,14 @@ public class Player implements ActionListener {
 		return player.isStopped();
 	}
 	
-	public boolean skipForward() {		
-		if (n==list.size()-1 && !calculator.getChosenSong().equals(playing)) {
+	public boolean skipForward() {
+		if (calculator.getChosenSong() == null) {
+			addSong(songList.getModel().getElementAt((new Random()).nextInt(songList.getModel().getSize())));
+			played = new Duration(0);
+			n++;
+			player.skipForward();
+			calculator.fireSongChanged();
+		} else if (n==list.size()-1 && !calculator.getChosenSong().equals(playing)) {
 			addSong(calculator.getChosenSong());
 			played = new Duration(0);
 			n++;

@@ -19,9 +19,8 @@ public class COMManager extends Thread {
 	public void run() {
 		while(!endThread){
 			Configuration.ppm = serial.receiveMessage();
-			System.out.println(Configuration.ppm);
 			Heart.recalculatePPM();
-			TrainingUI.ppmNumbers.setText(Configuration.ppm + " ppm");
+			if (TrainingUI.ppmNumbers != null) TrainingUI.ppmNumbers.setText(Configuration.ppm + " ppm");
 		}
 	}
 	

@@ -121,6 +121,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		} else if (e.getActionCommand().equals("stop")) {
 			trainingUI.stopTimer();
 			trainingUI.getPlayer().stopReproduction();
+			// trainingUI.getPlayer().createDump();
 		} else if (e.getActionCommand().equals("cancel")) {
 			profileUI.cancelOption();
 		} else if (e.getActionCommand().equals("save")) {
