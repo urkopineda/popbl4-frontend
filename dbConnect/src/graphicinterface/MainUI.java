@@ -19,10 +19,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import bluetooth.COMManager;
 import language.Strings;
 import main.Configuration;
+import playerModel.MiLoadScreen;
 import utils.WindowMaker;
+import bluetooth.COMManager;
 
 public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener {
 	ActionListener action = this;
@@ -30,8 +31,8 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	ItemListener item = this;
 	JFrame window = null;
 	JMenuBar menuBar = null;
-	JMenu archivoMenu = null, exitMenu = null, btMenu = null;
-	JMenuItem cargarDirectorioItem = null, cargarArchivoItem = null, exitItem = null, btConnect = null, btDisconnect = null, btInfo = null;
+	JMenu archivoMenu = null, editarMenu = null, exitMenu = null, btMenu = null;
+	JMenuItem cargarDirectorioItem = null, cargarArchivoItem = null, exitItem = null, btConnect = null, btDisconnect = null, btInfo = null, settingsItem = null;
 	JTabbedPane mainPanel = null;
 	TrainingUI trainingUI = null;
 	TrainingDataUI trainingDataUI = null;
@@ -40,6 +41,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	ProfileUI profileUI = null;
 	ArrayList<Integer> addContentFlags = null;
 	COMManager comManager = null;
+	MiLoadScreen load = null;
 	
 	public MainUI() {
 		window = new JFrame("Runnstein");
@@ -55,6 +57,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	private JMenuBar createMenuBar() {
 		menuBar = new JMenuBar();
 		menuBar.add(createArchivoMenu());
+		menuBar.add(createEditarMenu());
 		menuBar.add(Box.createGlue());
 		menuBar.add(createBluetooth());
 		menuBar.add(Box.createGlue());
@@ -70,6 +73,13 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		archivoMenu.add(cargarDirectorioItem);
 		archivoMenu.add(cargarArchivoItem);
 		return archivoMenu;
+	}
+	
+	private JMenu createEditarMenu() {
+		editarMenu = new JMenu(Strings.get("edit"));
+		settingsItem = WindowMaker.createJMenuItem(Strings.get("settingsTitle"), this, "settings");
+		editarMenu.add(settingsItem);
+		return editarMenu;
 	}
 	
 	private JMenu createBluetooth() {
@@ -169,21 +179,41 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		} else if (e.getActionCommand().equals("exit")) {
 			window.dispose();
 		} else if (e.getActionCommand().equals("btInfo")) {
-			if (Configuration.sensorState) JOptionPane.showMessageDialog(window, Strings.get("btConnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
-			else JOptionPane.showMessageDialog(window, Strings.get("btDisconnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
+			btInfo();
 		} else if (e.getActionCommand().equals("btConn")) {
-			System.out.println("Conectando...");
+			load = new MiLoadScreen(window);
+			load.setWorkToMake(3);
 			comManager = new COMManager();
+			load.progressHasBeenMade("Connecting...", 1);
 			Configuration.com = comManager;
+			load.progressHasBeenMade("Saving connection - 1...", 1);
 			trainingUI.getPlayer().getCalculator().comCreated();
+			load.progressHasBeenMade("Saving connection - 2...", 1);
 			trainingUI.switchBt();
-			if (Configuration.sensorState) btDisconnect.setEnabled(true); btConnect.setEnabled(false);
+			load.progressHasBeenMade("Updating UI...", 1);
+			if (Configuration.sensorState) {
+				btDisconnect.setEnabled(true);
+				btConnect.setEnabled(false);
+				load.closeScreen();
+				btInfo();
+			} else load.closeScreen();
 		} else if (e.getActionCommand().equals("btDisconn")) {
-			System.out.println("Desconectando...");
 			comManager.interrupt();
 			trainingUI.switchBt();
-			if (!Configuration.sensorState) btDisconnect.setEnabled(false); btConnect.setEnabled(true);
+			if (!Configuration.sensorState){
+				btDisconnect.setEnabled(false);
+				btConnect.setEnabled(true);
+				btInfo();
+			}
+		} else if (e.getActionCommand().equals("settings")) {
+			@SuppressWarnings("unused")
+			SettingsUI settings = new SettingsUI(window);
 		}
+	}
+	
+	private void btInfo() {
+		if (Configuration.sensorState) JOptionPane.showMessageDialog(window, Strings.get("btConnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
+		else JOptionPane.showMessageDialog(window, Strings.get("btDisconnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	@Override

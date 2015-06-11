@@ -12,6 +12,7 @@
 		<string name="btConnecting">Konektatzen...</string>
 		<string name="btDisconnected">Taupada sentsorea deskonektatua</string>
 		<string name="btInfo">Konprobatu</string>
+		<string name="edit">Editatu</string>
 		<!-- LogInUI -->
 		<string name="windowLogIn">Saioa hasi</string>
 		<string name="logInUser">Erabiltzailea:</string>
@@ -23,7 +24,7 @@
 		<string name="signUp">Oraindik ez zara Runnstein erabiltzalea?</string>
 		<string name="signUpBtn">Izena eman!</string>
 		<string name="idiomaAlert">Abisua</string>
-		<string name="idiomaAlertM">Programa berrabiarazi edo saioa hasi hizkuntza aldaketa egiteko.</string>
+		<string name="idiomaAlertM">Programa berrabiarazi edo saioa hasi aldaketa ezartzeko.</string>
 		<!--  SignInUI -->
 		<string name="windowSignIn">Izena eman</string>
 		<string name="userName">Izena</string>
@@ -81,6 +82,14 @@
 		<string name="phone">Telefonoa:</string>
 		<string name="phoneB">Telefonoa</string>
 		<string name="direccionB">Helbidea</string>
+		<!-- SettingsUI -->
+		<string name="settingsTitle">Ezarpenak</string>
+		<string name="saveSettings">Gorde</string>
+		<string name="dbUser">MySQL erabiltzailea</string>
+		<string name="dbPass">MySQL pasahitza</string>
+		<string name="dbUrl">MySQL URL-a</string>
+		<string name="dbPort">MySQL portua</string>
+		<string name="dbUser">DB izena</string>
 		<!-- MiLoadScreen -->
 		<string name="loadScreenFirstLoadWarning">Runnsteinekin lehenengo aldia baduzu, honek luze joko du!</string>
 		<string name="loadScreenLoading">Kargatzen...</string>
@@ -114,6 +123,7 @@
 		<string name="btConnecting">Conectando...</string>
 		<string name="btDisconnected">Sen. ritmo cardíaco desconectado</string>
 		<string name="btInfo">Comprobar</string>
+		<string name="edit">Editar</string>
 		<!-- LogInUI -->
 		<string name="windowLogIn">Iniciar sesión</string>
 		<string name="logInUser">Usuario:</string>
@@ -125,7 +135,7 @@
 		<string name="signUp">¿Aún no eres un usuario Runnstein?</string>
 		<string name="signUpBtn">¡Registrate!</string>
 		<string name="idiomaAlert">Aviso</string>
-		<string name="idiomaAlertM">Reinicia el programa o inicia sesión para aplicar el cambio de idioma.</string>
+		<string name="idiomaAlertM">Reinicia el programa o inicia sesión para aplicar los cambios.</string>
 		<!--  SignInUI -->
 		<string name="windowSignIn">Registrate</string>
 		<string name="userName">Nombre</string>
@@ -183,6 +193,14 @@
 		<string name="phone">Teléfono:</string>
 		<string name="phoneB">Teléfono</string>
 		<string name="direccionB">Dirección</string>
+		<!-- SettingsUI -->
+		<string name="settingsTitle">Opciones</string>
+		<string name="saveSettings">Guardar</string>
+		<string name="dbUser">Usuario MySQL</string>
+		<string name="dbPass">Contraseña MySQL</string>
+		<string name="dbUrl">URL a MySQL</string>
+		<string name="dbPort">Puerto MySQL</string>
+		<string name="dbUser">Nombre de BD</string>
 		<!-- MiLoadScreen -->
 		<string name="loadScreenFirstLoadWarning">Si es la primera vez que abres Runnstein, esto será largo!</string>
 		<string name="loadScreenLoading">Cargando...</string>
@@ -217,6 +235,7 @@
 		<string name="btConnecting">Connecting...</string>
 		<string name="btDisconnected">Pulse sensor disconnected</string>
 		<string name="btInfo">Check</string>
+		<string name="edit">Edit</string>
 		<!-- LogInUI -->
 		<string name="windowLogIn">Sign in</string>
 		<string name="logInUser">Username:</string>
@@ -286,6 +305,14 @@
 		<string name="phone">Phone number:</string>
 		<string name="phoneB">Phone number</string>
 		<string name="direccionB">Directions</string>
+		<!-- SettingsUI -->
+		<string name="settingsTitle">Settings</string>
+		<string name="saveSettings">Save</string>
+		<string name="dbUser">MySQL user</string>
+		<string name="dbPass">MySQL password</string>
+		<string name="dbUrl">MySQL URL</string>
+		<string name="dbPort">MySQL port</string>
+		<string name="dbUser">DB name</string>
 		<!-- MiLoadScreen -->
 		<string name="loadScreenFirstLoadWarning">If it's your first time with Runnstein, this will take long!</string>
 		<string name="loadScreenLoading">Loading...</string>

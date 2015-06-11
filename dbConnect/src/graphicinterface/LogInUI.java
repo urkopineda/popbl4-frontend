@@ -51,10 +51,11 @@ public class LogInUI implements ActionListener, ItemListener {
 	JButton checkBtn = null;
 	JButton cancelBtn = null;
 	JButton signUpBtn = null;
+	JButton settingsBtn = null;
 	JComboBox<String> languageComboBox = null;
 	boolean correctLogIn = false;
-	boolean first = false;
 	MiLoadScreen load = null;
+	boolean first = false;
 	
 	public LogInUI() {
 		createJFrame();
@@ -91,8 +92,10 @@ public class LogInUI implements ActionListener, ItemListener {
 		if (Configuration.lang == 0) languageComboBox.setSelectedItem("Euskera");
 		else if (Configuration.lang == 1) languageComboBox.setSelectedItem("Castellano");
 		else if (Configuration.lang == 2) languageComboBox.setSelectedItem("English");
+		settingsBtn = WindowMaker.createJButton(Strings.get("settingsTitle"), "settings", this);
 		JPanel tempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		tempPanel.add(languageComboBox);
+		tempPanel.add(settingsBtn);
 		northPanel.add(tempPanel, BorderLayout.NORTH);
 		northPanel.add(titleImage, BorderLayout.CENTER);
 		errorText = WindowMaker.createJLabel(errorText, Strings.get("logInError"), 20, "center");
@@ -142,6 +145,9 @@ public class LogInUI implements ActionListener, ItemListener {
 				break;
 			case "signup": @SuppressWarnings("unused")
 			SignUpUI signUp = new SignUpUI(window);
+				break;
+			case "settings": @SuppressWarnings("unused")
+				SettingsUI settings = new SettingsUI(window);
 				break;
 			default: window.dispose();
 				break;
@@ -218,7 +224,7 @@ public class LogInUI implements ActionListener, ItemListener {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
 			Configuration.lang = languageComboBox.getSelectedIndex();
 			FileUtils.writeConfFile();
-			if (!first) first = true;
+			if (!first) first = true; 
 			else JOptionPane.showMessageDialog(window, Strings.get("idiomaAlertM"), Strings.get("idiomaAlert"), JOptionPane.INFORMATION_MESSAGE);
 		}
 	}

@@ -57,7 +57,7 @@ public class SignUpUI implements ActionListener {
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		signInDialog.setLocation(dim.width/2 - signInDialog.getSize().width/2, dim.height/2 - signInDialog.getSize().height/2);
 		signInDialog.setContentPane(createMainPanel());
-		signInDialog.setResizable(true);
+		signInDialog.setResizable(false);
 		signInDialog.setVisible(true);
 	}
 	
