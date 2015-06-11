@@ -69,7 +69,7 @@ public class RunnsteinCalculator extends Thread {
 			try {
 				if (playingSong != null && !songList.isEmpty()) {
 					count = 0;
-					comManager.getSerialComm().sendMessage();
+					if (Configuration.sensorState) comManager.getSerialComm().sendMessage();
 					if (Math.abs(lastBPM-Configuration.ppm)>10 || songChanged) {
 						songChanged = false;
 						ArrayList<Song> suitableSongs = makeSuitableSongList();
