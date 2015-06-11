@@ -8,6 +8,16 @@
 		<string name="logInChecking">Ziurtatzen...</string>
 		<string name="logInCancel">Utzi</string>
 		<string name="logInError">AKATSA: Erabiltzaile / Pasahitz okerra.</string>
+		<string name="signUp">Oraindik ez zara Runnstein erabiltzalea?</string>
+		<string name="signUpBtn">Izena eman!</string>
+		<!--  SignInUI -->
+		<string name="windowSignIn">Izena eman</string>
+		<string name="userName">Izena</string>
+		<string name="userApe1">1º Abizena</string>
+		<string name="userApe2">2º Abizena</string>
+		<string name="okSignUp">Izena eman</string>
+		<string name="okSignUpM">Izena ematea lortu da.</string>
+		<string name="errSignUp">Datu guztiak betetzea derrigorrezkoa da.</string>
 		<!-- TrainingUI -->
 		<string name="windowMain">Runnstein</string>
 		<string name="mainTabTraining">Entramendua hasi</string>
@@ -74,6 +84,16 @@
 		<string name="logInChecking">Comprobando...</string>
 		<string name="logInCancel">Cancelar</string>
 		<string name="logInError">ERROR: Usuario/contraseña incorrectos.</string>
+		<string name="signUp">¿Aún no eres un usuario Runnstein?</string>
+		<string name="signUpBtn">¡Registrate!</string>
+		<!--  SignInUI -->
+		<string name="windowSignIn">Registrate</string>
+		<string name="userName">Nombre</string>
+		<string name="userApe1">1º Apellido</string>
+		<string name="userApe2">2º Apellido</string>
+		<string name="okSignUp">Registrado</string>
+		<string name="okSignUpM">Te has registrado correctamente.</string>
+		<string name="errSignUp">Es obligatorio rellenar todos los datos.</string>
 		<!-- MainUI -->
 		<string name="windowMain">Runnstein</string>
 		<string name="mainTabTraining">Iniciar Entrenamiento</string>
@@ -141,6 +161,16 @@
 		<string name="logInChecking">Checking...</string>
 		<string name="logInCancel">Cancel</string>
 		<string name="logInError">ERROR: Incorrect user/password</string>
+		<string name="signUp">You haven't signed up yet?</string>
+		<string name="signUpBtn">Sign up!</string>
+		<!--  SignInUI -->
+		<string name="windowSignIn">Sign up</string>
+		<string name="userName">Name</string>
+		<string name="userApe1">Surname 1</string>
+		<string name="userApe2">Surname 2</string>
+		<string name="okSignUp">Signed in</string>
+		<string name="okSignUpM">You just signed up correctly.</string>
+		<string name="errSignUp">You must fill all the fields.</string>
 		<!-- TrainingUI -->
 		<string name="windowMain">Runnstein</string>
 		<string name="mainTabTraining">Begin training</string>

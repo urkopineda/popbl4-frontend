@@ -34,17 +34,21 @@ import file.FileUtils;
 public class LogInUI implements ActionListener, ItemListener {
 	JFrame window = null;
 	JPanel mainPanel = null;
+	JPanel loginPanel = null;
 	JPanel northPanel = null;
+	JPanel southPanel = null;
 	JPanel centerPanel = null;
 	JPanel logInPanel = null;
 	JLabel titleImage = null;
 	JLabel userText = null;
 	JLabel passText = null;
 	JLabel errorText = null;
+	JLabel signUpText = null;
 	JPasswordField passField = null;
 	JTextField userField = null;
 	JButton checkBtn = null;
 	JButton cancelBtn = null;
+	JButton signUpBtn = null;
 	JComboBox<String> languageComboBox = null;
 	boolean correctLogIn = false;
 	
@@ -64,9 +68,12 @@ public class LogInUI implements ActionListener, ItemListener {
 	}
 	
 	private Container createMainPanel() {
-		mainPanel = new JPanel(new GridLayout(2, 1, 0, 0));
-		mainPanel.add(createNorthPanel());
-		mainPanel.add(createCenterPanel());
+		mainPanel = new JPanel(new BorderLayout());
+		loginPanel = new JPanel(new GridLayout(2, 1, 0, 0));
+		loginPanel.add(createNorthPanel());
+		loginPanel.add(createCenterPanel());
+		mainPanel.add(loginPanel, BorderLayout.CENTER);
+		mainPanel.add(createSouthPanel(), BorderLayout.SOUTH);
 		return mainPanel;
 	}
 	
@@ -111,6 +118,15 @@ public class LogInUI implements ActionListener, ItemListener {
 		centerPanel.add(logInPanel, gbc);
 		return centerPanel;
 	}
+	
+	private Container createSouthPanel() {
+		southPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		signUpText = WindowMaker.createJLabel(signUpText, Strings.get("signUp"), 20, "right");
+		southPanel.add(signUpText);
+		signUpBtn = WindowMaker.createJButton(Strings.get("signUpBtn"), "signup", this);
+		southPanel.add(signUpBtn);
+		return southPanel;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -119,6 +135,9 @@ public class LogInUI implements ActionListener, ItemListener {
 				checkUser();
 				break;
 			case "cancel": window.dispose();
+				break;
+			case "signup": @SuppressWarnings("unused")
+			SignUpUI signUp = new SignUpUI(window);
 				break;
 			default: window.dispose();
 				break;

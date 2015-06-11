@@ -152,7 +152,7 @@ public class ProfileUI {
 			String connection = null;
 			db.openDataBase();
 			if ((userField.getText().equals("")) || (nameField.getText().equals("")) || (surname1Field.getText().equals("")) || (surname2Field.getText().equals(""))) {
-				JOptionPane.showMessageDialog(window, "Todos los campos deben estar llenos. Ell campo de la contraseña es opcional", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(window, "Todos los campos deben estar llenos. El campo de la contraseña es opcional", "Error", JOptionPane.ERROR_MESSAGE);
 			} else {
 				if (pass.equals("")) {
 					connection = "UPDATE USUARIO SET Username='"+userField.getText()+"', Nombre='"+nameField.getText()+"', PrimerApellido='"+surname1Field.getText()+"', SegundoApellido='"+surname2Field.getText()+"'  WHERE UsuarioID = "+Configuration.userID;
