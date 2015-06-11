@@ -534,8 +534,4 @@ public class Player implements ActionListener {
 			break;
 		}
 	}
-	
-	public void createDump() {
-		conn.createDump();
-	}
 }
