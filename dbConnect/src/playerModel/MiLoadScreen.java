@@ -19,6 +19,7 @@ public class MiLoadScreen extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1884269953277974091L;
+	
 	JProgressBar progressBar;
 	JTextArea textArea;
 	int workToMake, workMade;
@@ -80,4 +81,7 @@ public class MiLoadScreen extends JFrame {
 		update(getGraphics());
 	}
 	
+	public void closeScreen() {
+		this.dispose();
+	}
 }

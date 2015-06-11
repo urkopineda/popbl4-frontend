@@ -59,8 +59,8 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		addContentFlags = new ArrayList<>();
 		mainPanel = new JTabbedPane();
 		trainingUI = new TrainingUI(action, window);
-		trainingDataUI = new TrainingDataUI(list);
-		statisticsUI = new StatisticsUI(item);
+		trainingDataUI = new TrainingDataUI(list, window);
+		statisticsUI = new StatisticsUI(item, window);
 		recordsUI = new RecordsUI();
 		profileUI = new ProfileUI(action, window);
 		mainPanel.add(Strings.get("mainTabTraining"), trainingUI.createMainPanel());
@@ -90,6 +90,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			if (addContentFlags.get(mainPanel.getSelectedIndex()) == 0) {
 				addContentFlags.set(mainPanel.getSelectedIndex(), 1);
 				statisticsUI.addContent();
+				statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
 			}
 		}
 		if (mainPanel.getSelectedIndex() == 3) {

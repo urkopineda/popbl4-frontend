@@ -24,7 +24,9 @@ public class Chart {
 	static BufferedImage chartImage = null;
 	
 	private static void updateComponents(JPanel labelContainer, JLabel chartContainer) {
-		chartImage = chart.createBufferedImage(labelContainer.getWidth(), labelContainer.getHeight());        
+		if ((labelContainer.getWidth() == 0) && (labelContainer.getHeight() == 0)) {
+			chartImage = chart.createBufferedImage(1351, 596);
+		} else chartImage = chart.createBufferedImage(labelContainer.getWidth(), labelContainer.getHeight());        
 		chartContainer.setSize(labelContainer.getSize());
 		chartContainer.setIcon(new ImageIcon(chartImage));
 		labelContainer.updateUI();

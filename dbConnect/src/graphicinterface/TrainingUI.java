@@ -38,9 +38,11 @@ public class TrainingUI {
 	JLabel ppmImage = null;
 	ActionListener act = null;
 	Player player = null;
+	JFrame window = null;
 	
 	public TrainingUI(ActionListener act, JFrame window) {
 		this.act = act;
+		this.window = window;
 		player = new Player(window);
 	}
 	

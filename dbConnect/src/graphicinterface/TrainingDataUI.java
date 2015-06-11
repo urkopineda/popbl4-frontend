@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,6 +17,7 @@ import javax.swing.event.ListSelectionListener;
 import language.Strings;
 import main.Configuration;
 import model.TableData;
+import playerModel.MiLoadScreen;
 import statistics.StatisticsFormulas;
 import tablemodel.ColumnTableModelBasic;
 import tablemodel.TableModelBasic;
@@ -31,9 +33,12 @@ public class TrainingDataUI {
 	TrazadorTableBasic trazador = null;
 	JScrollPane scrollMainPanel = null;
 	JTable mainTable = null;
+	MiLoadScreen load = null;
+	JFrame window = null;
 	
-	public TrainingDataUI(ListSelectionListener act) {
+	public TrainingDataUI(ListSelectionListener act, JFrame window) {
 		this.act = act;
+		this.window = window;
 	}
 	
 	public Container createMainPanel() {
@@ -48,11 +53,15 @@ public class TrainingDataUI {
 	}
 	
 	private void createTable() {
+		load = new MiLoadScreen(window);
 		MySQLUtils db = new MySQLUtils();
 		ArrayList<TableData> allData = new ArrayList<>();
 		try {
 			db.openDataBase();
 			ResultSet rsEntrenamiento = db.exeQuery("SELECT * FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
+			ResultSet countTrainings = db.exeQuery("SELECT COUNT(*) AS N FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
+			countTrainings.next();
+			load.setWorkToMake(countTrainings.getInt("N"));
 			int i = 1;
 			while (rsEntrenamiento.next()) {
 				String dateTime = rsEntrenamiento.getString(3);
@@ -70,8 +79,10 @@ public class TrainingDataUI {
 				double rateMax = formulas.getMax();
 				int stability = formulas.getStability();
 				allData.add(new TableData(i, dateTime, duration, rateMean, rateMax, stability));
+				load.progressHasBeenMade("Entrenamiento Nº"+i, 1);
 				i++;
 			}
+			load.closeScreen();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {

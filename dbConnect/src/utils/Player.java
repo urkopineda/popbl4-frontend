@@ -214,8 +214,7 @@ public class Player implements ActionListener {
 		} catch (NullPointerException e) {
 			System.out.println(Strings.get("searchDirectoryNullPointer"));
 		} finally {
-			if (load != null) load.dispose();
-			load = null;
+			if (load != null) load.closeScreen();
 		}
 	}
 	

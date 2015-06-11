@@ -28,14 +28,18 @@ public class MySQLUtils {
 	public void openDataBase() throws ClassNotFoundException, SQLException {
 		String generalURL = null;
 		Class.forName("com.mysql.jdbc.Driver");
+		System.out.print("Connecting to Runnstein MySQL database...");
         if (Configuration.dbName == null) generalURL = "jdbc:mysql://"+Configuration.dbUrl+":"+Configuration.port;
         else generalURL = "jdbc:mysql://"+Configuration.dbUrl+":"+Configuration.port+"/"+Configuration.dbName;
         con = DriverManager.getConnection(generalURL, Configuration.user, Configuration.password);
+        System.out.println(" Connected!");
 	}
 	
 	public void closeDataBase() throws SQLException {
 		if (con != null) {
+			System.out.print("Disconnecting to Runnstein MySQL database...");
 			con.close();
+			System.out.println(" Disconnected!");
 		}
 	}
 	

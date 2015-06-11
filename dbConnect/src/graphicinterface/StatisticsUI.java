@@ -12,9 +12,11 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import playerModel.MiLoadScreen;
 import language.Strings;
 import main.Configuration;
 import model.ChartData;
@@ -32,11 +34,14 @@ public class StatisticsUI {
 	JComboBox<String> trainingsCB = null;
 	JComboBox<String> modeCB = null;
 	ItemListener item = null;
+	MiLoadScreen load = null;
+	JFrame window = null;
 	
 	ArrayList<ChartData> allData = null;
 	
-	public StatisticsUI(ItemListener item) {
+	public StatisticsUI(ItemListener item, JFrame window) {
 		this.item = item;
+		this.window = window;
 	}
 	
 	public Container createMainPanel() {
@@ -111,7 +116,6 @@ public class StatisticsUI {
 				chartLabel.setText(Strings.get("graphNotAvaliable"));
 				chartLabel.setHorizontalAlignment(JLabel.CENTER);
 				chartLabel.setVerticalAlignment(JLabel.CENTER);
-				
 			} else if (mode == 1) {
 				ArrayList<Integer> bpmData = new ArrayList<>();
 				ArrayList<String> bpmColumns = new ArrayList<>();
@@ -139,12 +143,16 @@ public class StatisticsUI {
 	}
 	
 	private void createData() {
+		load = new MiLoadScreen(window);
 		MySQLUtils db = new MySQLUtils();
 		allData = new ArrayList<>();
 		trainingsCB.addItem(Strings.get("graphAllTrainings"));
 		try {
 			db.openDataBase();
 			ResultSet rsEntrenamiento = db.exeQuery("SELECT * FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
+			ResultSet countTrainings = db.exeQuery("SELECT COUNT(*) AS N FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
+			countTrainings.next();
+			load.setWorkToMake(countTrainings.getInt("N"));
 			int i = 1;
 			while (rsEntrenamiento.next()) {
 				int trainingNumber = i;
@@ -162,8 +170,10 @@ public class StatisticsUI {
 					}
 				}
 				allData.add(new ChartData(trainingNumber, dateTime, duration, ppm, bpm));
+				load.progressHasBeenMade("Entrenamiento Nº"+i, 1);
 				i++;
 			}
+			load.closeScreen();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
