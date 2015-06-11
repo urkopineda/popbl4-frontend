@@ -153,4 +153,8 @@ public class TrainingUI {
 	public int getListSize() {
 		return player.getListSize();
 	}
+	
+	public void switchBt() {
+		buttonStart.setEnabled(Configuration.sensorState);
+	}
 }

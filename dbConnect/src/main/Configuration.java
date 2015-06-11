@@ -1,5 +1,7 @@
 package main;
 
+import bluetooth.COMManager;
+
 public class Configuration {
 	// Variables esenciales.
 	public final static String dbSQLite = "runnstein";
@@ -23,11 +25,12 @@ public class Configuration {
 	public static String letra = null;
 	public static String tlf = null;
 	public static boolean sensorState = false;
-	public static boolean syncState = false;
-	public static int ppm = 100;
+	public static boolean syncState = true;
+	public static int ppm = 0;
 	public static int lang = 0;
 	public static final int baudRate = 1200;
 	public static final int requestMessage = 66;
+	public static COMManager com = null;
 	// Direcciones de archivos.
 	public static final String confFile = "conf.dat";
 	public static final String dHeartOn = "img/heart/heart_on_up.png";

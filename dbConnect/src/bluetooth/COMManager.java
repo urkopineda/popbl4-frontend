@@ -34,5 +34,4 @@ public class COMManager extends Thread {
 	public Serial getSerialComm() {
 		return serial;
 	}
-
 }

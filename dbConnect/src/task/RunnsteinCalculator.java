@@ -21,14 +21,19 @@ public class RunnsteinCalculator extends Thread {
 	COMManager comManager = null;
 	
 	public RunnsteinCalculator(ArrayList<Song> songList) {
-		comManager = new COMManager();
-		comManager.start();
+		comManager = Configuration.com;
+		if (comManager != null) comManager.start();
 		this.songList = songList;
 		playedSongsList = new ArrayList<>();
 		lastBPM = -1;
 		paused = false;
 		songChanged = false;
 		start();
+	}
+	
+	public void comCreated() {
+		comManager = Configuration.com;
+		comManager.start();
 	}
 	
 	public Song getChosenSong() {

@@ -7,6 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -18,7 +19,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import bluetooth.COMManager;
 import language.Strings;
+import main.Configuration;
 import utils.WindowMaker;
 
 public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener {
@@ -27,8 +30,8 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	ItemListener item = this;
 	JFrame window = null;
 	JMenuBar menuBar = null;
-	JMenu archivoMenu = null;
-	JMenuItem cargarDirectorioItem = null, cargarArchivoItem = null;
+	JMenu archivoMenu = null, exitMenu = null, btMenu = null;
+	JMenuItem cargarDirectorioItem = null, cargarArchivoItem = null, exitItem = null, btConnect = null, btDisconnect = null, btInfo = null;
 	JTabbedPane mainPanel = null;
 	TrainingUI trainingUI = null;
 	TrainingDataUI trainingDataUI = null;
@@ -36,6 +39,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	RecordsUI recordsUI = null;
 	ProfileUI profileUI = null;
 	ArrayList<Integer> addContentFlags = null;
+	COMManager comManager = null;
 	
 	public MainUI() {
 		window = new JFrame("Runnstein");
@@ -45,14 +49,45 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		window.setVisible(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setJMenuBar(createMenuBar());
+	}
+	
+	private JMenuBar createMenuBar() {
 		menuBar = new JMenuBar();
-		archivoMenu = new JMenu("Archivo");
-		cargarDirectorioItem = WindowMaker.createJMenuItem("Cargar directorio", this, "loadPath");
-		cargarArchivoItem = WindowMaker.createJMenuItem("Cargar archivo", this, "loadFile");
+		menuBar.add(createArchivoMenu());
+		menuBar.add(Box.createGlue());
+		menuBar.add(createBluetooth());
+		menuBar.add(Box.createGlue());
+		menuBar.add(createExit());
+		btDisconnect.setEnabled(false);
+		return menuBar;
+	}
+	
+	private JMenu createArchivoMenu() {
+		archivoMenu = new JMenu(Strings.get("menuFile"));
+		cargarDirectorioItem = WindowMaker.createJMenuItem(Strings.get("loadDirectory"), this, "loadPath");
+		cargarArchivoItem = WindowMaker.createJMenuItem(Strings.get("loadFile"), this, "loadFile");
 		archivoMenu.add(cargarDirectorioItem);
 		archivoMenu.add(cargarArchivoItem);
-		menuBar.add(archivoMenu);
-		window.setJMenuBar(menuBar);
+		return archivoMenu;
+	}
+	
+	private JMenu createBluetooth() {
+		btMenu = new JMenu(Strings.get("btMenu"));
+		btConnect = WindowMaker.createJMenuItem(Strings.get("btConnect"), this, "btConn");
+		btMenu.add(btConnect);
+		btDisconnect = WindowMaker.createJMenuItem(Strings.get("btDisconnect"), this, "btDisconn");
+		btMenu.add(btDisconnect);
+		btInfo = WindowMaker.createJMenuItem(Strings.get("btInfo"), this, "btInfo");
+		btMenu.add(btInfo);
+		return btMenu;
+	}
+	
+	private JMenu createExit() {
+		exitMenu = new JMenu(Strings.get("exitMenu"));
+		exitItem = WindowMaker.createJMenuItem(Strings.get("exitMenu"), this, "exit");
+		exitMenu.add(exitItem);
+		return exitMenu;
 	}
 	
 	private Container createMainPanel() {
@@ -75,6 +110,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		addContentFlags.add(0);
 		mainPanel.addChangeListener(this);
 		trainingUI.addContent();
+		trainingUI.switchBt();
 		return mainPanel;
 	}
 
@@ -111,6 +147,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("start")) {
 			if (trainingUI.getListSize() != 0) {
+				
 				trainingUI.startTimer();
 				trainingUI.getPlayer().startReproduction();
 			} else JOptionPane.showMessageDialog(window, "No se encuentra ninguna canción.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -129,6 +166,23 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			trainingUI.getPlayer().searchDirectory(null);
 		} else if (e.getActionCommand().equals("loadFile")) {
 			trainingUI.getPlayer().searchSong();
+		} else if (e.getActionCommand().equals("exit")) {
+			window.dispose();
+		} else if (e.getActionCommand().equals("btInfo")) {
+			if (Configuration.sensorState) JOptionPane.showMessageDialog(window, Strings.get("btConnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
+			else JOptionPane.showMessageDialog(window, Strings.get("btDisconnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
+		} else if (e.getActionCommand().equals("btConn")) {
+			System.out.println("Conectando...");
+			comManager = new COMManager();
+			Configuration.com = comManager;
+			trainingUI.getPlayer().getCalculator().comCreated();
+			trainingUI.switchBt();
+			if (Configuration.sensorState) btDisconnect.setEnabled(true); btConnect.setEnabled(false);
+		} else if (e.getActionCommand().equals("btDisconn")) {
+			System.out.println("Desconectando...");
+			comManager.interrupt();
+			trainingUI.switchBt();
+			if (!Configuration.sensorState) btDisconnect.setEnabled(false); btConnect.setEnabled(true);
 		}
 	}
 

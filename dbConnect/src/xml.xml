@@ -1,5 +1,17 @@
 <strings>
 	<idioma name="euskera">
+		<!-- MainUI -->
+		<string name="menuFile">Fitxategi</string>
+		<string name="loadDirectory">Direktoriotik kargatu</string>
+		<string name="loadFile">Fitxategi bat kargatu</string>
+		<string name="exitMenu">Irten</string>
+		<string name="btMenu">Bluetooth</string>
+		<string name="btConnect">Konektatu</string>
+		<string name="btDisconnect">Deskonektatu</string>
+		<string name="btConnected">Taupada sentsorea konektatua</string>
+		<string name="btConnecting">Konektatzen...</string>
+		<string name="btDisconnected">Taupada sentsorea deskonektatua</string>
+		<string name="btInfo">Konprobatu</string>
 		<!-- LogInUI -->
 		<string name="windowLogIn">Saioa hasi</string>
 		<string name="logInUser">Erabiltzailea:</string>
@@ -90,6 +102,18 @@
 		<string name="startRepNoSong">Ez duzu abestirik gehitu.</string>
 	</idioma>
 	<idioma name="castellano">
+		<!-- MainUI -->
+		<string name="menuFile">Archivo</string>
+		<string name="loadDirectory">Cargar directorio</string>
+		<string name="loadFile">Cargar archivo</string>
+		<string name="exitMenu">Salir</string>
+		<string name="btMenu">Bluetooth</string>
+		<string name="btConnect">Conectar</string>
+		<string name="btDisconnect">Desconectar</string>
+		<string name="btConnected">Sen. ritmo cardíaco conectado</string>
+		<string name="btConnecting">Conectando...</string>
+		<string name="btDisconnected">Sen. ritmo cardíaco desconectado</string>
+		<string name="btInfo">Comprobar</string>
 		<!-- LogInUI -->
 		<string name="windowLogIn">Iniciar sesión</string>
 		<string name="logInUser">Usuario:</string>
@@ -181,6 +205,18 @@
 		
 	</idioma>
 	<idioma name="english">
+		<!-- MainUI -->
+		<string name="menuFile">File</string>
+		<string name="loadDirectory">Load directory</string>
+		<string name="loadFile">Load file</string>
+		<string name="exitMenu">Exit</string>
+		<string name="btMenu">Bluetooth</string>
+		<string name="btConnect">Connect</string>
+		<string name="btDisconnect">Disconnect</string>
+		<string name="btConnected">Pulse sensor connected</string>
+		<string name="btConnecting">Connecting...</string>
+		<string name="btDisconnected">Pulse sensor disconnected</string>
+		<string name="btInfo">Check</string>
 		<!-- LogInUI -->
 		<string name="windowLogIn">Sign in</string>
 		<string name="logInUser">Username:</string>
