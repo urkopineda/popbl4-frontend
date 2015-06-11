@@ -2,11 +2,9 @@ package playerModel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
@@ -17,6 +15,10 @@ import language.Strings;
 
 
 public class MiLoadScreen extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1884269953277974091L;
 	JProgressBar progressBar;
 	JTextArea textArea;
 	int workToMake, workMade;

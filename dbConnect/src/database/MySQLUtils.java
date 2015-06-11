@@ -27,19 +27,15 @@ public class MySQLUtils {
 	
 	public void openDataBase() throws ClassNotFoundException, SQLException {
 		String generalURL = null;
-		System.out.print("Connecting to MySQL database at '"+Configuration.dbUrl+":"+Configuration.port+"'...");
 		Class.forName("com.mysql.jdbc.Driver");
         if (Configuration.dbName == null) generalURL = "jdbc:mysql://"+Configuration.dbUrl+":"+Configuration.port;
         else generalURL = "jdbc:mysql://"+Configuration.dbUrl+":"+Configuration.port+"/"+Configuration.dbName;
         con = DriverManager.getConnection(generalURL, Configuration.user, Configuration.password);
-        System.out.println(" Connected!");
 	}
 	
 	public void closeDataBase() throws SQLException {
 		if (con != null) {
-			System.out.print("Disconnecting from MySQL...");
 			con.close();
-	        System.out.println(" Disconnected!");
 		}
 	}
 	
@@ -114,17 +110,13 @@ public class MySQLUtils {
 	
 	public ResultSet exeQuery(String query) throws SQLException {
 		Statement stmt = con.createStatement();
-		System.out.print("Executing Query '"+query+"'...");
 		ResultSet rs = stmt.executeQuery(query);
-		System.out.println(" Executed!");
 		return rs;
 	}
 	
 	public void exeStmt(String query) throws SQLException {
 		Statement stmt = con.createStatement();
-		System.out.print("Executing Statement '"+query+"'...");
 		stmt.executeUpdate(query);
-		System.out.println(" Executed!");
 		stmt.close();
 	}
 	
@@ -254,37 +246,4 @@ public class MySQLUtils {
 			return query;
 		} else return null;
 	}
-	/*
-	public ArrayList<TableData> generateTableData() {
-		ArrayList<TableData> allData = new ArrayList<>();
-		try {
-			ResultSet rsEntrenamiento = exeQuery("SELECT * FROM ENTRENAMIENTO WHERE UsuarioID = "+Configuration.userID);
-			if (db.getNumberRows(rsEntrenamiento) > 0) {
-				int i = 0;
-				while (rsEntrenamiento.next()) {
-					int trainingNumber = i + 1;
-					String dateTime = rsEntrenamiento.getString(3);
-					String duration = rsEntrenamiento.getString(4);
-					ResultSet rsIntervalo = exeQuery("SELECT * FROM INTERVALO WHERE EntrenamientoID = "+rsEntrenamiento.getInt(1));
-					ArrayList<Integer> ppm = new ArrayList<>();
-					while (rsIntervalo.next()) {
-						ResultSet rsMuestra = exeQuery("SELECT * FROM MUESTRA WHERE IntervaloID = "+rsIntervalo.getInt(1));
-						while (rsMuestra.next()) {
-							ppm.add(rsMuestra.getInt(3));
-						}
-					}
-					StatisticFormulas formulas = new StatisticFormulas(ppm);
-					double rateMean = formulas.getMean();
-					double rateMax = formulas.getMax();
-					int stability = formulas.getStability();
-					allData.add(new TableData(trainingNumber, dateTime, duration, rateMean, rateMax, stability));
-				}
-				return allData;
-			} else return null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	*/
 }

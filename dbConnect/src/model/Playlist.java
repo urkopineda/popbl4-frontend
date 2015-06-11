@@ -7,6 +7,7 @@ import playerModel.MiListModel;
 
 public class Playlist {
 	private ArrayList<Song> list;
+	@SuppressWarnings("unused")
 	private String name;
 	private static MiListModel<Playlist> playListModel = new MiListModel<Playlist>();
 	

@@ -59,6 +59,7 @@ public class Player implements ActionListener {
 	private ArrayList<Song> list;
 	private int n;
 	private Song playing;
+	@SuppressWarnings("unused")
 	private Duration played;
 	
 	private MiLoadScreen load;
@@ -82,6 +83,7 @@ public class Player implements ActionListener {
 	
 	private SQLiteUtils conn;
 	
+	@SuppressWarnings("unused")
 	private JLabel txtTitle, txtAuthor, txtAlbum, actualDuration, totalDuration;
 	
 	private RunnsteinCalculator calculator;

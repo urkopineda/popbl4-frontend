@@ -89,6 +89,7 @@ public class RunnsteinCalculator extends Thread {
 	private ArrayList<Song> makeSuitableSongList() {
 		double songBPM = playingSong.getBPM();
 		double heartRate = Configuration.ppm;
+		@SuppressWarnings("unused")
 		double diff = heartRate - songBPM;
 		int permittedDiff = 15;
 		double diffCompare = 0;

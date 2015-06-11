@@ -12,6 +12,11 @@ import model.DataType;
 
 public class MiRenderer extends JLabel implements ListCellRenderer<DataType>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6980337228947461037L;
+
 	@Override
 	public Component getListCellRendererComponent(JList<? extends DataType> list,
 			DataType value, int index, boolean isSelected, boolean cellHasFocus) {

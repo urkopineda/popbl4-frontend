@@ -6,6 +6,10 @@ import java.util.ListIterator;
 import javax.swing.DefaultListModel;
 
 public class MiListModel<Dato> extends DefaultListModel<Dato> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5842442280372813083L;
 	ArrayList<Dato> list;	
 	
 	public MiListModel() {
