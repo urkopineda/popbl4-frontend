@@ -22,7 +22,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import language.Strings;
-import playerModel.MiLoadScreen;
 import utils.WindowMaker;
 import database.MySQLUtils;
 
