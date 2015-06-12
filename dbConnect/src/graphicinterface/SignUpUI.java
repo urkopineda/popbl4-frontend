@@ -10,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -132,6 +133,11 @@ public class SignUpUI implements ActionListener {
 			try {
 				db.openDataBase();
 				db.exeStmt("INSERT INTO USUARIO(Username, Password, Nombre, PrimerApellido, SegundoApellido) VALUES('"+userField.getText()+"', '"+pass+"', '"+nameField.getText()+"', '"+ape1Field.getText()+"', '"+ape2Field.getText()+"')");
+				ResultSet rs = db.exeQuery("SELECT UsuarioID FROM USUARIO WHERE Username = '"+userField.getText()+"'");
+				int userID = 0;
+				while (rs.next()) userID = rs.getInt(1);
+				db.exeStmt("INSERT INTO DIRECCION(UsuarioID, Provincia, Pueblo, Calle, Numero, Piso, Letra) VALUES("+userID+", ' ', ' ', ' ', ' ', 0, ' ')");
+				db.exeStmt("INSERT INTO TELEFONO(UsuarioID, Numero) VALUES("+userID+", ' ')");
 				JOptionPane.showMessageDialog(window, Strings.get("okSignUpM"), Strings.get("okSignUp"), JOptionPane.INFORMATION_MESSAGE);
 				signInDialog.dispose();
 			} catch (ClassNotFoundException e) {
