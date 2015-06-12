@@ -1,6 +1,0 @@
-LANG=1
-USER=java
-PASS=javarunnsteinuser
-DBURL=runnstein.mooo.com
-DBNAME=RunnsteinDB
-DBPORT=3026

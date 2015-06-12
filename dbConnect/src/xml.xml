@@ -68,8 +68,6 @@
 		<string name="graphNotAvaliable">Ezin da grafiko hau sortu</string>
 		<string name="graphInterval">Bitarteak</string>
 		<string name="graphSong">Abestiak</string>
-		<!-- RecordsUI -->
-		
 		<!-- ProfileUI -->
 		<string name="sesion">Sesioaren datuak</string>
 		<string name="persData">Datu pertsonala</string>
@@ -109,6 +107,51 @@
 		<string name="songFromFileNotFound">Hurrengo abestia ez da aurkitzen:</string>
 		<string name="songFromFileNullPointer">Hurrengo abestia kargatzen akats bat gertatu da:</string>
 		<string name="startRepNoSong">Ez duzu abestirik gehitu.</string>
+		<!-- A PARTIR DE AQUÍ! -->
+		<!-- SQLiteUtils -->
+		<string name="loadJDBCErrorSQLite">Ezin izan da kargatu SQLite-ren JDBC.</string>
+		<string name="connErrorSQLite">Datu basearekin konexioak huts egin du.</string>
+		<string name="noResultSQLite">Ez da emaitzarik aurkitu.</string>
+		<string name="insertErrorSQLite">Ezin izan da datu berria datu basean sortu. Konprobatu kontsulta.</string>
+		<string name="deleteErrorSQLite">Datua ezabatzean akats bat gertatu da.</string>
+		<string name="closeErrorSQLite">Ezin izan da datu basearen konexioa itxi.</string>
+		<!-- MySQLUtils -->
+		<string name="connectingMySQL">Runnstein-en MySQL datu basera konektatzen...</string>
+		<string name="connectedMySQL"> ¡Konektatuta!</string>
+		<string name="disconnectingMySQL">Runnstein-en MySQL datu basetik deskonektatzen...</string>
+		<string name="disconnectedMySQL"> ¡Deskonektatuta!</string>
+		<!--  CancelacionException -->
+		<string name="beenCancelledException">Bertan behera utzi da: </string>
+		<!-- Album -->
+		<string name="undefinedAlbumID">Album ID-a ez da ezarri.</string>
+		<!-- Song -->
+		<string name="undefinedSongID">Abesti ID-a ez da ezarri.</string>
+		<string name="undefinedSongBPMLength">Ez da BPM eta iraupenari buruzko informazioa aurkitu.</string>
+		<!--  Author -->
+		<string name="undefinedAuthorID">Egile ID-a ez da ezarri.</string>
+		<!-- MiRenderer -->
+		<string name="rendererBy">Egilea:</string>
+		<string name="rendererFrom">Albuma:</string>
+		<!-- ColumnTableModelBasic -->
+		<string name="trainingColumnModel">Entrenamendua</string>
+		<string name="startColumnModel">Hasiera</string>
+		<string name="lengthColumnModel">Iraupena</string>
+		<string name="beatMeanColumnModel">Taupada batez-bestekoa</string>
+		<string name="maxBeatColumnModel">Taupada gehiengoa</string>
+		<string name="stabilityColumnModel">Egonkortasun maila</string>
+		<!-- TableModelBasic -->
+		<string name="numTrainingTableModel">Entrenamendu Zbkia.</string>
+		<!-- SongLengthTimer -->
+		<string name="songTimerThreadError">Hariarekin akats bat gertatu da.</string>
+		<!-- RecordsUI -->
+		<string name="totalMinutesRecord">Guztira entrenatutako minutuak: </string>
+		<string name="maxMinutesRecord">Entrenamendu luzeena minututan: </string>
+		<string name="maxHeartRateRecord">Taupada minutuko maximoa: </string>
+		<string name="maxBPMRecord">Beat minutuko maximoa: </string>
+		<string name="totalTrainingRecord">Entrenamendu kopuru totala: </string>
+		<string name="minutesRecord"> minutu.</string>
+		<string name="bpmRecord"> b/m.</string>
+		<string name="ppmRecord"> t/m.</string>
 	</idioma>
 	<idioma name="castellano">
 		<!-- MainUI -->
@@ -179,8 +222,6 @@
 		<string name="graphNotAvaliable">El gráfico no está disponible</string>
 		<string name="graphInterval">Intervalos</string>
 		<string name="graphSong">Canciones</string>
-		<!-- RecordsUI -->
-		
 		<!-- ProfileUI -->
 		<string name="sesion">Información de sesión</string>
 		<string name="persData">Datos personales</string>
@@ -220,7 +261,51 @@
 		<string name="songFromFileNotFound">Ya no se encuentra la siguiente cancion:</string>
 		<string name="songFromFileNullPointer">Ha habido un error cargando la canción:</string>
 		<string name="startRepNoSong">No has añadido ninguna canción</string>
-		
+		<!-- A PARTIR DE AQUÍ! -->
+		<!-- SQLiteUtils -->
+		<string name="loadJDBCErrorSQLite">No se ha podido cargar JDBC de SQLite.</string>
+		<string name="connErrorSQLite">No se ha podido conectar a la base de datos.</string>
+		<string name="noResultSQLite">No se ha encontrado ningún resultado.</string>
+		<string name="insertErrorSQLite">No se ha podido crear el nuevo dato en la base de datos. Comprueba el query.</string>
+		<string name="deleteErrorSQLite">Ha habido un error al eliminar la entrada.</string>
+		<string name="closeErrorSQLite">No se ha podido cerrar la conexión.</string>
+		<!-- MySQLUtils -->
+		<string name="connectingMySQL">Conectándose a la base de datos MySQL de Runnstein...</string>
+		<string name="connectedMySQL"> ¡Conectado!</string>
+		<string name="disconnectingMySQL">Desconectándose de la base de datos MySQL de Runnstein...</string>
+		<string name="disconnectedMySQL"> ¡Desconectado!</string>
+		<!--  CancelacionException -->
+		<string name="beenCancelledException">Se ha cancelado: </string>
+		<!-- Album -->
+		<string name="undefinedAlbumID">No se ha definido ID de álbum.</string>
+		<!-- Song -->
+		<string name="undefinedSongID">No se ha definido ID de canción.</string>
+		<string name="undefinedSongBPMLength">No se ha encontrado información de la duración o de BPMs.</string>
+		<!--  Author -->
+		<string name="undefinedAuthorID">No se ha definido ID de autor.</string>
+		<!-- MiRenderer -->
+		<string name="rendererBy">por</string>
+		<string name="rendererFrom">de</string>
+		<!-- ColumnTableModelBasic -->
+		<string name="trainingColumnModel">Entrenamiento</string>
+		<string name="startColumnModel">Inicio</string>
+		<string name="lengthColumnModel">Duración</string>
+		<string name="beatMeanColumnModel">Media Pulsaciones</string>
+		<string name="maxBeatColumnModel">Máximo Pulsaciones</string>
+		<string name="stabilityColumnModel">Nivel de Estabilidad</string>
+		<!-- TableModelBasic -->
+		<string name="numTrainingTableModel">Entrenamiento Nº</string>
+		<!-- SongLengthTimer -->
+		<string name="songTimerThreadError">Ha habido un error con el hilo.</string>
+		<!-- RecordsUI -->
+		<string name="totalMinutesRecord">Total de minutos entrenados: </string>
+		<string name="maxMinutesRecord">Máximo de minutos entrenados en único entrenamiento: </string>
+		<string name="maxHeartRateRecord">Máximo de pulsaciones por minuto: </string>
+		<string name="maxBPMRecord">Máximo de beats por minuto: </string>
+		<string name="totalTrainingRecord">Número total de entrenamientos: </string>
+		<string name="minutesRecord"> minutos.</string>
+		<string name="bpmRecord"> bpm.</string>
+		<string name="ppmRecord"> ppm.</string>
 	</idioma>
 	<idioma name="english">
 		<!-- MainUI -->
@@ -291,8 +376,6 @@
 		<string name="graphNotAvaliable">Chart not avaliable</string>
 		<string name="graphInterval">Intervals</string>
 		<string name="graphSong">Songs</string>
-		<!-- RecordsUI -->
-		
 		<!-- ProfileUI -->
 		<string name="sesion">Sesion data</string>
 		<string name="persData">Personal data</string>
@@ -332,5 +415,50 @@
 		<string name="songFromFileNotFound">The following song has not been found:</string>
 		<string name="songFromFileNullPointer">An error occurred when loading the song:</string>
 		<string name="songFromFileNullPointer">No song has been added</string>
+		<!-- A PARTIR DE AQUÍ! -->
+		<!-- SQLiteUtils -->
+		<string name="loadJDBCErrorSQLite">SQLite JDBC couldn't be loaded.</string>
+		<string name="connErrorSQLite">Unable to connect with database.</string>
+		<string name="noResultSQLite">No result found.</string>
+		<string name="insertErrorSQLite">An error occurred when inserting the entry. Check the query.</string>
+		<string name="deleteErrorSQLite">An error occurred when deleting the entry.</string>
+		<string name="closeErrorSQLite">Unable to close connection.</string>
+		<!-- MySQLUtils -->
+		<string name="connectingMySQL">Connecting to Runnstein MySQL database...</string>
+		<string name="connectedMySQL"> ¡Connected!</string>
+		<string name="disconnectingMySQL">Disconnecting from Runnstein MySQL database...</string>
+		<string name="disconnectedMySQL"> ¡Disconnected!</string>
+		<!--  CancelacionException -->
+		<string name="beenCancelledException">Just cancelled: </string>
+		<!-- Album -->
+		<string name="undefinedAlbumID">Album's ID not defined.</string>
+		<!-- Song -->
+		<string name="undefinedSongID">Song's ID not defined.</string>
+		<string name="undefinedSongBPMLength">Length or BPM information not found.</string>
+		<!--  Author -->
+		<string name="undefinedAuthorID">Author's ID not defined</string>
+		<!-- MiRenderer -->
+		<string name="rendererBy">by</string>
+		<string name="rendererFrom">from</string>
+		<!-- ColumnTableModelBasic -->
+		<string name="trainingColumnModel">Training</string>
+		<string name="startColumnModel">Starting point</string>
+		<string name="lengthColumnModel">Length</string>
+		<string name="beatMeanColumnModel">Beat mean</string>
+		<string name="maxBeatColumnModel">Max beats</string>
+		<string name="stabilityColumnModel">Stability level</string>
+		<!-- TableModelBasic -->
+		<string name="numTrainingTableModel">Training #</string>
+		<!-- SongLengthTimer -->
+		<string name="songTimerThreadError">An error occurred with the thread</string>
+		<!-- RecordsUI -->
+		<string name="totalMinutesRecord">Training total in minutes: </string>
+		<string name="maxMinutesRecord">Longest training in minutes: </string>
+		<string name="maxHeartRateRecord">Max heart rate reached: </string>
+		<string name="maxBPMRecord">Max BPM reached: </string>
+		<string name="totalTrainingRecord">Total # of training: </string>
+		<string name="minutesRecord"> minutes.</string>
+		<string name="bpmRecord"> bpm.</string>
+		<string name="ppmRecord"> bpm.</string>
 	</idioma>
 </strings>
