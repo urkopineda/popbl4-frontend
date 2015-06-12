@@ -161,7 +161,7 @@ public class LogInUI implements ActionListener, ItemListener {
 		MySQLUtils db = new MySQLUtils();
 		try {
 			db.openDataBase();
-			load.setWorkToMake(12);
+			load.setWorkToMake(15);
 			ResultSet rs = db.exeQuery("SELECT Username, Password, UsuarioID, Nombre, PrimerApellido, SegundoApellido FROM USUARIO WHERE Username = '"+userField.getText()+"' AND Password = '"+pass+"'");
 			while (rs.next()) {
 				Configuration.username = rs.getString(1);
@@ -198,6 +198,21 @@ public class LogInUI implements ActionListener, ItemListener {
 			while(rsD.next()) {
 				Configuration.tlf = rsD.getString(1);
 				load.progressHasBeenMade("Phone", 1);
+			}
+			ResultSet rsE = db.exeQuery("SELECT EntrenamientoID FROM Entrenamiento ORDER BY EntrenamientoID DESC LIMIT 1");
+			while(rsE.next()) {
+				Configuration.actualTraining = rsE.getInt(1);
+				load.progressHasBeenMade("Entrenamiento", 1);
+			}
+			ResultSet rsI = db.exeQuery("SELECT IntervaloID FROM INTERVALO ORDER BY IntervaloID DESC LIMIT 1");
+			while(rsI.next()) {
+				Configuration.actualInterval = rsI.getInt(1);
+				load.progressHasBeenMade("Intervalo", 1);
+			}
+			ResultSet rsM = db.exeQuery("SELECT MuestraID FROM MUESTRA ORDER BY MuestraID DESC LIMIT 1");
+			while(rsM.next()) {
+				Configuration.actualMuestra = rsM.getInt(1);
+				load.progressHasBeenMade("Muestra", 1);
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

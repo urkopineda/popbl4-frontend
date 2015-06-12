@@ -21,7 +21,9 @@ import javax.swing.event.ListSelectionListener;
 
 import language.Strings;
 import main.Configuration;
+import model.Entrenamiento;
 import playerModel.MiLoadScreen;
+import task.Dump;
 import utils.WindowMaker;
 import bluetooth.COMManager;
 
@@ -157,9 +159,11 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("start")) {
 			if (trainingUI.getListSize() != 0) {
-				
 				trainingUI.startTimer();
 				trainingUI.getPlayer().startReproduction();
+				Configuration.actualTraining++;
+				Dump.entrenamiento = new Entrenamiento();
+				Configuration.isRunning = true;
 			} else JOptionPane.showMessageDialog(window, "No se encuentra ninguna canción.", "Error", JOptionPane.ERROR_MESSAGE);
 		} else if (e.getActionCommand().equals("pause")) {
 			trainingUI.pauseTimer();
@@ -167,9 +171,12 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		} else if (e.getActionCommand().equals("stop")) {
 			trainingUI.stopTimer();
 			trainingUI.getPlayer().stopReproduction();
-			// trainingUI.getPlayer().createDump();
+			Configuration.isRunning = false;
+			MiLoadScreen load = new MiLoadScreen(window);
+			Dump.dumpData(load, trainingUI.chronometerNumbers.getText());
 		} else if (e.getActionCommand().equals("cancel")) {
 			profileUI.cancelOption();
+			Configuration.isRunning = false;
 		} else if (e.getActionCommand().equals("save")) {
 			profileUI.updateData();
 		} else if (e.getActionCommand().equals("loadPath")) {
@@ -200,6 +207,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		} else if (e.getActionCommand().equals("btDisconn")) {
 			comManager.interrupt();
 			if (!Configuration.sensorState){
+				Configuration.isRunning = false;
 				btDisconnect.setEnabled(false);
 				btConnect.setEnabled(true);
 				trainingUI.stopTimer();

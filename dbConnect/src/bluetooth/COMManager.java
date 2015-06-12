@@ -1,8 +1,11 @@
 package bluetooth;
 
-import utils.Heart;
 import graphicinterface.TrainingUI;
+
+import java.sql.SQLException;
+
 import main.Configuration;
+import utils.Heart;
 
 public class COMManager extends Thread {
 	Serial serial;
@@ -19,6 +22,7 @@ public class COMManager extends Thread {
 	public void run() {
 		while(!endThread){
 			Configuration.ppm = serial.receiveMessage();
+			insertMuestra();
 			Heart.recalculatePPM();
 			if (TrainingUI.ppmNumbers != null) TrainingUI.ppmNumbers.setText(Configuration.ppm + " ppm");
 		}
@@ -33,5 +37,14 @@ public class COMManager extends Thread {
 
 	public Serial getSerialComm() {
 		return serial;
+	}
+	
+	private void insertMuestra() {
+		try {
+			Configuration.actualMuestra++;
+			Configuration.conn.executeUpdate("INSERT INTO Muestra VALUES("+Configuration.actualMuestra+", "+Configuration.actualInterval+", "+Configuration.ppm+")");
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 }

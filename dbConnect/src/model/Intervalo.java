@@ -1,22 +1,26 @@
 package model;
 
+import main.Configuration;
+
 public class Intervalo {
 	int entrenamientoID = 0;
+	int intervaloID = 0;
 	double bpmCancion = 0;
 	String periodo = null;
 	
-	public Intervalo(int entrenamientoID, double bpmCancion, String periodo) {
-		this.entrenamientoID = entrenamientoID;
+	public Intervalo(int intervaloID, double bpmCancion, String periodo) {
+		entrenamientoID = Configuration.actualTraining;
+		this.intervaloID = intervaloID;
 		this.bpmCancion = bpmCancion;
 		this.periodo = periodo;
 	}
 	
 	private String getTables() {
-		return "(EntrenamientoID, BPMCancion, Periodo)";
+		return "(IntervaloID, EntrenamientoID, BPMCancion, Periodo)";
 	}
 	
 	private String getValues() {
-		return "("+entrenamientoID+", "+bpmCancion+", '"+periodo+"')";
+		return "("+intervaloID+", "+entrenamientoID+", "+bpmCancion+", '"+periodo+"')";
 	}
 	
 	public String getInsert() {
