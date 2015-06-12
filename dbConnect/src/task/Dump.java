@@ -1,21 +1,20 @@
-package model;
+package task;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import playerModel.MiLoadScreen;
 import database.MySQLUtils;
+import model.Entrenamiento;
+import model.Intervalo;
+import model.Muestra;
 
-public class AllData {
-	Entrenamiento entrenamiento = null;
+public class Dump {
+	public static Entrenamiento entrenamiento = null;
 	ArrayList<Intervalo> intervalos = null;
 	ArrayList<Muestra> muestras = null;
 	
-	public AllData(Entrenamiento entrenamiento, ArrayList<Intervalo> intervalos, ArrayList<Muestra> muestras) {
-		this.entrenamiento = entrenamiento;
-		this.intervalos = intervalos;
-		this.muestras = muestras;
-	}
+	public Dump() {}
 	
 	public void dumpData(MiLoadScreen load) {
 		MySQLUtils db = new MySQLUtils();

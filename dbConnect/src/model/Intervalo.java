@@ -5,8 +5,7 @@ public class Intervalo {
 	double bpmCancion = 0;
 	String periodo = null;
 	
-	public Intervalo(int entrenamientoID, double bpmCancion, String periodo) {
-		this.entrenamientoID = entrenamientoID;
+	public Intervalo(double bpmCancion, String periodo) {
 		this.bpmCancion = bpmCancion;
 		this.periodo = periodo;
 	}

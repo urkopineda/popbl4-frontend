@@ -91,8 +91,8 @@ public class MobileUI implements ActionListener {
 		if (Configuration.sensorState) heartSensorIcon = new JLabel(new ImageIcon("img/icons/sensorConnected.png"));
 		else if (!Configuration.sensorState) heartSensorIcon = new JLabel(new ImageIcon("img/icons/sensorDisconnected.png"));
 		centerNorthPanel.add(heartSensorIcon);
-		if (Configuration.syncState) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverConnected.png"));
-		else if (!Configuration.syncState) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverDisconnected.png"));
+		//if (Configuration.syncState) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverConnected.png"));
+		//else if (!Configuration.syncState) serverConnectedIcon = new JLabel(new ImageIcon("img/icons/serverDisconnected.png"));
 		centerNorthPanel.add(serverConnectedIcon);
 		// Add subcontainer to container.
 		centerPanel.add(centerNorthPanel, BorderLayout.NORTH);

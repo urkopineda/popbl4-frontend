@@ -44,10 +44,9 @@ CREATE TABLE IF NOT EXISTS CancionPlaylist
 CREATE TABLE IF NOT EXISTS Intervalo
 (
 	IntervaloID INTEGER PRIMARY KEY AUTOINCREMENT,
-	CancionID INT,
-	FechaHoraComienzo TEXT NOT NULL,
-	PeriodoMuestra INT NOT NULL,
-	CONSTRAINT fk_intervalo_cancion FOREIGN KEY(CancionID) REFERENCES Cancion (CancionID)
+	EntrenamientoID INT,
+	BPMCancion DECIMAL(10,0) NOT NULL,
+	Periodo TEXT
 );
 
 CREATE TABLE IF NOT EXISTS Muestra

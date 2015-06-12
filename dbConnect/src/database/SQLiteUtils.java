@@ -116,16 +116,4 @@ public class SQLiteUtils {
 			System.out.println("No se ha podido cerrar la conexión.");
 		}
 	}
-	
-	public void createDump() {
-		try {
-			Statement st1 = conn.createStatement();
-			st1.executeUpdate(".output muestra.sql");
-			Statement st2 = conn.createStatement();
-			st2.executeUpdate(".dump muestra");
-			Statement st3 = conn.createStatement();
-			st3.executeUpdate(".quit");
-		} catch (SQLException e) {}
-	}
-	
 }

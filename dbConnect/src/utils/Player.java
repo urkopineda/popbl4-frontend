@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,6 +34,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
 import language.Strings;
+import main.Configuration;
 import model.Album;
 import model.Author;
 import model.Duration;
@@ -119,7 +121,7 @@ public class Player implements ActionListener {
 		
 		if (!(new File("./"+DBNAME+".db")).exists()) nuevo = true;
 		conn = new SQLiteUtils(DBNAME);
-		
+		Configuration.conn = conn;
 		try {
 			String s = new String(Files.readAllBytes(Paths.get("./SQLite.sql")), StandardCharsets.UTF_8);
 			String [] dml = s.split("[;]");
@@ -343,6 +345,7 @@ public class Player implements ActionListener {
 		if (s != null) addSong(s);
 		calculator.setPaused(false);
 		calculator.setPlayingSong(s);
+		calculator.getPlayedSongsList().add(s);
 		previousButton.setEnabled(false);
 		stopButton.setEnabled(true);
 		nextButton.setEnabled(true);
@@ -438,6 +441,7 @@ public class Player implements ActionListener {
 	}
 	
 	public boolean skipForward() {
+		if (Configuration.isRunning) insertIntervalo();
 		if (calculator.getChosenSong() == null) {
 			addSong(songList.getModel().getElementAt((new Random()).nextInt(songList.getModel().getSize())));
 			played = new Duration(0);
@@ -463,6 +467,7 @@ public class Player implements ActionListener {
 	}
 	
 	private boolean skipBackward() {
+		if (Configuration.isRunning) insertIntervalo();
 		played = new Duration(0);
 		player.skipBackward();
 		playing = list.get(--n);
@@ -470,6 +475,20 @@ public class Player implements ActionListener {
 		calculator.fireSongChanged();
 		if (n==0) return false;
 		return true;
+	}
+	
+	private void insertIntervalo() {
+		try {
+			Configuration.actualInterval++;
+			int seconds = songLength.getCount();
+			int day = (int) TimeUnit.SECONDS.toDays(seconds);        
+			long hours = TimeUnit.SECONDS.toHours(seconds) - (day *24);
+			long minute = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds)* 60);
+			long second = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds) *60);
+			Configuration.conn.executeUpdate("INSERT INTO Intervalo VALUES("+Configuration.actualInterval+", "+Configuration.actualTraining+", "+playing.getBPM()+", '"+hours+":"+minute+":"+second+"')");
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	private void fillPlayerButtonView() {
