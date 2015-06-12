@@ -189,7 +189,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			load.progressHasBeenMade("Saving connection - 1...", 1);
 			trainingUI.getPlayer().getCalculator().comCreated();
 			load.progressHasBeenMade("Saving connection - 2...", 1);
-			trainingUI.switchBt();
+			trainingUI.btTrue();
 			load.progressHasBeenMade("Updating UI...", 1);
 			if (Configuration.sensorState) {
 				btDisconnect.setEnabled(true);
@@ -199,10 +199,12 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			} else load.closeScreen();
 		} else if (e.getActionCommand().equals("btDisconn")) {
 			comManager.interrupt();
-			trainingUI.switchBt();
 			if (!Configuration.sensorState){
 				btDisconnect.setEnabled(false);
 				btConnect.setEnabled(true);
+				trainingUI.stopTimer();
+				trainingUI.getPlayer().stopReproduction();
+				trainingUI.btFalse();
 				btInfo();
 			}
 		} else if (e.getActionCommand().equals("settings")) {

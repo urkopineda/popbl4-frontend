@@ -139,8 +139,10 @@ public class TrainingUI {
 	}
 	
 	public void stopTimer() {
-		chronometerThread.stopTimer();
-		chronometerThread = null;
+		if (chronometerThread != null) {
+			chronometerThread.stopTimer();
+			chronometerThread = null;
+		}
 		buttonPause.setEnabled(false);
 		buttonStop.setEnabled(false);
 		buttonStart.setEnabled(true);
@@ -156,5 +158,13 @@ public class TrainingUI {
 	
 	public void switchBt() {
 		buttonStart.setEnabled(Configuration.sensorState);
+	}
+	
+	public void btFalse() {
+		buttonStart.setEnabled(false);
+	}
+	
+	public void btTrue() {
+		buttonStart.setEnabled(true);
 	}
 }
