@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 
 import language.Strings;
 import main.Configuration;
+import playerModel.MiLoadScreen;
 import utils.WindowMaker;
 import database.MySQLUtils;
 
@@ -60,6 +61,7 @@ public class ProfileUI {
 	JLabel numLabel = null;
 	JLabel pisoLabel = null;
 	JLabel letraLabel = null;
+	MiLoadScreen load = null;
 		
 	public ProfileUI(ActionListener act, JFrame window) {
 		this.act = act;
@@ -196,6 +198,13 @@ public class ProfileUI {
 		nameField.setText(Configuration.name);
 		surname1Field.setText(Configuration.surname1);
 		surname2Field.setText(Configuration.surname2);
+		phoneField.setText(Configuration.tlf);
+		provinField.setText(Configuration.provincia);;
+		puebloField.setText(Configuration.pueblo);;
+		calleField.setText(Configuration.calle);;
+		numField.setText(Configuration.numero);;
+		pisoField.setText(Configuration.piso);;
+		letraField.setText(Configuration.letra);;
 	}
 	
 	public void updateData() {
@@ -207,23 +216,36 @@ public class ProfileUI {
 		String pass = new String(input);
 		MySQLUtils db = new MySQLUtils();
 		try {
-			String connection = null;
+			String usuario = null;
 			db.openDataBase();
-			if ((userField.getText().equals("")) || (nameField.getText().equals("")) || (surname1Field.getText().equals("")) || (surname2Field.getText().equals(""))) {
+			if ((userField.getText().equals("")) || (nameField.getText().equals("")) || (surname1Field.getText().equals(""))
+					|| (surname2Field.getText().equals("")) || (phoneField.getText().equals("")) || (provinField.getText().equals(""))
+					|| (puebloField.getText().equals("")) || (calleField.getText().equals("")) || (numField.getText().equals(""))
+					|| (pisoField.getText().equals("")) || (letraField.getText().equals(""))) {
 				JOptionPane.showMessageDialog(window, "Todos los campos deben estar llenos. El campo de la contraseña es opcional", "Error", JOptionPane.ERROR_MESSAGE);
 			} else {
+				load = new MiLoadScreen(window);
+				load.setWorkToMake(3);
 				if (pass.equals("")) {
-					connection = "UPDATE USUARIO SET Username='"+userField.getText()+"', Nombre='"+nameField.getText()+"', PrimerApellido='"+surname1Field.getText()+"', SegundoApellido='"+surname2Field.getText()+"'  WHERE UsuarioID = "+Configuration.userID;
+					usuario = "UPDATE USUARIO SET Username='"+userField.getText()+"', Nombre='"+nameField.getText()+"', PrimerApellido='"+surname1Field.getText()+"', SegundoApellido='"+surname2Field.getText()+"'  WHERE UsuarioID = "+Configuration.userID;
 				} else {
-					connection = "UPDATE USUARIO SET Username='"+userField.getText()+"', Password='"+pass+"', Nombre='"+nameField.getText()+"', PrimerApellido='"+surname1Field.getText()+"', SegundoApellido='"+surname2Field.getText()+"'  WHERE UsuarioID = "+Configuration.userID;
+					usuario = "UPDATE USUARIO SET Username='"+userField.getText()+"', Password='"+pass+"', Nombre='"+nameField.getText()+"', PrimerApellido='"+surname1Field.getText()+"', SegundoApellido='"+surname2Field.getText()+"'  WHERE UsuarioID = "+Configuration.userID;
 				}
-				db.exeStmt(connection);
+				db.exeStmt(usuario);
+				load.progressHasBeenMade("User data", 1);
+				db.exeStmt("UPDATE DIRECCION SET Provincia='"+provinField.getText()+"', Pueblo='"+puebloField.getText()+"'"
+						+ ", Calle='"+calleField.getText()+"', Numero='"+numField.getText()+"', Piso="+pisoField.getText()+""
+								+ ", Letra='"+letraField.getText()+"' WHERE UsuarioID = "+Configuration.userID);
+				load.progressHasBeenMade("Directions data", 1);
+				db.exeStmt("UPDATE TELEFONO SET Numero='"+phoneField.getText()+"' WHERE UsuarioID = "+Configuration.userID);
+				load.progressHasBeenMade("Phone data", 1);
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			System.out.println("ERROR: "+e.getSQLState()+" - "+e.getMessage()+".");
 		} finally {
+			if (load != null) load.closeScreen();
 			try {
 				db.closeDataBase();
 			} catch (SQLException e) {
