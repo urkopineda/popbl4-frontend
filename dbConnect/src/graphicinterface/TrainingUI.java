@@ -19,6 +19,12 @@ import task.HeartAnimator;
 import utils.Player;
 import utils.WindowMaker;
 
+/**
+ * JPanel incial que contiene el cronómetro, la JList de canciones, el reproductor de música, los PPMs, etc.
+ * 
+ * @author Urko
+ *
+ */
 public class TrainingUI {
 	ChronoTimer chronometerThread = null;
 	HeartAnimator heartAnimator = null;
@@ -114,6 +120,9 @@ public class TrainingUI {
 		return heartRatePanel;
 	}
 	
+	/**
+	 * Método que inicia el Timer del entrenamiento.
+	 */
 	public void startTimer() {
 		if (chronometerThread != null) {
 			if (!chronometerThread.isAlive()) {
@@ -132,12 +141,18 @@ public class TrainingUI {
 		buttonStart.setEnabled(false);
 	}
 	
+	/**
+	 * Método que pausa el Timer.
+	 */
 	public void pauseTimer() {
 		chronometerThread.pauseTimer();
 		buttonPause.setEnabled(false);
 		buttonStart.setEnabled(true);
 	}
 	
+	/**
+	 * Método que para el Timer y 'mata' el Thread.
+	 */
 	public void stopTimer() {
 		if (chronometerThread != null) {
 			chronometerThread.stopTimer();
@@ -148,22 +163,34 @@ public class TrainingUI {
 		buttonStart.setEnabled(true);
 	}
 	
+	/**
+	 * Método publico para obtener el reproductor.
+	 * 
+	 * @return
+	 */
 	public Player getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Devuelve el tamaño de la lista.
+	 * 
+	 * @return
+	 */
 	public int getListSize() {
 		return player.getListSize();
 	}
 	
-	public void switchBt() {
-		buttonStart.setEnabled(Configuration.sensorState);
-	}
-	
+	/**
+	 * Establece el boton de inicio de entrenamiento en false.
+	 */
 	public void btFalse() {
 		buttonStart.setEnabled(false);
 	}
 	
+	/**
+	 * Establece el boton de inicio de entrenamiento en true.
+	 */
 	public void btTrue() {
 		buttonStart.setEnabled(true);
 	}

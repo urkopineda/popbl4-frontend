@@ -11,10 +11,22 @@ import java.util.ArrayList;
 
 import main.Configuration;
 
+/**
+ * Esta clase contiene todas las herramientas y métodos necesarios para conectar Java con MySQL.
+ * 
+ * @author Urko
+ *
+ */
 public class MySQLUtils {
 	Connection con = null;	
 	int tableNumber = -1;
 	
+	/**
+	 * Devuelve el estado de la conexión.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public boolean getDataBaseStatus() throws SQLException {
 		if (con == null) {
 			return false;
@@ -25,6 +37,12 @@ public class MySQLUtils {
 		}
 	}
 	
+	/**
+	 * Este método abre la conexión a la base de datos MySQL.
+	 * 
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void openDataBase() throws ClassNotFoundException, SQLException {
 		String generalURL = null;
 		Class.forName("com.mysql.jdbc.Driver");
@@ -35,6 +53,11 @@ public class MySQLUtils {
         System.out.println(" Connected!");
 	}
 	
+	/**
+	 * Este método cierra la conexión a la base de datos.
+	 * 
+	 * @throws SQLException
+	 */
 	public void closeDataBase() throws SQLException {
 		if (con != null) {
 			System.out.print("Disconnecting to Runnstein MySQL database...");

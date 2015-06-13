@@ -7,8 +7,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import utils.WindowMaker;
+import language.Strings;
 import model.RecordsData;
 
+/**
+ * Esta clase genera el JPane de la pestaña Records.
+ * 
+ * @author Urko
+ *
+ */
 public class RecordsUI {
 	JPanel mainPanel = null;
 	JPanel northPanel = null;
@@ -27,13 +34,17 @@ public class RecordsUI {
 		return mainPanel;
 	}
 	
+	/**
+	 * Mostramos todos los datos de Records.
+	 */
 	public void addContent() {
+		mainPanel.removeAll();
 		newData = new RecordsData();
-		label1 = WindowMaker.createJLabel(label1, "Total de minutos entrenados: "+newData.totalDuration+" minutos.", 30, "center");
-		label2 = WindowMaker.createJLabel(label2, "Máximo de minutos entrenados en un único entrenamiento: "+newData.maxDuration+" minutos.", 30, "center");
-		label3 = WindowMaker.createJLabel(label3, "Máximo de pulsaciones por minuto: "+newData.maxPPM+" ppm.", 30, "center");
-		label4 = WindowMaker.createJLabel(label4, "Máximo de beats por minuto: "+newData.maxBPM+" bpm.", 30, "center");
-		label5 = WindowMaker.createJLabel(label5, "Número total de entrenamientos: "+newData.totalTrainings, 30, "center");
+		label1 = WindowMaker.createJLabel(label1, Strings.get("totalMinutesRecord")+newData.totalDuration+Strings.get("minutesRecord"), 30, "center");
+		label2 = WindowMaker.createJLabel(label2, Strings.get("maxMinutesRecord")+newData.maxDuration+Strings.get("minutesRecord"), 30, "center");
+		label3 = WindowMaker.createJLabel(label3, Strings.get("maxHeartRateRecord")+newData.maxPPM+Strings.get("ppmRecord"), 30, "center");
+		label4 = WindowMaker.createJLabel(label4, Strings.get("maxBPMRecord")+newData.maxBPM+Strings.get("bpmRecord"), 30, "center");
+		label5 = WindowMaker.createJLabel(label5, Strings.get("totalTrainingRecord")+newData.totalTrainings, 30, "center");
 		mainPanel.add(label5);
 		mainPanel.add(label1);
 		mainPanel.add(label2);

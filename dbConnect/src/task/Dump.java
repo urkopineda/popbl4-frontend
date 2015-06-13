@@ -11,20 +11,27 @@ import model.Muestra;
 import playerModel.MiLoadScreen;
 import database.MySQLUtils;
 
+/**
+ * La clase Dump genera el dump de SQLite a MySQL.
+ * 
+ * @author Urko
+ *
+ */
 public class Dump {
 	public static Entrenamiento entrenamiento = null;
-	static ArrayList<Intervalo> intervalos = null;
-	static ArrayList<Muestra> muestras = null;
+	public static ArrayList<Intervalo> intervalos = new ArrayList<>();
+	public static ArrayList<Muestra> muestras = new ArrayList<>();
 	
 	public Dump() {}
 	
 	public static void dumpData(MiLoadScreen load, String duration) {
 		entrenamiento.duracion = duration;
-		extractFromSQLite();
+		// extractFromSQLite();
 		addToMySQL(load);
-		deleteFromSQLite();
+		// deleteFromSQLite();
 	}
 	
+	@SuppressWarnings("unused")
 	private static void deleteFromSQLite() {
 		try {
 			Configuration.conn.executeUpdate("DELETE FROM INTERVALO");
@@ -34,6 +41,7 @@ public class Dump {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static void extractFromSQLite() {
 		ResultSet rsI = Configuration.conn.executeQuery("SELECT * FROM INTERVALO");
 		ResultSet rsM = Configuration.conn.executeQuery("SELECT * FROM MUESTRA");

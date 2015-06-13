@@ -3,6 +3,12 @@ package main;
 import bluetooth.COMManager;
 import database.SQLiteUtils;
 
+/**
+ * Clase que guardar variables necesarias en todo el programa, todas son estáticas.
+ * 
+ * @author Urko
+ *
+ */
 public class Configuration {
 	// Variables esenciales.
 	public final static String dbSQLite = "runnstein";

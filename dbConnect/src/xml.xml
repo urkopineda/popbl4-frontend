@@ -33,6 +33,7 @@
 		<string name="okSignUp">Izena eman</string>
 		<string name="okSignUpM">Izena ematea lortu da.</string>
 		<string name="errSignUp">Datu guztiak betetzea derrigorrezkoa da.</string>
+		<string name="errUser">Erabiltzaile izena errepikatuta dago.</string>
 		<!-- TrainingUI -->
 		<string name="windowMain">Runnstein</string>
 		<string name="mainTabTraining">Entramendua hasi</string>
@@ -107,7 +108,6 @@
 		<string name="songFromFileNotFound">Hurrengo abestia ez da aurkitzen:</string>
 		<string name="songFromFileNullPointer">Hurrengo abestia kargatzen akats bat gertatu da:</string>
 		<string name="startRepNoSong">Ez duzu abestirik gehitu.</string>
-		<!-- A PARTIR DE AQUÍ! -->
 		<!-- SQLiteUtils -->
 		<string name="loadJDBCErrorSQLite">Ezin izan da kargatu SQLite-ren JDBC.</string>
 		<string name="connErrorSQLite">Datu basearekin konexioak huts egin du.</string>
@@ -187,6 +187,7 @@
 		<string name="okSignUp">Registrado</string>
 		<string name="okSignUpM">Te has registrado correctamente.</string>
 		<string name="errSignUp">Es obligatorio rellenar todos los datos.</string>
+		<string name="errUser">El usuario introducido está en uso.</string>
 		<!-- MainUI -->
 		<string name="windowMain">Runnstein</string>
 		<string name="mainTabTraining">Iniciar Entrenamiento</string>
@@ -341,6 +342,7 @@
 		<string name="okSignUp">Signed in</string>
 		<string name="okSignUpM">You just signed up correctly.</string>
 		<string name="errSignUp">You must fill all the fields.</string>
+		<string name="errUser">Username is in use.</string>
 		<!-- TrainingUI -->
 		<string name="windowMain">Runnstein</string>
 		<string name="mainTabTraining">Begin training</string>
@@ -415,7 +417,6 @@
 		<string name="songFromFileNotFound">The following song has not been found:</string>
 		<string name="songFromFileNullPointer">An error occurred when loading the song:</string>
 		<string name="songFromFileNullPointer">No song has been added</string>
-		<!-- A PARTIR DE AQUÍ! -->
 		<!-- SQLiteUtils -->
 		<string name="loadJDBCErrorSQLite">SQLite JDBC couldn't be loaded.</string>
 		<string name="connErrorSQLite">Unable to connect with database.</string>

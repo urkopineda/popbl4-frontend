@@ -24,7 +24,12 @@ import tablemodel.TableModelBasic;
 import tablemodel.TrazadorTableBasic;
 import database.MySQLUtils;
 
-
+/**
+ * Clase que genera el JTable que contiene los datos de Entrenamiento.
+ * 
+ * @author Urko
+ *
+ */
 public class TrainingDataUI {
 	JPanel mainPanel = null;
 	ListSelectionListener act = null;
@@ -52,6 +57,9 @@ public class TrainingDataUI {
 		createTable();
 	}
 	
+	/**
+	 * Método que crea la tabla con todo el contenido de los entrenamientos de la base de datos MySQL.
+	 */
 	private void createTable() {
 		load = new MiLoadScreen(window);
 		MySQLUtils db = new MySQLUtils();

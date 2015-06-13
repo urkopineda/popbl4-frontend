@@ -38,6 +38,7 @@ import main.Configuration;
 import model.Album;
 import model.Author;
 import model.Duration;
+import model.Intervalo;
 import model.Playlist;
 import model.Song;
 
@@ -51,6 +52,7 @@ import org.farng.mp3.id3.ID3v2_4;
 
 import playerModel.MiLoadScreen;
 import playerModel.MiRenderer;
+import task.Dump;
 import task.RunnsteinCalculator;
 import task.SongLengthTimer;
 import database.SQLiteUtils;
@@ -441,7 +443,15 @@ public class Player implements ActionListener {
 	}
 	
 	public boolean skipForward() {
-		if (Configuration.isRunning) insertIntervalo();
+		if (Configuration.isRunning) {
+			// insertIntervalo();
+			int seconds = songLength.getCount();
+			long hours = TimeUnit.SECONDS.toHours(seconds);
+			long minute = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds)* 60);
+			long second = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds) *60);
+			String duration = hours+":"+minute+":"+second;
+			Dump.intervalos.add(new Intervalo(++Configuration.actualInterval, playing.getBPM(), duration));
+		}
 		if (calculator.getChosenSong() == null) {
 			addSong(songList.getModel().getElementAt((new Random()).nextInt(songList.getModel().getSize())));
 			played = new Duration(0);
@@ -481,8 +491,7 @@ public class Player implements ActionListener {
 		try {
 			Configuration.actualInterval++;
 			int seconds = songLength.getCount();
-			int day = (int) TimeUnit.SECONDS.toDays(seconds);        
-			long hours = TimeUnit.SECONDS.toHours(seconds) - (day *24);
+			long hours = TimeUnit.SECONDS.toHours(seconds);
 			long minute = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds)* 60);
 			long second = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds) *60);
 			Configuration.conn.executeUpdate("INSERT INTO Intervalo VALUES("+Configuration.actualInterval+", "+Configuration.actualTraining+", "+playing.getBPM()+", '"+hours+":"+minute+":"+second+"')");

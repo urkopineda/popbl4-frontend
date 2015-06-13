@@ -2,6 +2,12 @@ package model;
 
 import main.Configuration;
 
+/**
+ * Objeto de la tabla de SQLite Intervalo.
+ * 
+ * @author Urko
+ *
+ */
 public class Intervalo {
 	int entrenamientoID = 0;
 	int intervaloID = 0;

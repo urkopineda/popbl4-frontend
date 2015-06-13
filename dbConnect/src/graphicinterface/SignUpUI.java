@@ -26,6 +26,12 @@ import language.Strings;
 import utils.WindowMaker;
 import database.MySQLUtils;
 
+/**
+ * Crea la ventana/dialogo para crear un usuario en Runnstein.
+ * 
+ * @author Urko
+ *
+ */
 public class SignUpUI implements ActionListener {
 	JFrame window = null;
 	JDialog signInDialog = null;
@@ -123,6 +129,9 @@ public class SignUpUI implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Esta clase inserta el usuario en la base de datos MySQL.
+	 */
 	private void createUser() {
 		char[] input = passField.getPassword();
 		String pass = new String(input);
@@ -131,14 +140,22 @@ public class SignUpUI implements ActionListener {
 		} else {
 			MySQLUtils db = new MySQLUtils();
 			try {
+				boolean pasa = true;
 				db.openDataBase();
-				db.exeStmt("INSERT INTO USUARIO(Username, Password, Nombre, PrimerApellido, SegundoApellido) VALUES('"+userField.getText()+"', '"+pass+"', '"+nameField.getText()+"', '"+ape1Field.getText()+"', '"+ape2Field.getText()+"')");
-				ResultSet rs = db.exeQuery("SELECT UsuarioID FROM USUARIO WHERE Username = '"+userField.getText()+"'");
-				int userID = 0;
-				while (rs.next()) userID = rs.getInt(1);
-				db.exeStmt("INSERT INTO DIRECCION(UsuarioID, Provincia, Pueblo, Calle, Numero, Piso, Letra) VALUES("+userID+", ' ', ' ', ' ', ' ', 0, ' ')");
-				db.exeStmt("INSERT INTO TELEFONO(UsuarioID, Numero) VALUES("+userID+", ' ')");
-				JOptionPane.showMessageDialog(window, Strings.get("okSignUpM"), Strings.get("okSignUp"), JOptionPane.INFORMATION_MESSAGE);
+				ResultSet rsComp = db.exeQuery("SELECT * FROM USUARIO WHERE Username = '"+userField.getText()+"'");
+				while (rsComp.next()) {
+					pasa = false;
+				}
+				if (pasa) {
+					db.exeStmt("INSERT INTO USUARIO(Username, Password, Nombre, PrimerApellido, SegundoApellido) VALUES('"+userField.getText()+"', '"+pass+"', '"+nameField.getText()+"', '"+ape1Field.getText()+"', '"+ape2Field.getText()+"')");
+					ResultSet rs = db.exeQuery("SELECT UsuarioID FROM USUARIO WHERE Username = '"+userField.getText()+"'");
+					int userID = 0;
+					while (rs.next()) userID = rs.getInt(1);
+					db.exeStmt("INSERT INTO DIRECCION(UsuarioID) VALUES("+userID+")");
+					db.exeStmt("INSERT INTO TELEFONO(UsuarioID) VALUES("+userID+")");
+					pasa = true;
+					JOptionPane.showMessageDialog(window, Strings.get("okSignUpM"), Strings.get("okSignUp"), JOptionPane.INFORMATION_MESSAGE);
+				} else JOptionPane.showMessageDialog(window, "ERROR: "+Strings.get("errUser"), "Error", JOptionPane.ERROR_MESSAGE);
 				signInDialog.dispose();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

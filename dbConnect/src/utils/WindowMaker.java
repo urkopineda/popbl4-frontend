@@ -14,6 +14,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+/**
+ * Clase que se encarga de generar componentes de UI de Swing.
+ * 
+ * @author Urko
+ *
+ */
 public class WindowMaker {
 	public static JLabel createJLabel(JLabel newJLabel, String text, int size, String aligment) {
 		newJLabel = new JLabel(text);

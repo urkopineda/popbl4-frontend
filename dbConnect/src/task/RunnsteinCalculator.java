@@ -70,7 +70,7 @@ public class RunnsteinCalculator extends Thread {
 	@Override
 	public void run() {
 		while (true) {
-			System.out.println(playingSong);
+			// System.out.println(playingSong);
 			try {
 				if (playingSong != null && !songList.isEmpty()) {
 					count = 0;

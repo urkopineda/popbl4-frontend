@@ -33,6 +33,12 @@ import utils.WindowMaker;
 import database.MySQLUtils;
 import file.FileUtils;
 
+/**
+ * Esta clase se encarga de la UI de logeo en la aplicación.
+ * 
+ * @author Urko
+ *
+ */
 public class LogInUI implements ActionListener, ItemListener {
 	JFrame window = null;
 	JPanel mainPanel = null;
@@ -135,6 +141,9 @@ public class LogInUI implements ActionListener, ItemListener {
 		return southPanel;
 	}
 
+	/**
+	 * En este actionPerfomed comprobamos si quiere entrar en Opciones, si quiere crear un usuario nuevo o si quiere logearse en la aplicación.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
@@ -154,6 +163,10 @@ public class LogInUI implements ActionListener, ItemListener {
 		}
 	}
 	
+	/**
+	 * Función que se encarga de comprobar si el usuario introducido es válido o no.
+	 * Si es válido, guarda todos sus datos en la clase Configuration.
+	 */
 	private void checkUser() {
 		load = new MiLoadScreen(window);
 		char[] input = passField.getPassword();
@@ -174,45 +187,45 @@ public class LogInUI implements ActionListener, ItemListener {
 				load.progressHasBeenMade("Surname 1", 1);
 				Configuration.surname2 = rs.getString(6);
 				load.progressHasBeenMade("Surname 2", 1);
+				ResultSet rsT = db.exeQuery("SELECT Provincia, Pueblo, Calle, Numero, Piso, Letra  FROM DIRECCION WHERE UsuarioID = "+Configuration.userID);
+				while(rsT.next()) {
+					Configuration.provincia = rsT.getString(1);
+					load.progressHasBeenMade("Province", 1);
+					Configuration.pueblo = rsT.getString(2);
+					load.progressHasBeenMade("City", 1);
+					Configuration.calle = rsT.getString(3);
+					load.progressHasBeenMade("Street", 1);
+					Configuration.numero = rsT.getString(4);
+					load.progressHasBeenMade("Number", 1);
+					Configuration.piso = rsT.getString(5);
+					load.progressHasBeenMade("Floor", 1);
+					Configuration.letra = rsT.getString(6);
+					load.progressHasBeenMade("Leter", 1);
+				}
+				ResultSet rsD = db.exeQuery("SELECT Numero FROM TELEFONO WHERE UsuarioID = "+Configuration.userID);
+				while(rsD.next()) {
+					Configuration.tlf = rsD.getString(1);
+					load.progressHasBeenMade("Phone", 1);
+				}
+				ResultSet rsE = db.exeQuery("SELECT EntrenamientoID FROM ENTRENAMIENTO ORDER BY EntrenamientoID DESC LIMIT 1");
+				while(rsE.next()) {
+					Configuration.actualTraining = rsE.getInt(1);
+					load.progressHasBeenMade("Entrenamiento", 1);
+				}
+				ResultSet rsI = db.exeQuery("SELECT IntervaloID FROM INTERVALO ORDER BY IntervaloID DESC LIMIT 1");
+				while(rsI.next()) {
+					Configuration.actualInterval = rsI.getInt(1);
+					load.progressHasBeenMade("Intervalo", 1);
+				}
+				ResultSet rsM = db.exeQuery("SELECT MuestraID FROM MUESTRA ORDER BY MuestraID DESC LIMIT 1");
+				while(rsM.next()) {
+					Configuration.actualMuestra = rsM.getInt(1);
+					load.progressHasBeenMade("Muestra", 1);
+				}
 				correctLogIn = true;
 				@SuppressWarnings("unused")
 				MainUI mainUI = new MainUI();
 				window.dispose();
-			}
-			ResultSet rsT = db.exeQuery("SELECT Provincia, Pueblo, Calle, Numero, Piso, Letra  FROM DIRECCION WHERE UsuarioID = "+Configuration.userID);
-			while(rsT.next()) {
-				Configuration.provincia = rsT.getString(1);
-				load.progressHasBeenMade("Province", 1);
-				Configuration.pueblo = rsT.getString(2);
-				load.progressHasBeenMade("City", 1);
-				Configuration.calle = rsT.getString(3);
-				load.progressHasBeenMade("Street", 1);
-				Configuration.numero = rsT.getString(4);
-				load.progressHasBeenMade("Number", 1);
-				Configuration.piso = rsT.getString(5);
-				load.progressHasBeenMade("Floor", 1);
-				Configuration.letra = rsT.getString(6);
-				load.progressHasBeenMade("Leter", 1);
-			}
-			ResultSet rsD = db.exeQuery("SELECT Numero FROM TELEFONO WHERE UsuarioID = "+Configuration.userID);
-			while(rsD.next()) {
-				Configuration.tlf = rsD.getString(1);
-				load.progressHasBeenMade("Phone", 1);
-			}
-			ResultSet rsE = db.exeQuery("SELECT EntrenamientoID FROM Entrenamiento ORDER BY EntrenamientoID DESC LIMIT 1");
-			while(rsE.next()) {
-				Configuration.actualTraining = rsE.getInt(1);
-				load.progressHasBeenMade("Entrenamiento", 1);
-			}
-			ResultSet rsI = db.exeQuery("SELECT IntervaloID FROM INTERVALO ORDER BY IntervaloID DESC LIMIT 1");
-			while(rsI.next()) {
-				Configuration.actualInterval = rsI.getInt(1);
-				load.progressHasBeenMade("Intervalo", 1);
-			}
-			ResultSet rsM = db.exeQuery("SELECT MuestraID FROM MUESTRA ORDER BY MuestraID DESC LIMIT 1");
-			while(rsM.next()) {
-				Configuration.actualMuestra = rsM.getInt(1);
-				load.progressHasBeenMade("Muestra", 1);
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -234,6 +247,10 @@ public class LogInUI implements ActionListener, ItemListener {
 		}
 	}
 
+	/**
+	 * En este itemListener comprobamos si ha cambiado de idioma.
+	 * Si es así, escribe el archivo de configuración y informa del reinicio necesario al usuario.
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {
