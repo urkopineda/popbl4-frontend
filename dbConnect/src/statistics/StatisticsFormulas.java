@@ -2,6 +2,12 @@ package statistics;
 
 import java.util.ArrayList;
 
+/**
+ * Clase que genera datos estadisticos de un ArrayList dado.
+ * 
+ * @author Urko
+ *
+ */
 public class StatisticsFormulas {
 	ArrayList<Integer> data = new ArrayList<>();
 	

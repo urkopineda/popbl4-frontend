@@ -25,6 +25,12 @@ import language.Strings;
 import main.Configuration;
 import utils.WindowMaker;
 
+/**
+ * Esta clase genera el JPane de SettingsUI.
+ * 
+ * @author Urko
+ *
+ */
 public class SettingsUI implements ActionListener {
 	JFrame window = null;
 	JDialog signInDialog = null;
@@ -51,6 +57,9 @@ public class SettingsUI implements ActionListener {
 		createJDialog();
 	}
 	
+	/**
+	 * Establece el valor de los campos de configuración existente.
+	 */
 	private void setFields() {
 		dbNameField.setText(Configuration.dbName);
 		dbUrlField.setText(Configuration.dbUrl);
@@ -59,6 +68,9 @@ public class SettingsUI implements ActionListener {
 		passDBField.setText(Configuration.password);
 	}
 	
+	/**
+	 * Deprecated.
+	 */
 	@SuppressWarnings("unused")
 	private void saveTemp() {
 		char[] input = passDBField.getPassword();
@@ -130,6 +142,9 @@ public class SettingsUI implements ActionListener {
 		return southPanel;
 	}
 
+	/**
+	 * Guarda o cancela la acción del usuario.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {

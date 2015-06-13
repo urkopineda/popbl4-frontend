@@ -6,6 +6,12 @@ import java.sql.SQLException;
 import main.Configuration;
 import database.MySQLUtils;
 
+/**
+ * Clase que genera un objeto para mostrar Records.
+ * 
+ * @author Urko
+ *
+ */
 public class RecordsData {
 	public int maxDuration = 0;
 	public int maxPPM = 0;

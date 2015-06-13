@@ -6,8 +6,17 @@ import javax.swing.table.AbstractTableModel;
 
 import model.TableData;
 
-@SuppressWarnings("serial")
+/**
+ * Modelo de tabla de la JTable.
+ * 
+ * @author Urko
+ *
+ */
 public class TableModelBasic extends AbstractTableModel {		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7024450295390688408L;
 	ColumnTableModelBasic columns;
 	ArrayList<TableData> allData;
 	

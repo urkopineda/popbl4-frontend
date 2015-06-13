@@ -7,10 +7,19 @@ import java.sql.SQLException;
 import main.Configuration;
 import utils.Heart;
 
+/**
+ * COMManager es el controlador de serie que utilizan otras clases en todo el programa.
+ * 
+ * @author Urko
+ *
+ */
 public class COMManager extends Thread {
 	Serial serial;
 	volatile boolean endThread;
 	
+	/**
+	 * COMManager se ocupa de iniciar la conexión serie y abrir el puerto.
+	 */
 	public COMManager() {
 		endThread = false;
 		serial = new Serial();
@@ -18,6 +27,9 @@ public class COMManager extends Thread {
 	}
 
 	
+	/**
+	 * En este método iniciamos el Thread de conexión por serie, y guardamos el valor de los PPMs que recibimos por serie.
+	 */
 	@Override
 	public void run() {
 		while(!endThread){
@@ -28,6 +40,9 @@ public class COMManager extends Thread {
 		}
 	}
 	
+	/**
+	 * Este método interrunpe y cierra la conexión por serie.
+	 */
 	@Override
 	public void interrupt() {
 		endThread = true;
@@ -35,10 +50,18 @@ public class COMManager extends Thread {
 		super.interrupt();
 	}
 
+	/**
+	 * Devuelve el objeto Serial utilizado por el Thread.
+	 * 
+	 * @return
+	 */
 	public Serial getSerialComm() {
 		return serial;
 	}
 	
+	/**
+	 * Esta clase se ocupa de guardar el valor de los PPM en la base de datos SQLite.
+	 */
 	private void insertMuestra() {
 		try {
 			Configuration.actualMuestra++;

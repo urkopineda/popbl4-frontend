@@ -18,6 +18,12 @@ import main.Configuration;
 import task.ChronoTimer;
 import utils.WindowMaker;
 
+/**
+ * UI de Smartphone en pruebas.
+ * 
+ * @author Urko
+ *
+ */
 public class MobileUI implements ActionListener {
 	JFrame window = null;
 	JPanel mainPanel = null;

@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Objeto de la tabla de SQLite Muestra.
+ * 
+ * @author Urko
+ *
+ */
 public class Muestra {
 	int muestraID = 0;
 	int intervaloID = 0;

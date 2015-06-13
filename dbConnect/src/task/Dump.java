@@ -11,6 +11,12 @@ import model.Muestra;
 import playerModel.MiLoadScreen;
 import database.MySQLUtils;
 
+/**
+ * La clase Dump genera el dump de SQLite a MySQL.
+ * 
+ * @author Urko
+ *
+ */
 public class Dump {
 	public static Entrenamiento entrenamiento = null;
 	static ArrayList<Intervalo> intervalos = null;

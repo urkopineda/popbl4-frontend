@@ -2,6 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
+/**
+ * Modelo de dato que genera el gráfico de StatisticsUI.
+ * 
+ * @author Urko
+ *
+ */
 public class ChartData {
 	public int trainingNumber = 0;
 	public String dateTime = null;

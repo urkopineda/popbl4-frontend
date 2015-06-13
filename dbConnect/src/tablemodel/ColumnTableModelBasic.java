@@ -3,8 +3,17 @@ package tablemodel;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
-@SuppressWarnings("serial")
+/**
+ * Modelo de columna del modelo de la tabla.
+ * 
+ * @author Urko
+ *
+ */
 public class ColumnTableModelBasic extends DefaultTableColumnModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1704151100993018553L;
 	TrazadorTableBasic newTrazador;
 	
 	public ColumnTableModelBasic(TrazadorTableBasic newTrazador){

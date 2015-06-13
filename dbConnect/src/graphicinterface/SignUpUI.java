@@ -26,6 +26,12 @@ import language.Strings;
 import utils.WindowMaker;
 import database.MySQLUtils;
 
+/**
+ * Crea la ventana/dialogo para crear un usuario en Runnstein.
+ * 
+ * @author Urko
+ *
+ */
 public class SignUpUI implements ActionListener {
 	JFrame window = null;
 	JDialog signInDialog = null;
@@ -123,6 +129,9 @@ public class SignUpUI implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Esta clase inserta el usuario en la base de datos MySQL.
+	 */
 	private void createUser() {
 		char[] input = passField.getPassword();
 		String pass = new String(input);

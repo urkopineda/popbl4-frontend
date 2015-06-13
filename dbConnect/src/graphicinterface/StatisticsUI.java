@@ -25,6 +25,12 @@ import utils.WindowMaker;
 import chart.Chart;
 import database.MySQLUtils;
 
+/**
+ * Esta clase genera la JPane donde estarán los gráficos.
+ * 
+ * @author Urko
+ *
+ */
 public class StatisticsUI {
 	JPanel mainPanel = null;
 	JPanel northPanel = null;
@@ -74,10 +80,23 @@ public class StatisticsUI {
 		return centerPanel;
 	}
 	
+	/**
+	 * Genera el gráfico que se va a implementar en un JLabel.
+	 * 
+	 * @return
+	 */
 	private Container createGraphic() {
 		return graphicPanel1 = new JPanel(new BorderLayout());
 	}
 	
+	/**
+	 * Método encargado de generar cualquier gráfico.
+	 * 
+	 * @param containerPanel
+	 * @param chartLabel
+	 * @param trainings
+	 * @param mode
+	 */
 	private void createAllTimesChart(JPanel containerPanel, JLabel chartLabel, int trainings, int mode) {
 		chartLabel = new JLabel();
 		containerPanel.removeAll();
@@ -138,10 +157,19 @@ public class StatisticsUI {
 		containerPanel.updateUI();
 	}
 	
+	/**
+	 * Método public de acceso al método privado de generar gráficos.
+	 * 
+	 * @param trainings
+	 * @param mode
+	 */
 	public void addGraphics(int trainings, int mode) {
 		createAllTimesChart(graphicPanel1, graphicLabel1, trainings, mode);
 	}
 	
+	/**
+	 * Crea todos los datos necesarios para generar los gráficos (Hace un SELECT).
+	 */
 	private void createData() {
 		load = new MiLoadScreen(window);
 		MySQLUtils db = new MySQLUtils();

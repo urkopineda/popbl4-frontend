@@ -19,10 +19,22 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+/**
+ * Esta clase se encarga de generar gráficos a partir de unos datos dados.
+ * 
+ * @author Urko
+ *
+ */
 public class Chart {
 	static JFreeChart chart = null;
 	static BufferedImage chartImage = null;
 	
+	/**
+	 * Este método actualiza todos los componentes necesarios al insertar el gráfico.
+	 * 
+	 * @param labelContainer
+	 * @param chartContainer
+	 */
 	private static void updateComponents(JPanel labelContainer, JLabel chartContainer) {
 		if ((labelContainer.getWidth() == 0) && (labelContainer.getHeight() == 0)) {
 			chartImage = chart.createBufferedImage(1351, 596);
@@ -32,6 +44,17 @@ public class Chart {
 		labelContainer.updateUI();
 	}
 	
+	/**
+	 * Está clase crea un gráfico de barras.
+	 * 
+	 * @param labelContainer
+	 * @param chartContainer
+	 * @param data
+	 * @param barNames
+	 * @param chartName
+	 * @param xAxis
+	 * @param yAxis
+	 */
 	public static void createBarChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
 		DefaultCategoryDataset proportions = new DefaultCategoryDataset();
 		for (int i = 0; i != data.size(); i++) proportions.addValue(data.get(i), barNames.get(i), "");
@@ -39,6 +62,16 @@ public class Chart {
 		updateComponents(labelContainer, chartContainer);
 	}
 	
+	/**
+	 * Este método genera un gráfico de lineas.
+	 * 
+	 * @param labelContainer
+	 * @param chartContainer
+	 * @param data
+	 * @param chartName
+	 * @param xAxis
+	 * @param yAxis
+	 */
 	public static void createLineChartv1(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, String chartName, String xAxis, String yAxis) {
 		XYSeries series = new XYSeries(chartName);
 		for (int i = 0; i != data.size(); i++) series.add(Double.valueOf(i + 1), Double.valueOf(data.get(i)));
@@ -47,6 +80,17 @@ public class Chart {
         updateComponents(labelContainer, chartContainer);
 	}
 	
+	/**
+	 * Este método genera un gráfico de lineas.
+	 * 
+	 * @param labelContainer
+	 * @param chartContainer
+	 * @param data
+	 * @param barNames
+	 * @param chartName
+	 * @param xAxis
+	 * @param yAxis
+	 */
 	public static void createLineChartv2(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis) {
 		DefaultCategoryDataset proportions = new DefaultCategoryDataset();
 		for (int i = 0; i != data.size(); i++) proportions.addValue(data.get(i), chartName, barNames.get(i));
@@ -54,6 +98,18 @@ public class Chart {
         updateComponents(labelContainer, chartContainer);
 	}
 	
+	/**
+	 * Este método genera un gráfico de lineas.
+	 * 
+	 * @param labelContainer
+	 * @param chartContainer
+	 * @param data
+	 * @param barNames
+	 * @param chartName
+	 * @param xAxis
+	 * @param yAxis
+	 * @param color
+	 */
 	public static void createLineChartv3(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName, String xAxis, String yAxis, Color color) {
 		DefaultCategoryDataset proportions = new DefaultCategoryDataset();
 		for (int i = 0; i != data.size(); i++) proportions.addValue(data.get(i), chartName, barNames.get(i));
@@ -70,6 +126,15 @@ public class Chart {
         updateComponents(labelContainer, chartContainer);
 	}
 	
+	/**
+	 * Este método genera un gráfico Pie.
+	 * 
+	 * @param labelContainer
+	 * @param chartContainer
+	 * @param data
+	 * @param barNames
+	 * @param chartName
+	 */
 	public static void createPieChart(JPanel labelContainer, JLabel chartContainer, ArrayList<Integer> data, ArrayList<String> barNames, String chartName) {
 		DefaultPieDataset proportions = new DefaultPieDataset();
 		for (int i = 0; i != data.size(); i++) proportions.setValue(barNames.get(i), data.get(i));

@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Clase que genera el objeto utilizado en la JTable de TrainingDataUI.
+ * 
+ * @author Urko
+ *
+ */
 public class TableData {
 	public int trainingNumber = 0;
 	public String dateTime = null;

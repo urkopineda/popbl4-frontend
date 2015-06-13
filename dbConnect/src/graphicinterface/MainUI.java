@@ -27,6 +27,12 @@ import task.Dump;
 import utils.WindowMaker;
 import bluetooth.COMManager;
 
+/**
+ * Clase que se encarga de crear el MainUI, que contiene todas las pestañas del JTabbedPane principal.
+ * 
+ * @author Urko
+ *
+ */
 public class MainUI implements ChangeListener, ActionListener, ListSelectionListener, ItemListener {
 	ActionListener action = this;
 	ListSelectionListener list = this;
@@ -122,10 +128,13 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		addContentFlags.add(0);
 		mainPanel.addChangeListener(this);
 		trainingUI.addContent();
-		trainingUI.switchBt();
+		trainingUI.btFalse();
 		return mainPanel;
 	}
 
+	/**
+	 * En este método escuchamos los cambios de pestañas para ir cargando las pestañas dinámicamente.
+	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (mainPanel.getSelectedIndex() == 1) {
@@ -155,6 +164,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		}
 	}
 
+	/**
+	 * En este actionPerformed comprobamos si iniciamos un entrenamiento, paramos, pausamos el reproductor, etc.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("start")) {
@@ -221,6 +233,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		}
 	}
 	
+	/**
+	 * Informa con un JOptionPane el estado del sensor.
+	 */
 	private void btInfo() {
 		if (Configuration.sensorState) JOptionPane.showMessageDialog(window, Strings.get("btConnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
 		else JOptionPane.showMessageDialog(window, Strings.get("btDisconnected"), "Info", JOptionPane.INFORMATION_MESSAGE);
@@ -231,6 +246,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		// CAMBIA EL JTABLE.
 	}
 
+	/**
+	 * Con esta clase añadimos los gráficos necesarios al cambiar los JComboBox de la pestaña gráficos.
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {			

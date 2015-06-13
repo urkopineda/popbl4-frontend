@@ -5,6 +5,12 @@ import java.util.Date;
 
 import main.Configuration;
 
+/**
+ * Objeto de la tabla de SQLite Entrenamiento.
+ * 
+ * @author Urko
+ *
+ */
 public class Entrenamiento {
 	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 	int entrenamientoID = 0;

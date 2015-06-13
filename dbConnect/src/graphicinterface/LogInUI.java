@@ -33,6 +33,12 @@ import utils.WindowMaker;
 import database.MySQLUtils;
 import file.FileUtils;
 
+/**
+ * Esta clase se encarga de la UI de logeo en la aplicación.
+ * 
+ * @author Urko
+ *
+ */
 public class LogInUI implements ActionListener, ItemListener {
 	JFrame window = null;
 	JPanel mainPanel = null;
@@ -135,6 +141,9 @@ public class LogInUI implements ActionListener, ItemListener {
 		return southPanel;
 	}
 
+	/**
+	 * En este actionPerfomed comprobamos si quiere entrar en Opciones, si quiere crear un usuario nuevo o si quiere logearse en la aplicación.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
@@ -154,6 +163,10 @@ public class LogInUI implements ActionListener, ItemListener {
 		}
 	}
 	
+	/**
+	 * Función que se encarga de comprobar si el usuario introducido es válido o no.
+	 * Si es válido, guarda todos sus datos en la clase Configuration.
+	 */
 	private void checkUser() {
 		load = new MiLoadScreen(window);
 		char[] input = passField.getPassword();
@@ -234,6 +247,10 @@ public class LogInUI implements ActionListener, ItemListener {
 		}
 	}
 
+	/**
+	 * En este itemListener comprobamos si ha cambiado de idioma.
+	 * Si es así, escribe el archivo de configuración y informa del reinicio necesario al usuario.
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.DESELECTED) {

@@ -24,6 +24,12 @@ import playerModel.MiLoadScreen;
 import utils.WindowMaker;
 import database.MySQLUtils;
 
+/**
+ * Esta clase carga la tabla de Perfil del usuario.
+ * 
+ * @author Urko
+ *
+ */
 public class ProfileUI {
 	JPanel mainPanel = null;
 	JPanel centerPanel = null;
@@ -185,32 +191,51 @@ public class ProfileUI {
 		return southPanel;
 	}
 	
+	/**
+	 * Establecemos todos los valores a 0.
+	 */
 	public void cancelOption() {
 		userField.setText("");
 		passField.setText("");
 		nameField.setText("");
 		surname1Field.setText("");
 		surname2Field.setText("");
+		phoneField.setText("");
+		provinField.setText("");
+		puebloField.setText("");
+		calleField.setText("");
+		numField.setText("");
+		pisoField.setText("");
+		letraField.setText("");
 	}
 	
+	/**
+	 * Cargamos los campos con las variables del usuario.
+	 */
 	private void setDefaults() {
 		userField.setText(Configuration.username);
 		nameField.setText(Configuration.name);
 		surname1Field.setText(Configuration.surname1);
 		surname2Field.setText(Configuration.surname2);
 		phoneField.setText(Configuration.tlf);
-		provinField.setText(Configuration.provincia);;
-		puebloField.setText(Configuration.pueblo);;
-		calleField.setText(Configuration.calle);;
-		numField.setText(Configuration.numero);;
-		pisoField.setText(Configuration.piso);;
-		letraField.setText(Configuration.letra);;
+		provinField.setText(Configuration.provincia);
+		puebloField.setText(Configuration.pueblo);
+		calleField.setText(Configuration.calle);
+		numField.setText(Configuration.numero);
+		pisoField.setText(Configuration.piso);
+		letraField.setText(Configuration.letra);
 	}
 	
+	/**
+	 * Actualizamos los datos de los campos.
+	 */
 	public void updateData() {
 		replaceOldData();
 	}
 	
+	/**
+	 * Con este método cargamos todos los datos a la base de datos al darle a Guardar.
+	 */
 	private void replaceOldData() {
 		char [] input = passField.getPassword();
 		String pass = new String(input);

@@ -9,7 +9,17 @@ import java.util.ArrayList;
 
 import main.Configuration;
 
+/**
+ * Esta clase se encarga de leer y escribir el archivo de configuración de la aplicación.
+ * 
+ * @author Urko
+ *
+ */
 public class FileUtils {
+	
+	/**
+	 * Escribir.
+	 */
     public static void writeConfFile() {
     	 try {
              FileWriter fileWriter = new FileWriter(Configuration.confFile);
@@ -32,6 +42,9 @@ public class FileUtils {
          }
     }
     
+    /**
+     * Leer.
+     */
     public static void readConfFile() {
     	String line = null;
     	try {
