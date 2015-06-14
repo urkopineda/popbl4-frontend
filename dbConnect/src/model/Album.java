@@ -6,6 +6,11 @@ import java.util.Properties;
 import playerModel.MiListModel;
 import database.SQLiteUtils;
 
+/**
+ * Clase que corresponde al álbum o disco del que una canción es originaria.
+ * @author unaipme
+ *
+ */
 public class Album extends DataType {
 	private String title;
 	private Author Author;
@@ -34,6 +39,13 @@ public class Album extends DataType {
 		return this.Author;
 	}
 	
+	
+	/**
+	 * Función que comprueba si un álbum ya existe.
+	 * @param a: Álbum a buscar
+	 * @param albumListModel: Modelo en el que buscar el álbum
+	 * @return Devuelve el álbum repetido si existe, sino devuelve null.
+	 */
 	public static Album checkDuplicateAlbum(Album a, MiListModel<Album> albumListModel) {
 		Album ret = null;
 		ListIterator<Album> it = albumListModel.listIterator();

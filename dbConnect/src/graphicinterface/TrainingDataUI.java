@@ -62,7 +62,7 @@ public class TrainingDataUI {
 	 * Método que crea la tabla con todo el contenido de los entrenamientos de la base de datos MySQL.
 	 */
 	private void createTable() {
-		load = new MiLoadScreen(window);
+		load = new MiLoadScreen();
 		MySQLUtils db = new MySQLUtils();
 		ArrayList<TableData> allData = new ArrayList<>();
 		try {

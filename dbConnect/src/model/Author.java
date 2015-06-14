@@ -6,6 +6,11 @@ import java.util.Properties;
 import playerModel.MiListModel;
 import database.SQLiteUtils;
 
+/**
+ * Clase que corresponde al autor (compositor, intérprete) de un álbum y, por consecuencia, de una canción.
+ * @author unaipme
+ *
+ */
 public class Author extends DataType {
 	private String name;
 	private static MiListModel<Author> authorListModel = new MiListModel<Author>();
@@ -23,6 +28,12 @@ public class Author extends DataType {
 		return this.name;
 	}
 	
+	/**
+	 * Método estático que comprueba si una autor existe.
+	 * @param a: Autor a buscar
+	 * @param authorListModel: Modelo en el que buscar al autor.
+	 * @return Devuelve el autor si está repetida, sino devuelve null.
+	 */
 	public static Author checkDuplicateAuthor(Author a, MiListModel<Author> authorListModel) {
 		Author ret = null;
 		ListIterator<Author> it = authorListModel.listIterator();

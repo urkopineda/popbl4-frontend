@@ -14,17 +14,22 @@ import javax.swing.text.DefaultCaret;
 import language.Strings;
 
 
+/**
+ * Pantalla de carga personalizada para que los periodos de cargas sean más amenos.
+ * @author unaipme
+ *
+ */
 public class MiLoadScreen extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1884269953277974091L;
 	
 	JProgressBar progressBar;
 	JTextArea textArea;
 	int workToMake, workMade;
 	
-	public MiLoadScreen(JFrame parent, int workToMake) {
+	/**
+	 * @param workToMake: Cantidad de trabajo que hay que hacer (Cifra que representaría el 100% del proceso)
+	 */
+	public MiLoadScreen(int workToMake) {
 		super(Strings.get("loadScreenLoading"));
 		setContentPane(fillDialog());
 		setSize(450, 300);
@@ -35,7 +40,7 @@ public class MiLoadScreen extends JFrame {
 		setVisible(true);
 	}
 	
-	public MiLoadScreen(JFrame parent) {
+	public MiLoadScreen() {
 		super(Strings.get("loadScreenLoading"));
 		setContentPane(fillDialog());
 		setSize(450, 300);
@@ -51,7 +56,7 @@ public class MiLoadScreen extends JFrame {
 		textPanel.setPreferredSize(new Dimension(450, 275));
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
 		progressBar.setString(String.valueOf(progressBar.getValue())+"%");
@@ -67,6 +72,11 @@ public class MiLoadScreen extends JFrame {
 		workToMake = value;
 	}
 	
+	/**
+	 * Hacer que la barra progrese.
+	 * @param text: Texto de actualización que se mostrará en el área de texto.
+	 * @param value: Cantidad de progreso hecho, respecto a la cantidad de trabajo por hacer establecido.
+	 */
 	public void progressHasBeenMade(String text, Integer value) {
 		textArea.setText(text+"\n"+textArea.getText());
 		if (value == null) workMade++;
@@ -76,6 +86,10 @@ public class MiLoadScreen extends JFrame {
 		update(getGraphics());
 	}
 	
+	/**
+	 * Publicar una actualización en el área de texto sin hacer que la barra progrese.
+	 * @param text: Texto a mostrar.
+	 */
 	public void publishWithoutProgress(String text) {
 		textArea.setText(text+"\n"+textArea.getText());
 		update(getGraphics());

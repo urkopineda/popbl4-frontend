@@ -249,7 +249,7 @@ public class ProfileUI {
 					|| (pisoField.getText().equals("")) || (letraField.getText().equals(""))) {
 				JOptionPane.showMessageDialog(window, "Todos los campos deben estar llenos. El campo de la contraseña es opcional", "Error", JOptionPane.ERROR_MESSAGE);
 			} else {
-				load = new MiLoadScreen(window);
+				load = new MiLoadScreen();
 				load.setWorkToMake(3);
 				if (pass.equals("")) {
 					usuario = "UPDATE USUARIO SET Username='"+userField.getText()+"', Nombre='"+nameField.getText()+"', PrimerApellido='"+surname1Field.getText()+"', SegundoApellido='"+surname2Field.getText()+"'  WHERE UsuarioID = "+Configuration.userID;

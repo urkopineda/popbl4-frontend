@@ -10,9 +10,21 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
 
+
+
+/**
+ * Clase que se encarga de la interacción entre la base de datos local de SQLite y la aplicación.
+ * @author unaipme
+ *
+ */
 public class SQLiteUtils {
 	Connection conn;
 	
+	
+	/**
+	 * Generar conexión a la base de datos SQLite
+	 * @param db: Nombre de la base de datos
+	 */
 	public SQLiteUtils(String db) {
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -32,6 +44,11 @@ public class SQLiteUtils {
 		return conn.getMetaData();
 	}
 	
+	/**
+	 * Realiza una consulta SQL con resultado, generalmente utilizado con SELECTs.
+	 * @param sql: Consulta SQL
+	 * @return ResultSet con el resultado del query
+	 */
 	public ResultSet executeQuery(String sql) {
 		Statement st = null;
 		ResultSet rs = null;
@@ -45,6 +62,12 @@ public class SQLiteUtils {
 		return rs;
 	}
 	
+	/**
+	 * Método para hacer un INSERT en la base de datos SQLite
+	 * @param table: Nombre de la tabla
+	 * @param cols: String con las columnas. Debe estar entre paréntesis, y los nombres de columnas separados por comas.
+	 * @param values: String con los valores. Debe también seguir el formato de las columnas.
+	 */
 	public void insertQuery(String table, String cols, String values) {
 		Statement st = null;
 		try {
@@ -57,6 +80,11 @@ public class SQLiteUtils {
 		}
 	}
 	
+	
+	/**
+	 * Método para hacer un INSERT en la base de datos SQLite
+	 * @param sql: String sql del INSERT
+	 */
 	public void insertQuery(String sql) {
 		Statement st = null;
 		try {
@@ -68,6 +96,12 @@ public class SQLiteUtils {
 		}
 	}
 	
+	/**
+	 * Método para buscar la ID de un elemento DataType.
+	 * @param table: Tabla en la que hay que buscar el dato
+	 * @param pr: Objeto de clase Properties con toda la información que se puede usar para buscar la ID.
+	 * @return Un número entero, ID del DataType pasado
+	 */
 	public int getID(String table, Properties pr) {
 		Statement st = null;
 		int ret=0;
