@@ -56,14 +56,18 @@ import task.Dump;
 import task.RunnsteinCalculator;
 import task.SongLengthTimer;
 import database.SQLiteUtils;
-import exceptions.CancelacionException;
+import exceptions.CancelationException;
 
+/**
+ * Clase del reproductor. Contiene toda la parte gráfica y también los algoritmos más basicos de funcionamiento.
+ * @author unaipme
+ *
+ */
 public class Player implements ActionListener {
 	private MP3Player player;
 	private ArrayList<Song> list;
 	private int n;
 	private Song playing;
-	@SuppressWarnings("unused")
 	private Duration played;
 	
 	private MiLoadScreen load;
@@ -104,6 +108,9 @@ public class Player implements ActionListener {
 		loadPlayer();
 	}
 	
+	/**
+	 * Método tocho que se encarga de inicializar todo lo relacionado con el reproductor.
+	 */
 	private void loadPlayer() {
 		songList = new JList<>();
 		songList.setModel(Song.getSongListModel());
@@ -151,13 +158,16 @@ public class Player implements ActionListener {
 		isLoaded = true;
 	}
 	
+	/**
+	 * Método que lee la vista de canciones de la base de datos e introduce los datos en el programa, y hace limpieza de las canciones que ya no encuentra.
+	 */
 	private void readDB() {
 		ResultSet rs;
 		int id = -1;
 		try {
 			String sql = "SELECT * FROM vCanciones";
 			rs = conn.executeQuery(sql);
-			load = new MiLoadScreen(parent);
+			load = new MiLoadScreen();
 			load.setWorkToMake(conn.executeQuery("SELECT COUNT(*) AS N FROM vCanciones").getInt("N"));
 			while (rs.next()) {
 				try {
@@ -192,6 +202,10 @@ public class Player implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Función que busca en un directorio canciones.
+	 * @param ruta: Si es null, se abre un JFileChooser para elegir el directorio.
+	 */
 	public void searchDirectory(String ruta) {
 		JFileChooser fileChooser = null;
 		try {
@@ -199,11 +213,11 @@ public class Player implements ActionListener {
 				fileChooser = new JFileChooser();
 				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				fileChooser.showOpenDialog(parent);
-				if (fileChooser.getSelectedFile() == null) throw new CancelacionException(Strings.get("searchDirectoryThrowCancelation"));
+				if (fileChooser.getSelectedFile() == null) throw new CancelationException(Strings.get("searchDirectoryThrowCancelation"));
 				ruta = fileChooser.getSelectedFile().getAbsolutePath();
 			}
 			final File folder = new File(ruta);
-			load = new MiLoadScreen(parent);
+			load = new MiLoadScreen();
 			load.setWorkToMake(folder.listFiles().length*3);
 			for (final File fileEntry : folder.listFiles()) {
 				String name = fileEntry.getName();
@@ -213,7 +227,7 @@ public class Player implements ActionListener {
 					load.progressHasBeenMade(Strings.get("searchDirectoryFileNotMP3")+name, 3);
 				}
 			}			
-		} catch (CancelacionException e) {
+		} catch (CancelationException e) {
 			System.out.println(e.getMessage());
 		} catch (NullPointerException e) {
 			System.out.println(Strings.get("searchDirectoryNullPointer"));
@@ -222,6 +236,9 @@ public class Player implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Método para encontrar una sola canción y cargarla.
+	 */
 	public void searchSong() {
 		JFileChooser chooser = null;
 		try {
@@ -240,13 +257,17 @@ public class Player implements ActionListener {
 			});
 			chooser.showOpenDialog(parent);
 			File file = chooser.getSelectedFile();
-			if (file == null) throw new CancelacionException(Strings.get("searchSongThrowCancelation"));
+			if (file == null) throw new CancelationException(Strings.get("searchSongThrowCancelation"));
 			createSongFromFile(file);
-		} catch (CancelacionException e) {
+		} catch (CancelationException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
+	/**
+	 * Crea un objeto Song (canción) partiendo de un archivo.
+	 * @param file: El archivo a interpretar.
+	 */
 	private void createSongFromFile(File file) {
 		AbstractID3 tag = null;
 		RandomAccessFile rafile = null;
@@ -310,6 +331,11 @@ public class Player implements ActionListener {
 		return isLoaded;
 	}
 	
+	/**
+	 * Siguiendo el método de ensayo-error encuentra cuál es la versión de etiquetas ID3 del archivo MP3.
+	 * @param rfile: RandomAccessFile correspondiente al archivo.
+	 * @return Devuelve un objeto con las etiquetas ID3, en la versión adecuada.
+	 */
 	private AbstractID3 detectID3(RandomAccessFile rfile) {
 		AbstractID3 ret = null;
 		try {ret=new ID3v1(rfile);}
@@ -339,6 +365,9 @@ public class Player implements ActionListener {
 		return playerList;
 	}
 	
+	/**
+	 * Método que inicia la reproducción
+	 */
 	public void startReproduction() {
 		songLength.setIsPlaying(true);
 		Song s = songList.getSelectedValue();
@@ -357,6 +386,9 @@ public class Player implements ActionListener {
 		songLength.setPlaying(playing);
 	}
 	
+	/**
+	 * Método que pausa la reproducción
+	 */
 	public void pauseReproduction() {
 		pause();
 		songLength.setIsPlaying(false);
@@ -365,6 +397,9 @@ public class Player implements ActionListener {
 		playButton.setEnabled(true);
 	}
 	
+	/**
+	 * Método que detiene la reproducción.
+	 */
 	public void stopReproduction() {
 		player.stop();
 		songLength.setIsPlaying(false);
@@ -380,6 +415,9 @@ public class Player implements ActionListener {
 		playButton.setEnabled(true);
 	}
 	
+	/**
+	 * Método que reanuda la reproducción, sólo disponible si está pausada.
+	 */
 	public void resumeReproduction() {
 		songLength.setIsPlaying(true);
 		play();
@@ -442,6 +480,10 @@ public class Player implements ActionListener {
 		return player.isStopped();
 	}
 	
+	/**
+	 * Pasar a la siguiente canción
+	 * @return devuelve un boolean para modificar el estado del botón de pasar a siguiente canción. Actualmente solo devuelve true.
+	 */
 	public boolean skipForward() {
 		if (Configuration.isRunning) {
 			// insertIntervalo();
@@ -476,6 +518,10 @@ public class Player implements ActionListener {
 		return true;
 	}
 	
+	/**
+	 * Pasar a la canción anterior.
+	 * @return Si hay canción anterior, devuelve true. Sino, false. Se hace para deshabilitar el botón de ir a la canción anterior.
+	 */
 	private boolean skipBackward() {
 		if (Configuration.isRunning) insertIntervalo();
 		played = new Duration(0);
@@ -487,6 +533,9 @@ public class Player implements ActionListener {
 		return true;
 	}
 	
+	/**
+	 * Hace el INSERT del intervalo en la base de datos.
+	 */
 	private void insertIntervalo() {
 		try {
 			Configuration.actualInterval++;

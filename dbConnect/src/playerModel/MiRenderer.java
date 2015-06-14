@@ -10,11 +10,12 @@ import javax.swing.ListCellRenderer;
 
 import model.DataType;
 
+/**
+ * Clase que implementa ListCellRenderer para que cada canción sepa cómo mostrarse en pantalla. 
+ * @author unaipme
+ *
+ */
 public class MiRenderer extends JLabel implements ListCellRenderer<DataType>{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6980337228947461037L;
 
 	@Override

@@ -5,12 +5,15 @@ import java.util.ListIterator;
 
 import javax.swing.DefaultListModel;
 
-public class MiListModel<Dato> extends DefaultListModel<Dato> {
-	/**
-	 * 
-	 */
+/**
+ * Modelo que puede recoger objetos de tipo DataType.
+ * @author unaipme
+ *
+ * @param <DataType> Ver DataType.
+ */
+public class MiListModel<DataType> extends DefaultListModel<DataType> {
 	private static final long serialVersionUID = 5842442280372813083L;
-	ArrayList<Dato> list;	
+	ArrayList<DataType> list;	
 	
 	public MiListModel() {
 		super();
@@ -18,14 +21,14 @@ public class MiListModel<Dato> extends DefaultListModel<Dato> {
 	}
 	
 	@Override
-	public void addElement(Dato element) {
+	public void addElement(DataType element) {
 		super.addElement(element);
 		list.add(element);
 		
 	}
 
 	@Override
-	public Dato get(int index) {
+	public DataType get(int index) {
 		return list.get(index);
 	}
 
@@ -34,11 +37,11 @@ public class MiListModel<Dato> extends DefaultListModel<Dato> {
 		return super.isEmpty();
 	}
 	
-	public ArrayList<Dato> getArrayList() {
+	public ArrayList<DataType> getArrayList() {
 		return list;
 	}
 	
-	public ListIterator<Dato> listIterator() {
+	public ListIterator<DataType> listIterator() {
 		return list.listIterator();
 	}
 
