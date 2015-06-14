@@ -22,7 +22,7 @@ public class Muestra {
 	}
 	
 	private String getValues() {
-		return "("+muestraID+", "+intervaloID+", "+intervaloID+")";
+		return "("+muestraID+", "+intervaloID+", "+valor+")";
 	}
 	
 	public String getInsert() {
