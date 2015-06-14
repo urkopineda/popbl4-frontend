@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * Clase útil para tener seguimiento en diferentes formatos de una duración.
+ * @author unaipme
+ *
+ */
 public class Duration {
 	int sec;
 	

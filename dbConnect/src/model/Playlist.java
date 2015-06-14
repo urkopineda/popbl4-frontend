@@ -5,6 +5,12 @@ import java.util.ListIterator;
 
 import playerModel.MiListModel;
 
+
+/**
+ * Clase que guarda una lista de reproducción.
+ * @author unaipme
+ *
+ */
 public class Playlist {
 	private ArrayList<Song> list;
 	@SuppressWarnings("unused")

@@ -17,6 +17,11 @@ import playerModel.MiListModel;
 import javazoom.spi.mpeg.sampled.file.MpegAudioFileReader;
 import database.SQLiteUtils;
 
+/**
+ * Clase que corresponde a una canción.
+ * @author unaipme
+ *
+ */
 public class Song extends DataType {
 	private static final float _1M = 1000000f;
 	private String title;
@@ -52,6 +57,11 @@ public class Song extends DataType {
 		setID(conn.getID("Cancion", pr));
 	}
 	
+	/**
+	 * Método estático que calcula la duración de un archivo de música.
+	 * @param file: Archivo MP3
+	 * @return En segundos, la duración.
+	 */
 	public static int calculateLength(File file) {
 		int ret = 0;
 		AudioFileFormat format = null;
@@ -103,6 +113,11 @@ public class Song extends DataType {
 		this.setProperty("Album", (String) a.getProperty("Album"));
 	}
 	
+	/**
+	 * Método estático que acude a la librería externa y calcula los BPM de las canciones.
+	 * @param file: Archivo de música MP3
+	 * @return BPMs de la canción (con decimales en caso de ser necesario).
+	 */
 	public static double calculateBPM(File file) {
 		Runtime rt = Runtime.getRuntime();
 		BufferedReader buff = null;
@@ -139,6 +154,12 @@ public class Song extends DataType {
 		return bpm;
 	}
 	
+	/**
+	 * Método estático que comprueba si una canción existe.
+	 * @param c: Canción a buscar.
+	 * @param songListModel: Modelo en el que buscar la canción.
+	 * @return Devuelve la canción si está repetida, sino devuelve null.
+	 */
 	public static Song checkDuplicateSong(Song c, MiListModel<Song> songListModel) {
 		Song ret = null;
 		ListIterator<Song> it = songListModel.listIterator();
@@ -149,6 +170,12 @@ public class Song extends DataType {
 		return ret;
 	}
 	
+	/**
+	 * Método estático que comprueba si una canción existe.
+	 * @param path: Ruta de la canción a buscar.
+	 * @param songListModel: Modelo en el que buscar la canción.
+	 * @return Devuelve la canción si está repetida, sino devuelve null.
+	 */
 	public static Song checkDuplicateSong(String path, MiListModel<Song> songListModel) {
 		Song ret = null;
 		ListIterator<Song> it = songListModel.listIterator();

@@ -179,7 +179,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			trainingUI.stopTimer();
 			trainingUI.getPlayer().stopReproduction();
 			Configuration.isRunning = false;
-			MiLoadScreen load = new MiLoadScreen(window);
+			MiLoadScreen load = new MiLoadScreen();
 			Dump.dumpData(load, trainingUI.chronometerNumbers.getText());
 		} else if (e.getActionCommand().equals("cancel")) {
 			profileUI.cancelOption();
@@ -195,7 +195,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 		} else if (e.getActionCommand().equals("btInfo")) {
 			btInfo();
 		} else if (e.getActionCommand().equals("btConn")) {
-			load = new MiLoadScreen(window);
+			load = new MiLoadScreen();
 			load.setWorkToMake(3);
 			comManager = new COMManager();
 			load.progressHasBeenMade("Connecting...", 1);

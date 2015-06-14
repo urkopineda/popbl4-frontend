@@ -172,7 +172,7 @@ public class StatisticsUI {
 	 * Crea todos los datos necesarios para generar los gráficos (Hace un SELECT).
 	 */
 	private void createData() {
-		load = new MiLoadScreen(window);
+		load = new MiLoadScreen();
 		MySQLUtils db = new MySQLUtils();
 		allData = new ArrayList<>();
 		trainingsCB.addItem(Strings.get("graphAllTrainings"));

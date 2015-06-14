@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import main.Configuration;
 
+/**
+ * Clase con métodos y elementos estáticos que se usa para referenciar los elementos LanguageList que corresponden a todos lso strings de cada idioma.
+ * @author unaipme
+ *
+ */
 public class Strings {
 	public static ArrayList<LanguageList> lista = new ArrayList<>();
 	

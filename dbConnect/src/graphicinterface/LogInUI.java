@@ -168,7 +168,7 @@ public class LogInUI implements ActionListener, ItemListener {
 	 * Si es válido, guarda todos sus datos en la clase Configuration.
 	 */
 	private void checkUser() {
-		load = new MiLoadScreen(window);
+		load = new MiLoadScreen();
 		char[] input = passField.getPassword();
 		String pass = new String(input);
 		MySQLUtils db = new MySQLUtils();

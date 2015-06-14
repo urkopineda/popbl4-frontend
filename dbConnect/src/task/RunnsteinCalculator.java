@@ -8,6 +8,11 @@ import main.Configuration;
 import model.Song;
 import bluetooth.COMManager;
 
+/**
+ * Aquí está la innovación de Runnstein. Clase que se ocupa de calcular a cada momento la canción más adecuada, como está explicado en la documentación. Se ejecuta en segundo plano constantemente.
+ * @author unaipme
+ *
+ */
 public class RunnsteinCalculator extends Thread {
 	private Song chosenSong;
 	private volatile Song playingSong;
@@ -19,7 +24,10 @@ public class RunnsteinCalculator extends Thread {
 	private double lastBPM;
 	
 	COMManager comManager = null;
-	
+	 /**
+	  * 
+	  * @param songList: Lista de todas las canciones.
+	  */
 	public RunnsteinCalculator(ArrayList<Song> songList) {
 		comManager = Configuration.com;
 		if (comManager != null) comManager.start();
@@ -44,6 +52,9 @@ public class RunnsteinCalculator extends Thread {
 		return chosenSong;
 	}
 	
+	/**
+	 * Método que sirve para que la calculadora sepa que se ha cambiado la canción.
+	 */
 	public void fireSongChanged() {
 		playedSongsList.add(chosenSong);
 		count = 0;
@@ -67,6 +78,9 @@ public class RunnsteinCalculator extends Thread {
 		return paused;
 	}
 
+	/**
+	 * Bucle en el que se ejecuta el algoritmo que calcula la canción.
+	 */
 	@Override
 	public void run() {
 		while (true) {
@@ -96,6 +110,10 @@ public class RunnsteinCalculator extends Thread {
 		}
 	}
 	
+	/**
+	 * Método que prepara la lista de canciones compatibles con el estado del corredor.
+	 * @return ArrayList de las canciones.
+	 */
 	private ArrayList<Song> makeSuitableSongList() {
 		double songBPM = playingSong.getBPM();
 		double heartRate = Configuration.ppm;
@@ -123,6 +141,11 @@ public class RunnsteinCalculator extends Thread {
 		return suitableSongs;
 	}
 	
+	/**
+	 * Método para filtrar las canciones que ya se han reproducido, teniendo en cuenta como mucho las diez últimas canciones.
+	 * @param list: Lista de canciones compatibles, ya filtrada.
+	 * @return ArrayList de canciones compatibles y no reproducidas.
+	 */
 	private ArrayList<Song> cleanAlreadyPlayedSongs(ArrayList<Song> list) {
 		Song aux = list.get((new Random()).nextInt(list.size()));
 		for (int i=0; i<list.size(); i++) {

@@ -3,6 +3,11 @@ package task;
 import model.Song;
 import utils.Player;
 
+/**
+ * Objeto que se ejecuta en segundo plano y que guarda constancia del tiempo transcurrido desde el comienzo de la reproducción de la actual canción.
+ * @author unaipme
+ *
+ */
 public class SongLengthTimer extends Thread {
 	private volatile boolean isPlaying = false;
 	private int count = 0;
@@ -14,7 +19,10 @@ public class SongLengthTimer extends Thread {
 		System.out.println("Creado");
 		start();
 	}
-			
+	
+	/**
+	 * Código que se ejecuta en segundo plano en un bucle infinito.
+	 */
 	@Override
 	public void run() {
 		System.out.println("Comenzemos calculando");
