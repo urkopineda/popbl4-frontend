@@ -40,11 +40,11 @@ public class RecordsUI {
 	public void addContent() {
 		mainPanel.removeAll();
 		newData = new RecordsData();
-		label1 = WindowMaker.createJLabel(label1, Strings.get("totalMinutesRecord")+newData.totalDuration+Strings.get("minutesRecord"), 30, "center");
-		label2 = WindowMaker.createJLabel(label2, Strings.get("maxMinutesRecord")+newData.maxDuration+Strings.get("minutesRecord"), 30, "center");
-		label3 = WindowMaker.createJLabel(label3, Strings.get("maxHeartRateRecord")+newData.maxPPM+Strings.get("ppmRecord"), 30, "center");
-		label4 = WindowMaker.createJLabel(label4, Strings.get("maxBPMRecord")+newData.maxBPM+Strings.get("bpmRecord"), 30, "center");
-		label5 = WindowMaker.createJLabel(label5, Strings.get("totalTrainingRecord")+newData.totalTrainings, 30, "center");
+		label1 = WindowMaker.createJLabel(label1, Strings.get("totalMinutesRecord")+" "+newData.totalDuration+Strings.get("minutesRecord"), 30, "center");
+		label2 = WindowMaker.createJLabel(label2, Strings.get("maxMinutesRecord")+" "+newData.maxDuration+Strings.get("minutesRecord"), 30, "center");
+		label3 = WindowMaker.createJLabel(label3, Strings.get("maxHeartRateRecord")+" "+newData.maxPPM+Strings.get("ppmRecord"), 30, "center");
+		label4 = WindowMaker.createJLabel(label4, Strings.get("maxBPMRecord")+" "+newData.maxBPM+Strings.get("bpmRecord"), 30, "center");
+		label5 = WindowMaker.createJLabel(label5, Strings.get("totalTrainingRecord")+" "+newData.totalTrainings, 30, "center");
 		mainPanel.add(label5);
 		mainPanel.add(label1);
 		mainPanel.add(label2);

@@ -145,6 +145,7 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			addContentFlags.set(mainPanel.getSelectedIndex(), 1);
 			statisticsUI.addContent();
 			statisticsUI.addGraphics(statisticsUI.trainingsCB.getSelectedIndex(), statisticsUI.modeCB.getSelectedIndex());
+			mainPanel.setSelectedIndex(2);
 		}
 		if (mainPanel.getSelectedIndex() == 3) {
 			addContentFlags.set(mainPanel.getSelectedIndex(), 1);
@@ -202,9 +203,9 @@ public class MainUI implements ChangeListener, ActionListener, ListSelectionList
 			load.progressHasBeenMade("Saving connection - 1...", 1);
 			trainingUI.getPlayer().getCalculator().comCreated();
 			load.progressHasBeenMade("Saving connection - 2...", 1);
-			trainingUI.btTrue();
 			load.progressHasBeenMade("Updating UI...", 1);
 			if (Configuration.sensorState) {
+				trainingUI.btTrue();
 				btDisconnect.setEnabled(true);
 				btConnect.setEnabled(false);
 				load.closeScreen();

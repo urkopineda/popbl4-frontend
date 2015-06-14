@@ -71,7 +71,7 @@ public class XMLParser {
 	public static void getLanguages() {
 		XMLParser parser = null;
 		try {
-			parser = new XMLParser("./xml.xml");
+			parser = new XMLParser("xml.xml");
 			ListIterator<Node> nodeList = parser.getElementsByTagName("idioma");
 			while (nodeList.hasNext()) {
 				LanguageList lang = new LanguageList();

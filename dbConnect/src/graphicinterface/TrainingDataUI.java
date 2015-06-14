@@ -52,6 +52,7 @@ public class TrainingDataUI {
 	}
 	
 	public void addContent() {
+		mainPanel.removeAll();
 		mainPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("trainingDataMain")));
 		mainPanel.add(scrollMainPanel = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 		createTable();

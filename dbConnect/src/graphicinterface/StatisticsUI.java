@@ -56,6 +56,7 @@ public class StatisticsUI {
 	}
 	
 	public void addContent() {
+		mainPanel.removeAll();
 		mainPanel.setBorder(BorderFactory.createTitledBorder(Strings.get("statisticsMain")));
 		mainPanel.add(createNorthPanel(), BorderLayout.NORTH);
 		createData();
